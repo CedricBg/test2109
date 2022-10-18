@@ -1,4 +1,5 @@
 ﻿using BusinessAccessLayer.Repository;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using test2109.Models;
 using test2109.Tools.Employee;
@@ -17,17 +18,23 @@ namespace test2109.Controllers
         {
             _employeeService = employeeService;
         }
-        // GET: api/<EmployeeController>
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
+
+        //GET: api/<EmployeeController>
+        [HttpGet("all")]
+        public IActionResult Get()
+        {
+            try
+            {
+                return Ok(_employeeService.GetAll());
+            }
+            catch (Exception ex)
+            {
+                return Ok(BadRequest());
+            }
+        }
 
 
-
-        // POST api/<EmployeeController>
-        [HttpPost]
+        [HttpPost("insert")]
         public IActionResult Post(Employee form)
         {
             try 
@@ -35,9 +42,9 @@ namespace test2109.Controllers
                 _employeeService.AddEmployee(form.AddEmployee());
                 return StatusCode(StatusCodes.Status201Created);
             }
-            catch (Exception )
+            catch (Exception)
             {
-                return BadRequest();
+                return StatusCode(StatusCodes.Status402PaymentRequired);
             }
            
         }

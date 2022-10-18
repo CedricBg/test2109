@@ -16,6 +16,7 @@ namespace DataAccess.Models
         [MaxLength(50)]
         public string firstName { get; set; } = null!;
 
+      
         [Required]
         [MaxLength(50)]
         public string SurName { get; set; } = null!;

@@ -24,8 +24,27 @@ namespace BusinessAccessLayer.Tools.Employee
                 Vehicle = busi.Vehicle, 
                 EmployeeCardNumber = busi.EmployeeCardNumber,
                 EntryService = busi.EntryService,
+
                 
             };
+        }
+
+        public static BUSI.Employees GetAllEmployee(this DATA.Employee data)
+        {
+            return new BUSI.Employees
+            {
+                Id = data.Id,
+                firstName = data.firstName,
+                SurName = data.SurName,
+                RegistreNational = data.RegistreNational,
+                BirthDate = data.BirthDate,
+                Actif = data.Actif,
+                SecurityCard = data.SecurityCard,
+                Vehicle = data.Vehicle,
+                EmployeeCardNumber = data.EmployeeCardNumber,
+                EntryService = data.EntryService,
+                CreationDate = data.CreationDate,
+    };
         }
     }
 }

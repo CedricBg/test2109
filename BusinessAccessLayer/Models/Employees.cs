@@ -9,6 +9,8 @@ namespace BusinessAccessLayer.Models
 {
     public class Employees
     {
+        public int Id { get; set; }
+
         public string firstName { get; set; } = null!;
 
         public string SurName { get; set; } = null!;
@@ -26,6 +28,6 @@ namespace BusinessAccessLayer.Models
         public string RegistreNational { get; set; } = null!;
 
         public bool Actif { get; set; }
-
+        public DateTime? CreationDate { get; set; }
     }
 }

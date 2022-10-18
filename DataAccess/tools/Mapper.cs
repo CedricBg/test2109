@@ -9,9 +9,6 @@ namespace DataAccess.tools
 {
     public class Mapper
     {
-        public static void GetEmployee(Employee employee)
-        {
-            
-        }
+
     }
 }

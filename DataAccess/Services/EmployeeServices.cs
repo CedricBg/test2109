@@ -19,36 +19,44 @@ namespace DataAccess.Services
 
         public bool PostData(Employee employee)
         {
-           
-            if (employee is not null)
+
+            if (_db.Employees is not null)
             {
+                _db.Employees.Add(new Employee
+                {
+                    Id = employee.Id,
+                    firstName = employee.firstName,
+                    SurName = employee.SurName,
+                    CreationDate = DateTime.Now,
+                    BirthDate = employee.BirthDate,
+                    Vehicle = employee.Vehicle,
+                    SecurityCard = employee.SecurityCard,
+                    EntryService = employee.EntryService,
+                    EmployeeCardNumber = employee.EmployeeCardNumber,
+                    RegistreNational = employee.RegistreNational,
+                    Actif = employee.Actif,
+                });
 
-                    _db.Employees.Add(new Employee
-                    {
-                        firstName = employee.firstName,
-                        SurName = employee.SurName,
-                        CreationDate = DateTime.Now,
-                        BirthDate = employee.BirthDate,
-                        Vehicle = employee.Vehicle,
-                        SecurityCard = employee.SecurityCard,
-                        EntryService = employee.EntryService,
-                        EmployeeCardNumber = employee.EmployeeCardNumber,
-                        RegistreNational = employee.RegistreNational,
-                        Actif = employee.Actif,
-                    });
-
-                    _db.SaveChanges();
-                    return true;
-                
-                
+                _db.SaveChanges();
+                return true;
             }
             else
             {
                 return false;
             }
-                
-            
-        }
 
+        }
+        public List<Employee> GetAll()
+        {
+            if (_db.Employees is not null)
+            {
+                return _db.Employees.ToList<Employee>();
+            }
+            else
+            {
+                return new List<Employee>();
+            }
+
+        }
     }
 }

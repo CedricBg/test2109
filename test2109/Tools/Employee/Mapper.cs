@@ -9,6 +9,7 @@ namespace test2109.Tools.Employee
         {
             return new BUSI.Employees
             {
+                Id = employee.Id,
                 firstName = employee.firstName,
                 BirthDate = employee.BirthDate,
                 SurName = employee.SurName,
@@ -18,7 +19,8 @@ namespace test2109.Tools.Employee
                 RegistreNational = employee.RegistreNational,
                 EmployeeCardNumber = employee.EmployeeCardNumber,
                 EntryService = employee.EntryService,
-            };
+                CreationDate = employee.CreationDate 
+    };
         }
     }
 }

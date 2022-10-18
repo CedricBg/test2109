@@ -28,5 +28,10 @@ namespace BusinessAccessLayer.Services
                 return false;
             }
         }
+
+        public IEnumerable<Employees> GetAll() 
+        {
+            return _employeeServices.GetAll().Select(dr => dr.GetAllEmployee());
+        }
     }
 }
