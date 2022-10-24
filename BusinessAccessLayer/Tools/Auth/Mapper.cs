@@ -25,7 +25,8 @@ namespace BusinessAccessLayer.Tools.Auth
             return new DATA.LoginForm()
             {
                 Login = form.Login,
-                Password = form.Password
+                Password = form.Password,
+
             };
         }
 

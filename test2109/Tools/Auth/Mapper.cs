@@ -31,7 +31,8 @@ namespace test2109.Tools.Auth
             {
                 Id = form.Id,
                 FirstName = form.FirstName,
-                SurName = form.SurName
+                SurName = form.SurName,
+                Token = form.Token
             };
         }
     }

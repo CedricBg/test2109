@@ -13,5 +13,7 @@ namespace BusinessAccessLayer.Models.Auth
         public string FirstName { get; set; }
 
         public string SurName { get; set; }
+
+        public string Token { get; set; }
     }
 }

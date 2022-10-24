@@ -1,5 +1,6 @@
 ﻿using BusinessAccessLayer.IRepositories;
 using DataAccess.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using test2109.Models.Auth;
@@ -17,7 +18,7 @@ namespace test2109.Controllers
         {
             _authService = authService;
         }
-        
+        [Authorize("authpolicy")]
         [HttpPost("AddLogin")]
         public string Post(AddRegisterForm form)
         {

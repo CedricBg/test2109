@@ -10,15 +10,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+
 namespace BusinessAccessLayer.Services
 {
     public class AuthService : IAuthService
     {
         private readonly IAuthServices _authService;
+        private readonly TokenService _toTokenService;
 
-        public AuthService(IAuthServices auth)
+        public AuthService(IAuthServices auth, TokenService token)
         {
             _authService = auth;
+            _toTokenService = token;
         }
         
         public string Post(AddRegisterForm form)
@@ -37,7 +41,9 @@ namespace BusinessAccessLayer.Services
         {
             try
             {
-                return _authService.Login(form.MapLoginForm()).MapConnectedForm();
+                ConnectedForm user = _authService.Login(form.MapLoginForm()).MapConnectedForm();
+                user.Token = _toTokenService.GenerateJwt(user);
+                return user;
             }
             catch (Exception)
             {

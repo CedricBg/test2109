@@ -1,4 +1,5 @@
 ﻿using BusinessAccessLayer.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using test2109.Models;
@@ -19,7 +20,7 @@ namespace test2109.Controllers
             _employeeService = employeeService;
         }
 
-        //GET: api/<EmployeeController>
+        [Authorize("authpolicy")]
         [HttpGet("all")]
         public IActionResult Get()
         {
