@@ -9,7 +9,7 @@ namespace DataAccess.Models
 {
     public class Language
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [MaxLength(15)]
         public string? Name { get; set; }

@@ -10,7 +10,7 @@ namespace DataAccess.Models
 {
     public class Employee
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required]
         [MaxLength(50)]
@@ -44,7 +44,8 @@ namespace DataAccess.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime CreationDate { get; set; }
 
-        public Users? UserId { get; set; }
+        [Column("UserId")]
+        public Users? User { get; set; }
 
         [Required]
         public List<Address> Addresses { get; set; } = new List<Address>();

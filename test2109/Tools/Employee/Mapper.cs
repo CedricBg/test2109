@@ -18,8 +18,7 @@ namespace test2109.Tools.Employee
                 SecurityCard = employee.SecurityCard,
                 RegistreNational = employee.RegistreNational,
                 EmployeeCardNumber = employee.EmployeeCardNumber,
-                EntryService = employee.EntryService,
-                CreationDate = employee.CreationDate 
+                EntryService = employee.EntryService
     };
         }
     }

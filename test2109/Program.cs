@@ -1,18 +1,20 @@
 using DataAccess.DataAccess;
 using DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
-using BusinessAccessLayer.Repository;
+using BusinessAccessLayer.IRepositories;
 using DataAccess.Services;
 using BusinessAccessLayer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
 //DAL
 builder.Services.AddScoped<IEmployeeServices, EmployeeServices>();
+builder.Services.AddScoped<IAuthServices, AuthServices>();
 
 //BLL
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 builder.Services.AddControllers();

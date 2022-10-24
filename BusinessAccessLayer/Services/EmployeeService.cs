@@ -2,7 +2,7 @@
 using BusinessAccessLayer.Models;
 using DataAccess.Services;
 using BusinessAccessLayer.Tools.Employee;
-using BusinessAccessLayer.Repository;
+using BusinessAccessLayer.IRepositories;
 using DataAccess.Repository;
 
 namespace BusinessAccessLayer.Services

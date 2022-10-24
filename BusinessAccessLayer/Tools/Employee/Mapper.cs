@@ -43,7 +43,6 @@ namespace BusinessAccessLayer.Tools.Employee
                 Vehicle = data.Vehicle,
                 EmployeeCardNumber = data.EmployeeCardNumber,
                 EntryService = data.EntryService,
-                CreationDate = data.CreationDate,
     };
         }
     }

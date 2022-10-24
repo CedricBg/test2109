@@ -13,13 +13,13 @@ namespace DataAccess.Models
         public int Id { get; set; }
 
         [MaxLength(20)]
-        public string? Login { get; set; }
+        public string Login { get; set; }
 
         [MaxLength (64)]
         [Column(TypeName = "varbinary(64)")]
-        public string? Password_hash { get; set; }
+        public string Password_hash { get; set; }
 
         [MaxLength(100)]
-        public string? Salt { get; set; }
+        public string Salt { get; set; }
     }
 }

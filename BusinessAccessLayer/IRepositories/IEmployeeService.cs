@@ -1,6 +1,7 @@
 ﻿using BusinessAccessLayer.Models;
 
-namespace BusinessAccessLayer.Repository
+namespace BusinessAccessLayer.IRepositories
+
 {
     public interface IEmployeeService
     {

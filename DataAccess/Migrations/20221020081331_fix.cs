@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Migrations
 {
-    public partial class InitCreation : Migration
+    public partial class fix : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "departements",
+                name: "Departements",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -19,7 +19,7 @@ namespace DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_departements", x => x.Id);
+                    table.PrimaryKey("PK_Departements", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -29,8 +29,8 @@ namespace DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Login = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    PassWordHash = table.Column<byte[]>(type: "varbinary(64)", maxLength: 64, nullable: true),
-                    salt = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
+                    Password_hash = table.Column<byte[]>(type: "varbinary(64)", maxLength: 64, nullable: true),
+                    Salt = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -76,20 +76,20 @@ namespace DataAccess.Migrations
                     RegistreNational = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Actif = table.Column<bool>(type: "bit", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserIdId = table.Column<int>(type: "int", nullable: true)
+                    UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employees", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Employees_Users_UserIdId",
-                        column: x => x.UserIdId,
+                        name: "FK_Employees_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "rfids",
+                name: "Rfids",
                 columns: table => new
                 {
                     RfidNr = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
@@ -98,9 +98,9 @@ namespace DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_rfids", x => x.RfidNr);
+                    table.PrimaryKey("PK_Rfids", x => x.RfidNr);
                     table.ForeignKey(
-                        name: "FK_rfids_Customers_CustomerId",
+                        name: "FK_Rfids_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id",
@@ -183,9 +183,9 @@ namespace DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_DepartementEmployee", x => new { x.DepartementsId, x.EmployeesId });
                     table.ForeignKey(
-                        name: "FK_DepartementEmployee_departements_DepartementsId",
+                        name: "FK_DepartementEmployee_Departements_DepartementsId",
                         column: x => x.DepartementsId,
-                        principalTable: "departements",
+                        principalTable: "Departements",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -254,9 +254,9 @@ namespace DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_PassagesRounds", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PassagesRounds_rfids_RfidNr",
+                        name: "FK_PassagesRounds_Rfids_RfidNr",
                         column: x => x.RfidNr,
-                        principalTable: "rfids",
+                        principalTable: "Rfids",
                         principalColumn: "RfidNr",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -319,9 +319,9 @@ namespace DataAccess.Migrations
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employees_UserIdId",
+                name: "IX_Employees_UserId",
                 table: "Employees",
-                column: "UserIdId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Languages_CustomerId",
@@ -344,8 +344,8 @@ namespace DataAccess.Migrations
                 column: "RoundsRondsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_rfids_CustomerId",
-                table: "rfids",
+                name: "IX_Rfids_CustomerId",
+                table: "Rfids",
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
@@ -388,10 +388,10 @@ namespace DataAccess.Migrations
                 name: "ScheduledRounds");
 
             migrationBuilder.DropTable(
-                name: "departements");
+                name: "Departements");
 
             migrationBuilder.DropTable(
-                name: "rfids");
+                name: "Rfids");
 
             migrationBuilder.DropTable(
                 name: "Employees");

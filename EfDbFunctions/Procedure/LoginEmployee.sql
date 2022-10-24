@@ -19,10 +19,10 @@ Begin
 	Declare @IdUser INT
 	set @IdUser = (SELECT Id from Users WHERE (Password_hash = @password_hash AND ([Login] = @Login)))
 
-	Select E.[Name], E.firstName, E.IdLanguage, S.Classe , E.IdEmployee, U.[Login], E.Active
-	from Employee E, Users U 
+	Select E.[SurName], E.firstName, E.Id
+	from Employees E, Users U 
 	Where Password_hash = @password_hash
-	and E.IdUsers = U.IdUser  
+	and E.UserId = U.Id 
 	and U.[Login] = @Login
 	
 End 

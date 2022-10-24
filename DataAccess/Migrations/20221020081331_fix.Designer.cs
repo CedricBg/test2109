@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(SecurityCompanyContext))]
-    [Migration("20220925132748_InitCreation")]
-    partial class InitCreation
+    [Migration("20221020081331_fix")]
+    partial class fix
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -124,7 +124,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("departements");
+                    b.ToTable("Departements");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Email", b =>
@@ -152,11 +152,11 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Employee", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
 
                     b.Property<bool>("Actif")
                         .HasColumnType("bit");
@@ -189,7 +189,7 @@ namespace DataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("UserIdId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.Property<bool>("Vehicle")
@@ -202,18 +202,18 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserIdId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Language", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
 
                     b.Property<int?>("CustomerId")
                         .HasColumnType("int");
@@ -279,7 +279,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("rfids");
+                    b.ToTable("Rfids");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Rounds", b =>
@@ -344,11 +344,11 @@ namespace DataAccess.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<byte[]>("PassWordHash")
+                    b.Property<byte[]>("Password_hash")
                         .HasMaxLength(64)
                         .HasColumnType("varbinary(64)");
 
-                    b.Property<string>("salt")
+                    b.Property<string>("Salt")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -412,11 +412,11 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Employee", b =>
                 {
-                    b.HasOne("DataAccess.Models.Users", "UserId")
+                    b.HasOne("DataAccess.Models.Users", "User")
                         .WithMany()
-                        .HasForeignKey("UserIdId");
+                        .HasForeignKey("UserId");
 
-                    b.Navigation("UserId");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Language", b =>

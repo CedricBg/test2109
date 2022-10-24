@@ -1,4 +1,4 @@
-﻿using BusinessAccessLayer.Repository;
+﻿using BusinessAccessLayer.IRepositories;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using test2109.Models;
@@ -27,14 +27,14 @@ namespace test2109.Controllers
             {
                 return Ok(_employeeService.GetAll());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Ok(BadRequest());
             }
         }
 
 
-        [HttpPost("insert")]
+        [HttpPost("insert/")]
         public IActionResult Post(Employee form)
         {
             try 
@@ -42,9 +42,9 @@ namespace test2109.Controllers
                 _employeeService.AddEmployee(form.AddEmployee());
                 return StatusCode(StatusCodes.Status201Created);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status402PaymentRequired);
+                return BadRequest(ex.Message);
             }
            
         }
