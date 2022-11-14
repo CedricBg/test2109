@@ -29,8 +29,7 @@ namespace DataAccess.Services
             var pLogin = new SqlParameter("Login", form.Login);
             var pPassword = new SqlParameter("Password", form.Password);
             var pId = new SqlParameter("Id", form.Id);
-
-            //var retour = _db.Set<AddRegisterForm>().FromSqlRaw($"EXEC dbo.RegisterAccessEmployee @Login, @Password, @Id ", pLogin, pPassword, pId).ToList();
+ 
             try
             {
                 _db.Database.ExecuteSqlRaw($"EXEC dbo.RegisterAccessEmployee @Login, @Password, @Id ", pLogin, pPassword, pId);
@@ -49,14 +48,11 @@ namespace DataAccess.Services
             var pPassword = new SqlParameter("Password", form.Password);
             try
             {
-                List<ConnectedForm> response = _db.Set<ConnectedForm>().FromSqlRaw("EXEC dbo.Loginemployee @Login, @Password", pLogin, pPassword).ToList();
-
-                Console.WriteLine(response[0]);
+                List<ConnectedForm> response = _db.ConnectedForm.FromSqlRaw("EXEC dbo.Loginemployee @Login, @Password", pLogin, pPassword).ToList();
                 return response[0];
             }
             catch (Exception)
             {
-
                 return new ConnectedForm();
             }
 

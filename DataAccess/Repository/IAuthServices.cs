@@ -1,4 +1,5 @@
-﻿using DataAccess.Models.Auth;
+﻿using DataAccess.Models;
+using DataAccess.Models.Auth;
 
 namespace DataAccess.Repository
 {

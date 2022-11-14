@@ -1,4 +1,5 @@
-﻿using BusinessAccessLayer.IRepositories;
+﻿using System;
+using BusinessAccessLayer.IRepositories;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -18,36 +19,36 @@ namespace test2109.Controllers
         {
             _authService = authService;
         }
-        [Authorize("authpolicy")]
+        
         [HttpPost("AddLogin")]
-        public string Post(AddRegisterForm form)
+        public IActionResult Post(AddRegisterForm form)
         {
             try
             {
-                return _authService.Post(form.MapRegisterEmployee());
+                return Ok(_authService.Post(form.MapRegisterEmployee()));
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return Ok(ex.Message);
             }
         }
 
         [HttpPost("login")]
-        public ConnectedForm Login(LoginForm form)
+        public IActionResult Login(LoginForm form)
         {
             try
             {
-
                 ConnectedForm user =  _authService.Login(form.Login()).MapConnect();
-                if(user.Id != 0)
+                if (user.SurName != null) 
                 {
-                    return user;
+                    
+                    return Ok(user);
                 }
-                return null;
+                return Ok(null);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return null;
+                return Ok(ex.Message);
             }
         }
     }

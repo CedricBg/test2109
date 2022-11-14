@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BusinessAccessLayer.Models
+﻿namespace test2109.Models.Employee
 {
-    public class Employees
+    public class DetailEmployed
     {
+
         public int? Id { get; set; }
 
         public string firstName { get; set; } = null!;
@@ -19,14 +13,16 @@ namespace BusinessAccessLayer.Models
 
         public bool Vehicle { get; set; }
 
-        public string? SecurityCard { get; set; }
+        public string SecurityCard { get; set; }
 
         public DateTime EntryService { get; set; }
 
-        public string? EmployeeCardNumber { get; set; }
+        public string EmployeeCardNumber { get; set; }
 
         public string RegistreNational { get; set; } = null!;
 
         public bool Actif { get; set; }
+
+        public int RoleId { get; set; }
     }
 }

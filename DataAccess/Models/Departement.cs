@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccess.Models.Employees;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace DataAccess.Models
         public string Name { get; set; } = null!;
 
         [Required]
-        public ICollection<Employee> Employees { get; set; }
+        public ICollection<DetailedEmployee> Employees { get; set; }
 
         
     }

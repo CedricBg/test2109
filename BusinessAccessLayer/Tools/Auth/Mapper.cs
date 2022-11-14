@@ -17,6 +17,7 @@ namespace BusinessAccessLayer.Tools.Auth
                 Login = form.Login,
                 Password = form.Password,
                 Id = form.Id,
+                Role = form.Role,
             };
         }
 
@@ -36,7 +37,8 @@ namespace BusinessAccessLayer.Tools.Auth
             {
                 SurName = form.SurName,
                 FirstName = form.FirstName,
-                Id = form.Id
+                Id = form.Id,
+                Role = form.Role,
             };
         }
     }

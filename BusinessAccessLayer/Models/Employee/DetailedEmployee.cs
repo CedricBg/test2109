@@ -1,8 +1,14 @@
-﻿namespace test2109.Models
-{
-    public class Employee
-    {
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
+namespace BusinessAccessLayer.Models.Employee
+{
+    public class DetailedEmployee
+    {
         public int? Id { get; set; }
 
         public string firstName { get; set; } = null!;
@@ -22,5 +28,7 @@
         public string RegistreNational { get; set; } = null!;
 
         public bool Actif { get; set; }
+
+        public int RoleId { get; set; }
     }
 }

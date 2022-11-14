@@ -42,7 +42,11 @@ namespace BusinessAccessLayer.Services
             try
             {
                 ConnectedForm user = _authService.Login(form.MapLoginForm()).MapConnectedForm();
-                user.Token = _toTokenService.GenerateJwt(user);
+                
+                if (user.SurName != null)
+                {
+                    user.Token = _toTokenService.GenerateJwt(user);
+                }
                 return user;
             }
             catch (Exception)

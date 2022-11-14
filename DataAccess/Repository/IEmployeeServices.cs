@@ -1,10 +1,12 @@
 ﻿using DataAccess.Models;
+using DataAccess.Models.Employees;
+
 
 namespace DataAccess.Repository
 {
     public interface IEmployeeServices
     {
-        bool PostData(Employee employee);
-        List<Employee> GetAll();
+        bool PostData(DetailedEmployee employee);
+        IEnumerable<Employee> GetAll();
     }
 }

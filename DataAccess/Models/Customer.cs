@@ -30,10 +30,8 @@ namespace DataAccess.Models
         public Users? UserId { get; set; }
 
         public ICollection<Rounds>? Rounds { get; set; }
-
-        public ICollection<Employee>? Employees { get; set; }
-
-        public ICollection<Language>? Languages { get; set; }
+        
+        public string? Role { get; set; }
 
     }
 }

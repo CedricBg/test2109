@@ -6,9 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.Models
+namespace DataAccess.Models.Employees
+
 {
-    public class Employee
+    public class DetailedEmployee
     {
         public int? Id { get; set; }
 
@@ -47,16 +48,8 @@ namespace DataAccess.Models
         [Column("UserId")]
         public Users? User { get; set; }
 
-        [Required]
-        public List<Address> Addresses { get; set; } = new List<Address>();
+        public int? RoleId { get; set; }
 
-        public List<Email> Emails { get; set; } = new List<Email>();
-
-        public List<Customer>? customers { get; set; } = new List<Customer>();
-
-        public List<Language> Languages { get; set; } = new List<Language>();
-
-        public List<Departement>? Departements { get; set; } = new List<Departement>();
 
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
-using BusinessAccessLayer.Models;
 using DataAccess.Services;
 using BusinessAccessLayer.Tools.Employee;
 using BusinessAccessLayer.IRepositories;
 using DataAccess.Repository;
+using BusinessAccessLayer.Models.Employee;
 
 namespace BusinessAccessLayer.Services
 {
@@ -16,7 +16,7 @@ namespace BusinessAccessLayer.Services
             _employeeServices = employeeServices;
         }
 
-        public bool AddEmployee(Employees form)
+        public bool AddEmployee(DetailedEmployee form)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace BusinessAccessLayer.Services
             }
         }
 
-        public IEnumerable<Employees> GetAll() 
+        public IEnumerable<Employee> GetAll() 
         {
             return _employeeServices.GetAll().Select(dr => dr.GetAllEmployee());
         }

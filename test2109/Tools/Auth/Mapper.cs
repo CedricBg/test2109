@@ -14,7 +14,10 @@ namespace test2109.Tools.Auth
                 Login = Form.Login,
                 Password = Form.Password,
                 Id = Form.Id,
-            };
+                Role = Form.Role,
+                
+                
+    };
         }
         public static BUSI.LoginForm Login(this VIEW.LoginForm form)
         {
@@ -32,7 +35,8 @@ namespace test2109.Tools.Auth
                 Id = form.Id,
                 FirstName = form.FirstName,
                 SurName = form.SurName,
-                Token = form.Token
+                Token = form.Token,
+                Role = form.Role,
             };
         }
     }

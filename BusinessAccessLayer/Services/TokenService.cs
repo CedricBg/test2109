@@ -39,7 +39,8 @@ namespace BusinessAccessLayer.Services
             {
                 new Claim(ClaimTypes.Surname, user.SurName),
                 new Claim(ClaimTypes.Name, user.FirstName),
-                new Claim(ClaimTypes.Sid, user.Id.ToString())
+                new Claim(ClaimTypes.Sid, user.Id.ToString()),
+                new Claim(ClaimTypes.Role, user.Role)
             };
 
             JwtSecurityToken token = new JwtSecurityToken

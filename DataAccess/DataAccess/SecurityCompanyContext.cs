@@ -1,8 +1,10 @@
 ﻿using DataAccess.Models;
 using DataAccess.Models.Auth;
+using DataAccess.Models.Employees;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,11 +24,20 @@ namespace DataAccess.DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ConnectedForm>().HasNoKey();
+
+            modelBuilder.Ignore<Employee>();
         }
 
-        public DbSet<ConnectedForm> ConnectedForm { get; set; }
+        [Column("Countrys")]
+        DbSet<Countrys> Countrys { get; set; }
 
-        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Role> Roles { get; set; }
+
+        public DbSet<ConnectedForm> ConnectedForm { get; set; }
+        
+        public DbSet<Employee> employees { get; set; }
+
+        public DbSet<DetailedEmployee> DetailedEmployees { get; set; }
 
         public DbSet<AddRegisterForm> addRegisterForms { get; set; }
 

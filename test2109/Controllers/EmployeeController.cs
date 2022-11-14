@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using test2109.Models;
+using test2109.Models.Employee;
 using test2109.Tools.Employee;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -20,12 +20,13 @@ namespace test2109.Controllers
             _employeeService = employeeService;
         }
 
-        [Authorize("authpolicy")]
+        
         [HttpGet("all")]
         public IActionResult Get()
         {
             try
             {
+
                 return Ok(_employeeService.GetAll());
             }
             catch (Exception)
@@ -34,9 +35,9 @@ namespace test2109.Controllers
             }
         }
 
-
+        
         [HttpPost("insert/")]
-        public IActionResult Post(Employee form)
+        public IActionResult Post(DetailEmployed form)
         {
             try 
             {

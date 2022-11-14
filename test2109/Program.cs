@@ -53,8 +53,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("adminpolicy", policy => policy.RequireRole("admin"));
-    options.AddPolicy("agentpolicy", policy => policy.RequireRole("agent", "admin"));
+    options.AddPolicy("adminpolicy", policy => policy.RequireRole("Administratif"));
+    options.AddPolicy("agentpolicy", policy => policy.RequireRole("agent", "Administratif"));
     options.AddPolicy("authpolicy", policy => policy.RequireAuthenticatedUser());
 }
 );
@@ -70,10 +70,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseAuthentication();
+
 
 app.UseCors(o => o.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
+app.UseAuthentication();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

@@ -1,11 +1,11 @@
-﻿using BusinessAccessLayer.Models;
+﻿using BusinessAccessLayer.Models.Employee;
 
 namespace BusinessAccessLayer.IRepositories
 
 {
     public interface IEmployeeService
     {
-        bool AddEmployee(Employees form);
-        IEnumerable<Employees> GetAll();
+        bool AddEmployee(DetailedEmployee form);
+        IEnumerable<Employee> GetAll();
     }
 }

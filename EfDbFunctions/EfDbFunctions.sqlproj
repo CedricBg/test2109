@@ -58,10 +58,14 @@
     <Folder Include="Properties" />
     <Folder Include="Procedure" />
     <Folder Include="Functions" />
+    <Folder Include="Scripts" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Procedure\LoginEmployee.sql" />
     <Build Include="Functions\GetSecretKey.sql" />
     <Build Include="Procedure\RegisterAccessEmployee.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\Script.PostDeployment1.sql" />
   </ItemGroup>
 </Project>

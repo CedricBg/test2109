@@ -1,5 +1,6 @@
 ﻿using DataAccess.DataAccess;
 using DataAccess.Models;
+using DataAccess.Models.Employees;
 using DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,12 +18,12 @@ namespace DataAccess.Services
             _db = context;
         }
 
-        public bool PostData(Employee employee)
+        public bool PostData(DetailedEmployee employee)
         {
 
-            if (_db.Employees is not null)
+            if (_db.DetailedEmployees is not null)
             {
-                _db.Employees.Add(new Employee
+                _db.DetailedEmployees.Add(new DetailedEmployee
                 {
                     Id = employee.Id,
                     firstName = employee.firstName,
@@ -35,6 +36,7 @@ namespace DataAccess.Services
                     EmployeeCardNumber = employee.EmployeeCardNumber,
                     RegistreNational = employee.RegistreNational,
                     Actif = employee.Actif,
+                    RoleId = employee.RoleId
                 });
 
                 _db.SaveChanges();
@@ -46,17 +48,23 @@ namespace DataAccess.Services
             }
 
         }
-        public List<Employee> GetAll()
+        public IEnumerable<Employee> GetAll()
         {
-            if (_db.Employees is not null)
-            {
-                return _db.Employees.ToList<Employee>();
-            }
-            else
-            {
-                return new List<Employee>();
-            }
-
+                if (_db.employees is not null)
+                {
+                    var requete = _db.DetailedEmployees
+                        .Select((employee) => new Employee
+                        {
+                            Id = employee.Id,
+                            firstName = employee.firstName,
+                            SurName = employee.SurName
+                        });
+                    return requete;
+                }
+                    else
+                {
+                    throw new Exception();
+                }  
         }
     }
 }

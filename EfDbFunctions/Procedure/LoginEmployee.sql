@@ -16,13 +16,12 @@ Begin
 	DECLARE @password_hash VARBINARY(64)
 	SET @password_hash = HASHBYTES('SHA2_512', CONCAT(@salt, @SecretKey, @Password, @salt))
 
-	Declare @IdUser INT
-	set @IdUser = (SELECT Id from Users WHERE (Password_hash = @password_hash AND ([Login] = @Login)))
 
-	Select E.[SurName], E.firstName, E.Id
-	from Employees E, Users U 
+	Select Top 1 E.[SurName], E.firstName, E.Id, R.[Name] as Role
+	from DetailedEmployees E, Users U , Roles R
 	Where Password_hash = @password_hash
 	and E.UserId = U.Id 
 	and U.[Login] = @Login
+	and E.RoleId = R.Id
 	
 End 
