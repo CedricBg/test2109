@@ -29,18 +29,25 @@ namespace DataAccess.Services
             var pLogin = new SqlParameter("Login", form.Login);
             var pPassword = new SqlParameter("Password", form.Password);
             var pId = new SqlParameter("Id", form.Id);
- 
-            try
-            {
-                _db.Database.ExecuteSqlRaw($"EXEC dbo.RegisterAccessEmployee @Login, @Password, @Id ", pLogin, pPassword, pId);
-                return "Created";
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
 
-        }
+            var requete = _db.Users.Select(client => client.Login);
+            foreach (var user in requete)
+            {
+                if(user == form.Login)
+                {
+                    Console.WriteLine("test");
+                }
+            }
+            try
+                    {
+                        _db.Database.ExecuteSqlRaw($"EXEC dbo.RegisterAccessEmployee @Login, @Password, @Id ", pLogin, pPassword, pId);
+                        return "Created";
+                    }
+                    catch (Exception ex)
+                    {
+                        return ex.Message;
+                    }
+                }
 
         public ConnectedForm Login(LoginForm form)
         {
@@ -48,7 +55,7 @@ namespace DataAccess.Services
             var pPassword = new SqlParameter("Password", form.Password);
             try
             {
-                List<ConnectedForm> response = _db.ConnectedForm.FromSqlRaw("EXEC dbo.Loginemployee @Login, @Password", pLogin, pPassword).ToList();
+                List<ConnectedForm> response = _db.Set<ConnectedForm>().FromSqlRaw($"EXEC dbo.Loginemployee @Login, @Password", pLogin, pPassword).ToList();
                 return response[0];
             }
             catch (Exception)

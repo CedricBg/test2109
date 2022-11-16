@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Models.Auth
 {
-    [NotMapped]
     public class ConnectedForm
     {
         public int Id { get; set; }

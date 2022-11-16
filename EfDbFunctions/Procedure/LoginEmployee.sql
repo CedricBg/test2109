@@ -8,20 +8,20 @@ Begin
 	DECLARE @SecretKey VARCHAR(200)
 	SET @SecretKey = dbo.GetSecretKey()
 
-
-
 	DECLARE @salt VARCHAR(100)
-	SET @salt = (SELECT Salt  FROM Users WHERE  Login = @Login)
+	SET @salt = (SELECT Salt FROM Users WHERE Login = @Login)
 
 	DECLARE @password_hash VARBINARY(64)
 	SET @password_hash = HASHBYTES('SHA2_512', CONCAT(@salt, @SecretKey, @Password, @salt))
 
+	Declare @IdUser INT
+	set @IdUser = (SELECT Id from Users WHERE (Password_hash = @password_hash AND ([Login] = @Login)))
 
-	Select Top 1 E.[SurName], E.firstName, E.Id, R.[Name] as Role
+	Select E.[SurName], E.firstName, E.Id, R.[Name] as Role
 	from DetailedEmployees E, Users U , Roles R
-	Where Password_hash = @password_hash
+	Where U.[Login] = @Login
+	and U.Password_hash = @password_hash
 	and E.UserId = U.Id 
-	and U.[Login] = @Login
 	and E.RoleId = R.Id
 	
-End 
+End

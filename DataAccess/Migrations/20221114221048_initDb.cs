@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Migrations
 {
-    public partial class InitDb : Migration
+    public partial class initDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -300,6 +300,13 @@ namespace DataAccess.Migrations
                 name: "IX_ScheduledRounds_RoundsRondsId",
                 table: "ScheduledRounds",
                 column: "RoundsRondsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Login",
+                table: "Users",
+                column: "Login",
+                unique: true,
+                filter: "[Login] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -9,14 +9,8 @@ namespace DataAccess.Models
 {
     public class Rfid
     {
-
-        [Key]
-        [Required]
-        [MaxLength(80)]
         public string RfidNr { get; set; } = null!;
 
-        [Required]
-        [MaxLength(50)]
         public string Location { get; set; } = null!;
 
         [Required]

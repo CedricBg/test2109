@@ -20,7 +20,7 @@ namespace test2109.Controllers
             _employeeService = employeeService;
         }
 
-        
+        [Authorize("adminpolicy")]
         [HttpGet("all")]
         public IActionResult Get()
         {

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(SecurityCompanyContext))]
-    [Migration("20221114141419_usersInUser")]
-    partial class usersInUser
+    [Migration("20221116102336_addFull2")]
+    partial class addFull2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -372,7 +372,11 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.HasIndex("Login")
+                        .IsUnique()
+                        .HasFilter("[Login] IS NOT NULL");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Customer", b =>
