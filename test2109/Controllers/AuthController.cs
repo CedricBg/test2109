@@ -21,7 +21,7 @@ namespace test2109.Controllers
         }
         
         [HttpPost("AddLogin")]
-        public IActionResult Post(AddRegisterForm form)
+        public async Task<IActionResult> Post(AddRegisterForm form)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace test2109.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login(LoginForm form)
+        public async Task<IActionResult> Login(LoginForm form)
         {
             try
             {

@@ -26,6 +26,7 @@ namespace BusinessAccessLayer.Tools.Employee
                 EmployeeCardNumber = busi.EmployeeCardNumber,
                 EntryService = busi.EntryService,
                 RoleId = busi.RoleId
+                
             };
         }
 

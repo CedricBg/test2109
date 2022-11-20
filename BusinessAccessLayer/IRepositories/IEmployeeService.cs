@@ -6,6 +6,7 @@ namespace BusinessAccessLayer.IRepositories
     public interface IEmployeeService
     {
         bool AddEmployee(DetailedEmployee form);
-        IEnumerable<Employee> GetAll();
+        List<Employee> GetAll();
+        void GetOne(int id);
     }
 }

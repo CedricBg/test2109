@@ -20,9 +20,9 @@ namespace test2109.Controllers
             _employeeService = employeeService;
         }
 
-        [Authorize("adminpolicy")]
+        
         [HttpGet("all")]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             try
             {
@@ -48,6 +48,12 @@ namespace test2109.Controllers
             {
                 return BadRequest(ex.Message);
             }
+           
+        }
+        [HttpGet("GetOne")] 
+        public void Get(int id) 
+        {
+            _employeeService.GetOne(id);
            
         }
 

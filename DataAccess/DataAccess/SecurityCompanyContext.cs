@@ -23,7 +23,9 @@ namespace DataAccess.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Ignore<Employee>();
             modelBuilder.Ignore<ConnectedForm>();
+
             modelBuilder.Entity<ConnectedForm>().HasNoKey();
 
             modelBuilder.Entity<Users>(entity =>
@@ -60,8 +62,25 @@ namespace DataAccess.DataAccess
                 entity.Property(e=>e.Location).HasMaxLength(50).IsRequired(true);
             });
 
+            modelBuilder.Entity<Customer>(entity =>
+            {
+                entity.Property(e=>e.Name).HasMaxLength(30).IsRequired(true);
+                entity.Property(e=>e.GeneralPhone).HasMaxLength(20);
+                entity.Property(e => e.EmergencyEmail).HasMaxLength(50);
+                entity.Property(e => e.EmergencyPhoneNumber).HasMaxLength(40);
+                entity.Property(e => e.CreationDate).ValueGeneratedOnAdd();
+            });
 
-            modelBuilder.Ignore<Employee>();
+            modelBuilder.Entity<Email>(entity =>
+            {
+                entity.Property(e=>e.EmailAddress).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Phone>(entity =>
+            {
+                entity.Property(e=>e.Number).HasMaxLength(50);
+            });
+
         }
 
         public DbSet<Countrys> Countrys { get; set; }
@@ -95,6 +114,8 @@ namespace DataAccess.DataAccess
         public DbSet<ScheduledRound> ScheduledRounds { get; set; }
 
         public DbSet<Users> Users { get; set; }
+
+        public DbSet<Phone> Phones { get; set; }
 
     }
 }

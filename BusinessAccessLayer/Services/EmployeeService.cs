@@ -29,9 +29,14 @@ namespace BusinessAccessLayer.Services
             }
         }
 
-        public IEnumerable<Employee> GetAll() 
+        public List<Employee> GetAll() 
         {
-            return _employeeServices.GetAll().Select(dr => dr.GetAllEmployee());
+            return _employeeServices.GetAll().Select(dr => dr.GetAllEmployee()).ToList();
+        }
+
+        public void GetOne(int id) 
+        { 
+            _employeeServices.GetOne(id);
         }
     }
 }

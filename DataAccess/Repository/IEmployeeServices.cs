@@ -7,6 +7,7 @@ namespace DataAccess.Repository
     public interface IEmployeeServices
     {
         bool PostData(DetailedEmployee employee);
-        IEnumerable<Employee> GetAll();
+        List<Employee> GetAll();
+        void GetOne(int Id);
     }
 }

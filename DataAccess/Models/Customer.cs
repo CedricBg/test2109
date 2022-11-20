@@ -12,19 +12,14 @@ namespace DataAccess.Models
     {
         public int Id { get; set; }
 
-        [MaxLength(30)]
-        public string Name { get; set; } = null!;
+        public string Name { get; set; } 
 
-        [MaxLength(20)]
-        public string GeneralPhone { get; set; } = null!;
+        public string GeneralPhone { get; set; } 
 
-        [MaxLength (50)]
         public string? EmergencyEmail { get; set; }
 
-        [MaxLength (40)]
         public string? EmergencyPhoneNumber { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime CreationDate { get; set; }
 
         public Users? UserId { get; set; }

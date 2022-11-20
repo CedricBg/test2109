@@ -5,6 +5,7 @@ using DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace DataAccess.Services
@@ -46,9 +47,8 @@ namespace DataAccess.Services
             {
                 return false;
             }
-
         }
-        public IEnumerable<Employee> GetAll()
+        public List<Employee> GetAll()
         {
                 if (_db.employees is not null)
                 {
@@ -58,13 +58,22 @@ namespace DataAccess.Services
                             Id = employee.Id,
                             firstName = employee.firstName,
                             SurName = employee.SurName
-                        });
+                        }).ToList();
                     return requete;
                 }
                     else
                 {
                     throw new Exception();
                 }  
+        }
+
+        public void GetOne(int id)
+        {
+            var person = _db.DetailedEmployees
+                .Include(e => e.Emails)
+                .Include(e => e.Phones)
+                .ToList();
+            Console.WriteLine(person.Count());
         }
     }
 }

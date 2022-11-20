@@ -38,6 +38,10 @@ namespace DataAccess.Models.Employees
 
         public int? RoleId { get; set; }
 
+        public List<Email>? Emails { get; set; } = null!;
+
+        public List<Phone>? Phones { get; set; } = null!;
+
 
     }
 }

@@ -4,6 +4,7 @@ using DataAccess.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(SecurityCompanyContext))]
-    partial class SecurityCompanyContextModelSnapshot : ModelSnapshot
+    [Migration("20221116132613_addFullAPi2")]
+    partial class addFullAPi2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -171,16 +173,11 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("DetailedEmployeeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("EmailAddress")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DetailedEmployeeId");
 
                     b.ToTable("EmailAddresses");
                 });
@@ -291,28 +288,6 @@ namespace DataAccess.Migrations
                     b.HasIndex("RoundsRondsId");
 
                     b.ToTable("PassagesRounds");
-                });
-
-            modelBuilder.Entity("DataAccess.Models.Phone", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("DetailedEmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Number")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DetailedEmployeeId");
-
-                    b.ToTable("Phones");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Rfid", b =>
@@ -438,13 +413,6 @@ namespace DataAccess.Migrations
                     b.Navigation("UserId");
                 });
 
-            modelBuilder.Entity("DataAccess.Models.Email", b =>
-                {
-                    b.HasOne("DataAccess.Models.Employees.DetailedEmployee", null)
-                        .WithMany("emails")
-                        .HasForeignKey("DetailedEmployeeId");
-                });
-
             modelBuilder.Entity("DataAccess.Models.Employees.DetailedEmployee", b =>
                 {
                     b.HasOne("DataAccess.Models.Departement", null)
@@ -471,13 +439,6 @@ namespace DataAccess.Migrations
                     b.Navigation("Rfid");
 
                     b.Navigation("Rounds");
-                });
-
-            modelBuilder.Entity("DataAccess.Models.Phone", b =>
-                {
-                    b.HasOne("DataAccess.Models.Employees.DetailedEmployee", null)
-                        .WithMany("phones")
-                        .HasForeignKey("DetailedEmployeeId");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Rfid", b =>
@@ -515,13 +476,6 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("DataAccess.Models.Departement", b =>
                 {
                     b.Navigation("Employees");
-                });
-
-            modelBuilder.Entity("DataAccess.Models.Employees.DetailedEmployee", b =>
-                {
-                    b.Navigation("emails");
-
-                    b.Navigation("phones");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccess.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -30,5 +31,10 @@ namespace BusinessAccessLayer.Models.Employee
         public bool Actif { get; set; }
 
         public int RoleId { get; set; }
+
+        public List<Email>? Emails { get; set; } = null!;
+
+        public List<Phone>? Phones { get; set; } = null!;
+
     }
 }

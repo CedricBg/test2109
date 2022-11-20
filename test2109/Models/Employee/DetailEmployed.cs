@@ -24,5 +24,7 @@
         public bool Actif { get; set; }
 
         public int RoleId { get; set; }
+
+        public List<Phone> Phones { get; set; }
     }
 }
