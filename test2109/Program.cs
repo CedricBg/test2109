@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Configuration;
+using DATA = DataAccess.Models.Employees;
+using BusinessAccessLayer.Tools;
+using test2109.Tools;
+using DataAccess.tools;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +24,13 @@ builder.Services.AddScoped<IAuthServices, AuthServices>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<TokenService>();
+
+builder.Services.AddAutoMapper(profiles =>
+{ 
+    profiles.AddProfile(typeof(AutoMapperProfileBll));
+    profiles.AddProfile(typeof(AutoMapperProfileApi));
+    profiles.AddProfile(typeof(AutoMapperProfileData));
+});
 
 
 builder.Services.AddControllers();

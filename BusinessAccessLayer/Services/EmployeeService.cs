@@ -4,6 +4,7 @@ using BusinessAccessLayer.Tools.Employee;
 using BusinessAccessLayer.IRepositories;
 using DataAccess.Repository;
 using BusinessAccessLayer.Models.Employee;
+using AutoMapper;
 
 namespace BusinessAccessLayer.Services
 {
@@ -11,9 +12,12 @@ namespace BusinessAccessLayer.Services
     {
         private readonly IEmployeeServices _employeeServices;
 
-        public EmployeeService(IEmployeeServices employeeServices)
+        private readonly IMapper _Mapper;
+
+        public EmployeeService(IEmployeeServices employeeServices, IMapper mapper)
         {
             _employeeServices = employeeServices;
+            _Mapper = mapper;
         }
 
         public bool AddEmployee(DetailedEmployee form)
@@ -31,12 +35,13 @@ namespace BusinessAccessLayer.Services
 
         public List<Employee> GetAll() 
         {
-            return _employeeServices.GetAll().Select(dr => dr.GetAllEmployee()).ToList();
+            return _employeeServices.GetAll().Select(dr => _Mapper.Map<Employee>(dr)).ToList();
         }
 
-        public void GetOne(int id) 
-        { 
-            _employeeServices.GetOne(id);
+        public DetailedEmployee GetOne(int id) 
+        {
+            DetailedEmployee employee = _Mapper.Map<DetailedEmployee>(_employeeServices.GetOne(id));
+            return employee;
         }
     }
 }

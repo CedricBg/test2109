@@ -1,4 +1,5 @@
-﻿using BusinessAccessLayer.IRepositories;
+﻿using AutoMapper;
+using BusinessAccessLayer.IRepositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -13,11 +14,14 @@ namespace test2109.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        public IEmployeeService _employeeService;
+        private IEmployeeService _employeeService;
 
-        public EmployeeController(IEmployeeService employeeService) 
+        private readonly IMapper _Mapper;
+
+        public EmployeeController(IEmployeeService employeeService, IMapper mapper) 
         {
             _employeeService = employeeService;
+            _Mapper = mapper;
         }
 
         
@@ -29,9 +33,9 @@ namespace test2109.Controllers
 
                 return Ok(_employeeService.GetAll());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return Ok(BadRequest());
+                return Ok(ex.Message);
             }
         }
 
@@ -39,9 +43,11 @@ namespace test2109.Controllers
         [HttpPost("insert/")]
         public IActionResult Post(DetailEmployed form)
         {
+            
             try 
             {
                 _employeeService.AddEmployee(form.AddEmployee());
+
                 return StatusCode(StatusCodes.Status201Created);
             }
             catch (Exception ex)
@@ -51,10 +57,17 @@ namespace test2109.Controllers
            
         }
         [HttpGet("GetOne")] 
-        public void Get(int id) 
+        public IActionResult Get(int id) 
         {
-            _employeeService.GetOne(id);
-           
+            DetailEmployed employed = _Mapper.Map<DetailEmployed>(_employeeService.GetOne(id));
+            if(employed.Id != null)
+            {
+                return Ok(employed);
+            }
+            else
+            {
+                return Ok(false);
+            }
         }
 
     }

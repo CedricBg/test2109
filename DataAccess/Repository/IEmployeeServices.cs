@@ -8,6 +8,6 @@ namespace DataAccess.Repository
     {
         bool PostData(DetailedEmployee employee);
         List<Employee> GetAll();
-        void GetOne(int Id);
+        DetailedEmployee GetOne(int id);
     }
 }

@@ -1,4 +1,5 @@
-﻿using DataAccess.DataAccess;
+﻿using AutoMapper;
+using DataAccess.DataAccess;
 using DataAccess.Models;
 using DataAccess.Models.Employees;
 using DataAccess.Repository;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Reflection.Metadata.Ecma335;
 
 namespace DataAccess.Services
 {
@@ -14,9 +16,12 @@ namespace DataAccess.Services
     {
         private readonly SecurityCompanyContext _db;
 
-        public EmployeeServices(SecurityCompanyContext context)
+        private readonly IMapper _Mapper;
+
+        public EmployeeServices(SecurityCompanyContext context, IMapper mapper)
         {
             _db = context;
+            _Mapper = mapper;
         }
 
         public bool PostData(DetailedEmployee employee)
@@ -48,11 +53,16 @@ namespace DataAccess.Services
                 return false;
             }
         }
+        /// <summary>
+        /// Renvoi de l'utilisateur 
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public List<Employee> GetAll()
         {
                 if (_db.employees is not null)
-                {
-                    var requete = _db.DetailedEmployees
+                { 
+                    List<Employee> requete = _db.DetailedEmployees
                         .Select((employee) => new Employee
                         {
                             Id = employee.Id,
@@ -67,13 +77,29 @@ namespace DataAccess.Services
                 }  
         }
 
-        public void GetOne(int id)
+        public DetailedEmployee GetOne(int id)
         {
-            var person = _db.DetailedEmployees
-                .Include(e => e.Emails)
-                .Include(e => e.Phones)
-                .ToList();
-            Console.WriteLine(person.Count());
+            if(_db.DetailedEmployees is not null)
+            { 
+                try
+                {
+                    DetailedEmployee person = _db.DetailedEmployees
+                                        .Where(e => e.Id == id)
+                                        .Include(e => e.Phones)
+                                        .First();
+                    return person;
+                }
+                catch(Exception) 
+                {
+                    return new DetailedEmployee();
+                }  
+            }
+            else
+            {
+                return new DetailedEmployee();
+            }
+            
+            
         }
     }
 }
