@@ -57,7 +57,7 @@ namespace DataAccess.DataAccess
 
             modelBuilder.Entity<Rfid>(entity =>
             {
-                entity.HasKey(e => e.RfidNr);
+                entity.HasKey(e =>e.RfidNr);
                 entity.Property(e=>e.RfidNr).HasMaxLength(80).HasMaxLength(80).IsRequired(true);
                 entity.Property(e=>e.Location).HasMaxLength(50).IsRequired(true);
             });

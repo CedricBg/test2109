@@ -56,8 +56,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("tokenValidation").GetSection("secret").Value)),
             ValidateLifetime = true,
-            
-            
+              
         };
     }
     );
@@ -66,7 +65,7 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("adminpolicy", policy => policy.RequireRole("Administratif"));
     options.AddPolicy("agentpolicy", policy => policy.RequireRole("agent", "Administratif"));
-    options.AddPolicy("authpolicy", policy => policy.RequireAuthenticatedUser());
+    options.AddPolicy("authpolicy",  policy => policy.RequireAuthenticatedUser());
 }
 );
 

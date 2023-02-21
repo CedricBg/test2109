@@ -9,14 +9,20 @@ namespace test2109.Tools.Employee
     {
         public static BUSI.Employee.DetailedEmployee AddEmployee(this TEST.Employee.DetailEmployed employee)
         {
-            BUSI.Employee.DetailedEmployee employee1 = new BUSI.Employee.DetailedEmployee();
-
-
+            
+            List<Phone> listPhone = new List<Phone>();
+            List<Email> listEmail = new List<Email>();  
             foreach(var emplo in employee.Phones)
             {
-                employee1.Phones.Add(emplo._Phone());
+                listPhone.Add(emplo._Phone());
             }
-            new BUSI.Employee.DetailedEmployee
+            
+            foreach(var email in employee.Emails)
+            {
+                listEmail.Add(email._Email());
+            }
+            
+            return new BUSI.Employee.DetailedEmployee
             {
                 Id = employee.Id,
                 firstName = employee.firstName,
@@ -29,16 +35,25 @@ namespace test2109.Tools.Employee
                 EmployeeCardNumber = employee.EmployeeCardNumber,
                 EntryService = employee.EntryService,
                 RoleId = employee.RoleId,
-                Phones = employee1.Phones
+                Phones = listPhone,
+                Emails= listEmail,
+                
             };
-            return employee1;
+            
         }
 
         private static BUSI.Employee.Phone _Phone(this TEST.Employee.Phone form)
-        { return new BUSI.Employee.Phone
+        { 
+            return new BUSI.Employee.Phone
             {
-                Id = form.Id,
-                Number= form.Number,
+                Number = form.Number,
+            };
+        }
+        private static BUSI.Employee.Email _Email(this TEST.Employee.Email form)
+        {
+            return new BUSI.Employee.Email
+            {
+                address = form.address
             };
         }
     }

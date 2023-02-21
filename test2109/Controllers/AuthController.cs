@@ -40,8 +40,7 @@ namespace test2109.Controllers
             {
                 ConnectedForm user =  _authService.Login(form.Login()).MapConnect();
                 if (user.SurName != null) 
-                {
-                    
+                {  
                     return Ok(user);
                 }
                 return Ok(null);

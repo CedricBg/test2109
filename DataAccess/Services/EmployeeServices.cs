@@ -26,9 +26,9 @@ namespace DataAccess.Services
 
         public bool PostData(DetailedEmployee employee)
         {
-
             if (_db.DetailedEmployees is not null)
             {
+
                 _db.DetailedEmployees.Add(new DetailedEmployee
                 {
                     Id = employee.Id,
@@ -42,7 +42,9 @@ namespace DataAccess.Services
                     EmployeeCardNumber = employee.EmployeeCardNumber,
                     RegistreNational = employee.RegistreNational,
                     Actif = employee.Actif,
-                    RoleId = employee.RoleId
+                    RoleId = employee.RoleId,
+                    Phones= employee.Phones,
+                    Emails= employee.Emails,
                 });
 
                 _db.SaveChanges();
