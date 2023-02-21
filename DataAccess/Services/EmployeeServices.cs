@@ -88,6 +88,7 @@ namespace DataAccess.Services
                     DetailedEmployee person = _db.DetailedEmployees
                                         .Where(e => e.Id == id)
                                         .Include(e => e.Phones)
+                                        .Include(e => e.Emails)
                                         .First();
                     return person;
                 }

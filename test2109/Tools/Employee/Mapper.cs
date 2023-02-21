@@ -53,7 +53,7 @@ namespace test2109.Tools.Employee
         {
             return new BUSI.Employee.Email
             {
-                address = form.address
+                EmailAddress = form.EmailAddress
             };
         }
     }

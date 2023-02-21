@@ -10,7 +10,9 @@ namespace test2109.Tools
         public AutoMapperProfileApi()
         {
             CreateMap<BUSI.Employee.DetailedEmployee, API.Employee.DetailEmployed>().ReverseMap();
+            CreateMap<BUSI.Employee.Email, API.Employee.Email>().ReverseMap();
             CreateMap<BUSI.Employee.Phone, API.Employee.Phone>().ReverseMap();
+            
         }
     }
 }

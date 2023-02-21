@@ -10,6 +10,6 @@ namespace BusinessAccessLayer.Models.Employee
     {
         public int? Id { get; set; }
 
-        public string address { get; set; }
+        public string EmailAddress { get; set; }
     }
 }

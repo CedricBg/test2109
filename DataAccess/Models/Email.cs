@@ -11,6 +11,6 @@ namespace DataAccess.Models
     {
         public int? Id { get; set; }
 
-        public string EmailAddress { get; set; } = null!;
+        public string EmailAddress { get; set; }
     }
 }

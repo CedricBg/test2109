@@ -53,7 +53,7 @@ namespace BusinessAccessLayer.Tools.Employee
         {
             return new DATA.Email
             {
-                EmailAddress = phone.address,
+                EmailAddress = phone.EmailAddress,
             };
         }
 
