@@ -16,6 +16,8 @@ namespace DataAccess.Models
 
         public string? State { get; set; }
 
+        public int? StateId { get; set; }
+
         public string? ZipCode { get; set; }
     }
 }
