@@ -81,6 +81,14 @@ namespace DataAccess.DataAccess
                 entity.Property(e=>e.Number).HasMaxLength(50);
             });
 
+            modelBuilder.Entity<Address>(Entity =>
+            {
+                Entity.Property(e=>e.SreetAddress).HasMaxLength(50);
+                Entity.Property(e=>e.City).HasMaxLength(50);
+                Entity.Property(e=>e.ZipCode).HasMaxLength(50);
+                Entity.Property(e=>e.State).HasMaxLength(50);
+            });
+
         }
 
         public DbSet<Countrys> Countrys { get; set; }

@@ -31,16 +31,23 @@ namespace DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("SreetAddress")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("State")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("StateId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ZipCode")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -165,11 +172,11 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Email", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
 
                     b.Property<int?>("DetailedEmployeeId")
                         .HasColumnType("int");
@@ -195,6 +202,9 @@ namespace DataAccess.Migrations
 
                     b.Property<bool>("Actif")
                         .HasColumnType("bit");
+
+                    b.Property<int?>("AddressId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
@@ -242,6 +252,8 @@ namespace DataAccess.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
 
                     b.HasIndex("DepartementId");
 
@@ -295,11 +307,11 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Phone", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
 
                     b.Property<int?>("DetailedEmployeeId")
                         .HasColumnType("int");
@@ -441,12 +453,16 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("DataAccess.Models.Email", b =>
                 {
                     b.HasOne("DataAccess.Models.Employees.DetailedEmployee", null)
-                        .WithMany("emails")
+                        .WithMany("Emails")
                         .HasForeignKey("DetailedEmployeeId");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Employees.DetailedEmployee", b =>
                 {
+                    b.HasOne("DataAccess.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId");
+
                     b.HasOne("DataAccess.Models.Departement", null)
                         .WithMany("Employees")
                         .HasForeignKey("DepartementId");
@@ -454,6 +470,8 @@ namespace DataAccess.Migrations
                     b.HasOne("DataAccess.Models.Users", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+
+                    b.Navigation("Address");
 
                     b.Navigation("User");
                 });
@@ -476,7 +494,7 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("DataAccess.Models.Phone", b =>
                 {
                     b.HasOne("DataAccess.Models.Employees.DetailedEmployee", null)
-                        .WithMany("phones")
+                        .WithMany("Phones")
                         .HasForeignKey("DetailedEmployeeId");
                 });
 
@@ -519,9 +537,9 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Employees.DetailedEmployee", b =>
                 {
-                    b.Navigation("emails");
+                    b.Navigation("Emails");
 
-                    b.Navigation("phones");
+                    b.Navigation("Phones");
                 });
 #pragma warning restore 612, 618
         }

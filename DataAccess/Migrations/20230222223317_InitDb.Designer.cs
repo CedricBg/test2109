@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(SecurityCompanyContext))]
-    [Migration("20221117113056_AddPhoneAndEmail")]
-    partial class AddPhoneAndEmail
+    [Migration("20230222223317_InitDb")]
+    partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,16 +33,23 @@ namespace DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("SreetAddress")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("State")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("StateId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ZipCode")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -167,11 +174,11 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Email", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
 
                     b.Property<int?>("DetailedEmployeeId")
                         .HasColumnType("int");
@@ -297,11 +304,11 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Phone", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
 
                     b.Property<int?>("DetailedEmployeeId")
                         .HasColumnType("int");
@@ -443,7 +450,7 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("DataAccess.Models.Email", b =>
                 {
                     b.HasOne("DataAccess.Models.Employees.DetailedEmployee", null)
-                        .WithMany("emails")
+                        .WithMany("Emails")
                         .HasForeignKey("DetailedEmployeeId");
                 });
 
@@ -478,7 +485,7 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("DataAccess.Models.Phone", b =>
                 {
                     b.HasOne("DataAccess.Models.Employees.DetailedEmployee", null)
-                        .WithMany("phones")
+                        .WithMany("Phones")
                         .HasForeignKey("DetailedEmployeeId");
                 });
 
@@ -521,9 +528,9 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Employees.DetailedEmployee", b =>
                 {
-                    b.Navigation("emails");
+                    b.Navigation("Emails");
 
-                    b.Navigation("phones");
+                    b.Navigation("Phones");
                 });
 #pragma warning restore 612, 618
         }

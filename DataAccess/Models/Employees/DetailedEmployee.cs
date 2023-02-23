@@ -33,6 +33,8 @@ namespace DataAccess.Models.Employees
 
         public DateTime CreationDate { get; set; }
 
+        public Address Address { get; set; }
+
         [Column("UserId")]
         public Users? User { get; set; }
 
@@ -41,6 +43,8 @@ namespace DataAccess.Models.Employees
         public List<Email>? Emails { get; set; } = null!;
 
         public List<Phone>? Phones { get; set; } = null!;
+
+
 
 
     }

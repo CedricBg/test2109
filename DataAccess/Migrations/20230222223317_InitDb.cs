@@ -5,20 +5,36 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Migrations
 {
-    public partial class initDb : Migration
+    public partial class InitDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "addRegisterForms",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Login = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Role = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_addRegisterForms", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Address",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SreetAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    State = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    SreetAddress = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    State = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    StateId = table.Column<int>(type: "int", nullable: true),
+                    ZipCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -62,19 +78,6 @@ namespace DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Departements", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EmailAddresses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EmailAddress = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EmailAddresses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -125,7 +128,7 @@ namespace DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     GeneralPhone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     EmergencyEmail = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     EmergencyPhoneNumber = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
@@ -217,6 +220,44 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EmailAddresses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmailAddress = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DetailedEmployeeId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmailAddresses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EmailAddresses_DetailedEmployees_DetailedEmployeeId",
+                        column: x => x.DetailedEmployeeId,
+                        principalTable: "DetailedEmployees",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Phones",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Number = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DetailedEmployeeId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Phones", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Phones_DetailedEmployees_DetailedEmployeeId",
+                        column: x => x.DetailedEmployeeId,
+                        principalTable: "DetailedEmployees",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PassagesRounds",
                 columns: table => new
                 {
@@ -277,6 +318,11 @@ namespace DataAccess.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_EmailAddresses_DetailedEmployeeId",
+                table: "EmailAddresses",
+                column: "DetailedEmployeeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PassagesRounds_RfidNr",
                 table: "PassagesRounds",
                 column: "RfidNr");
@@ -285,6 +331,11 @@ namespace DataAccess.Migrations
                 name: "IX_PassagesRounds_RoundsRondsId",
                 table: "PassagesRounds",
                 column: "RoundsRondsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Phones_DetailedEmployeeId",
+                table: "Phones",
+                column: "DetailedEmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rfids_CustomerId",
@@ -312,6 +363,9 @@ namespace DataAccess.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "addRegisterForms");
+
+            migrationBuilder.DropTable(
                 name: "Address");
 
             migrationBuilder.DropTable(
@@ -319,9 +373,6 @@ namespace DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Countrys");
-
-            migrationBuilder.DropTable(
-                name: "DetailedEmployees");
 
             migrationBuilder.DropTable(
                 name: "EmailAddresses");
@@ -333,19 +384,25 @@ namespace DataAccess.Migrations
                 name: "PassagesRounds");
 
             migrationBuilder.DropTable(
+                name: "Phones");
+
+            migrationBuilder.DropTable(
                 name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "ScheduledRounds");
 
             migrationBuilder.DropTable(
-                name: "Departements");
-
-            migrationBuilder.DropTable(
                 name: "Rfids");
 
             migrationBuilder.DropTable(
+                name: "DetailedEmployees");
+
+            migrationBuilder.DropTable(
                 name: "Rounds");
+
+            migrationBuilder.DropTable(
+                name: "Departements");
 
             migrationBuilder.DropTable(
                 name: "Customers");
