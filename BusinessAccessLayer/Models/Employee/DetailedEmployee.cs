@@ -36,5 +36,7 @@ namespace BusinessAccessLayer.Models.Employee
 
         public List<Phone>? Phones { get; set; } = null!;
 
+        public Address Address { get; set; }
+
     }
 }

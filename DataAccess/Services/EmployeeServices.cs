@@ -45,6 +45,7 @@ namespace DataAccess.Services
                     RoleId = employee.RoleId,
                     Phones= employee.Phones,
                     Emails= employee.Emails,
+                    Address= employee.Address,
                 });
 
                 _db.SaveChanges();
@@ -89,6 +90,7 @@ namespace DataAccess.Services
                                         .Where(e => e.Id == id)
                                         .Include(e => e.Phones)
                                         .Include(e => e.Emails)
+                                        .Include(e=> e.Address)
                                         .First();
                     return person;
                 }

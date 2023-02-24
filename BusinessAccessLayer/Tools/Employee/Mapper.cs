@@ -39,6 +39,19 @@ namespace BusinessAccessLayer.Tools.Employee
                 RoleId = busi.RoleId,
                 Phones= listPhone,
                 Emails= listEmail,
+                Address = busi.Address._address(),
+            };
+        }
+
+        private static DATA.Address _address(this BUSI.Employee.Address address)
+        {
+            return new DATA.Address
+            {
+                SreetAddress = address.SreetAddress,
+                City = address.City,
+                State = address.State,
+                StateId = address.StateId,
+                ZipCode = address.ZipCode,
             };
         }
 

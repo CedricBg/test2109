@@ -37,9 +37,23 @@ namespace test2109.Tools.Employee
                 RoleId = employee.RoleId,
                 Phones = listPhone,
                 Emails= listEmail,
+                Address = employee.Address._Address(),
                 
             };
             
+        }
+
+        private static BUSI.Employee.Address _Address(this TEST.Address form)
+        {
+            return new BUSI.Employee.Address
+            {
+                SreetAddress = form.SreetAddress,
+                City = form.City,
+                ZipCode = form.ZipCode,
+                State = form.State,
+                StateId = form.StateId,
+
+            };
         }
 
         private static BUSI.Employee.Phone _Phone(this TEST.Employee.Phone form)
