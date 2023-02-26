@@ -86,10 +86,16 @@ namespace DataAccess.DataAccess
                 Entity.Property(e=>e.SreetAddress).HasMaxLength(50);
                 Entity.Property(e=>e.City).HasMaxLength(50);
                 Entity.Property(e=>e.ZipCode).HasMaxLength(50);
-                Entity.Property(e=>e.State).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Countrys>(Entity =>
+            {
+                Entity.Property(e => e.Country).HasMaxLength(50);
             });
 
         }
+
+
 
         public DbSet<Countrys> Countrys { get; set; }
 
@@ -100,8 +106,6 @@ namespace DataAccess.DataAccess
         public DbSet<Employee> employees { get; set; }
 
         public DbSet<DetailedEmployee> DetailedEmployees { get; set; }
-
-        public DbSet<AddRegisterForm> addRegisterForms { get; set; }
 
         public DbSet<Address> Address { get; set; }
 

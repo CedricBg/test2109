@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Migrations
 {
-    public partial class InitDb : Migration
+    public partial class initDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -32,7 +32,7 @@ namespace DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SreetAddress = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    State = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    State = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StateId = table.Column<int>(type: "int", nullable: true),
                     ZipCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
@@ -162,6 +162,7 @@ namespace DataAccess.Migrations
                     RegistreNational = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Actif = table.Column<bool>(type: "bit", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AddressId = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: true),
                     RoleId = table.Column<int>(type: "int", nullable: true),
                     DepartementId = table.Column<int>(type: "int", nullable: true)
@@ -169,6 +170,11 @@ namespace DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DetailedEmployees", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DetailedEmployees_Address_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Address",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_DetailedEmployees_Departements_DepartementId",
                         column: x => x.DepartementId,
@@ -308,6 +314,11 @@ namespace DataAccess.Migrations
                 column: "UserIdId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DetailedEmployees_AddressId",
+                table: "DetailedEmployees",
+                column: "AddressId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DetailedEmployees_DepartementId",
                 table: "DetailedEmployees",
                 column: "DepartementId");
@@ -366,9 +377,6 @@ namespace DataAccess.Migrations
                 name: "addRegisterForms");
 
             migrationBuilder.DropTable(
-                name: "Address");
-
-            migrationBuilder.DropTable(
                 name: "ConnectedForm");
 
             migrationBuilder.DropTable(
@@ -400,6 +408,9 @@ namespace DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Rounds");
+
+            migrationBuilder.DropTable(
+                name: "Address");
 
             migrationBuilder.DropTable(
                 name: "Departements");

@@ -28,7 +28,6 @@ namespace DataAccess.Services
         {
             if (_db.DetailedEmployees is not null)
             {
-
                 _db.DetailedEmployees.Add(new DetailedEmployee
                 {
                     Id = employee.Id,

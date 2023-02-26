@@ -19,6 +19,8 @@ var builder = WebApplication.CreateBuilder(args);
 //DAL
 builder.Services.AddScoped<IEmployeeServices, EmployeeServices>();
 builder.Services.AddScoped<IAuthServices, AuthServices>();
+builder.Services.AddScoped<ICountryServices, CountryServices>();
+
 
 //BLL
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
