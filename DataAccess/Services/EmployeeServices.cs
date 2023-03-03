@@ -16,12 +16,15 @@ namespace DataAccess.Services
     {
         private readonly SecurityCompanyContext _db;
 
+        private readonly ICountryServices _country;
+
         private readonly IMapper _Mapper;
 
-        public EmployeeServices(SecurityCompanyContext context, IMapper mapper)
+        public EmployeeServices(SecurityCompanyContext context, IMapper mapper, ICountryServices country)
         {
             _db = context;
             _Mapper = mapper;
+            _country = country;
         }
 
         public bool PostData(DetailedEmployee employee)
@@ -42,9 +45,9 @@ namespace DataAccess.Services
                     RegistreNational = employee.RegistreNational,
                     Actif = employee.Actif,
                     RoleId = employee.RoleId,
-                    Phones= employee.Phones,
-                    Emails= employee.Emails,
-                    Address= employee.Address,
+                    Phones = employee.Phones,
+                    Emails = employee.Emails,
+                    Address = employee.Address,
                 });
 
                 _db.SaveChanges();
@@ -55,11 +58,11 @@ namespace DataAccess.Services
                 return false;
             }
         }
-        /// <summary>
-        /// Renvoi de l'utilisateur 
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
+      /// <summary>
+      /// le données de detaieldemplyee.db
+      /// </summary>
+      /// <returns></returns>
+      /// <exception cref="Exception"></exception>
         public List<Employee> GetAll()
         {
                 if (_db.employees is not null)
@@ -78,9 +81,14 @@ namespace DataAccess.Services
                     throw new Exception();
                 }  
         }
-
+        /// <summary>
+        /// Renvoi de l'utilisateur on ajoute le nom du pays avec l'aide de l'id stocké dans Address.db
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public DetailedEmployee GetOne(int id)
         {
+            
             if(_db.DetailedEmployees is not null)
             { 
                 try
@@ -89,8 +97,13 @@ namespace DataAccess.Services
                                         .Where(e => e.Id == id)
                                         .Include(e => e.Phones)
                                         .Include(e => e.Emails)
-                                        .Include(e=> e.Address)
+                                        .Include(e => e.Address)
                                         .First();
+
+                    Countrys country = _AllCountrys(person.Address.StateId);
+
+                    person.Address.State = country.Country;
+                    person.Address.StateId = country.Id;
                     return person;
                 }
                 catch(Exception) 
@@ -102,8 +115,20 @@ namespace DataAccess.Services
             {
                 return new DetailedEmployee();
             }
-            
-            
+
+        }
+        private Countrys _AllCountrys(int? id)
+        {
+            try
+            {
+                Countrys countrys = _db.Countrys
+                    .Where(e => e.Id == id).First();
+                return countrys;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
         }
     }
 }

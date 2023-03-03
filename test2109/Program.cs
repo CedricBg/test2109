@@ -25,6 +25,7 @@ builder.Services.AddScoped<ICountryServices, CountryServices>();
 //BLL
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ICountryService, CountryService>();
 builder.Services.AddScoped<TokenService>();
 
 builder.Services.AddAutoMapper(profiles =>
