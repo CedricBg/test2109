@@ -31,6 +31,9 @@ namespace DataAccess.Services
         {
             if (_db.DetailedEmployees is not null)
             {
+
+                Role role = _db.Roles.FirstOrDefault(c =>c.Id == employee.Role.Id);
+
                 _db.DetailedEmployees.Add(new DetailedEmployee
                 {
                     Id = employee.Id,
@@ -40,11 +43,10 @@ namespace DataAccess.Services
                     BirthDate = employee.BirthDate,
                     Vehicle = employee.Vehicle,
                     SecurityCard = employee.SecurityCard,
-                    EntryService = employee.EntryService,
                     EmployeeCardNumber = employee.EmployeeCardNumber,
                     RegistreNational = employee.RegistreNational,
                     Actif = employee.Actif,
-                    RoleId = employee.RoleId,
+                    Role = role,
                     Phones = employee.Phones,
                     Emails = employee.Emails,
                     Address = employee.Address,
@@ -98,6 +100,7 @@ namespace DataAccess.Services
                                         .Include(e => e.Phones)
                                         .Include(e => e.Emails)
                                         .Include(e => e.Address)
+                                        .Include(e =>e.Role)
                                         .First();
 
                     Countrys country = _AllCountrys(person.Address.StateId);

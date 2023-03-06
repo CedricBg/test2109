@@ -10,7 +10,7 @@ namespace DataAccess.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "addRegisterForms",
+                name: "AddRegisterForm",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -21,7 +21,7 @@ namespace DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_addRegisterForms", x => x.Id);
+                    table.PrimaryKey("PK_AddRegisterForm", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -60,7 +60,7 @@ namespace DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Country = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -179,6 +179,11 @@ namespace DataAccess.Migrations
                         name: "FK_DetailedEmployees_Departements_DepartementId",
                         column: x => x.DepartementId,
                         principalTable: "Departements",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_DetailedEmployees_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_DetailedEmployees_Users_UserId",
@@ -324,6 +329,11 @@ namespace DataAccess.Migrations
                 column: "DepartementId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DetailedEmployees_RoleId",
+                table: "DetailedEmployees",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DetailedEmployees_UserId",
                 table: "DetailedEmployees",
                 column: "UserId");
@@ -374,7 +384,7 @@ namespace DataAccess.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "addRegisterForms");
+                name: "AddRegisterForm");
 
             migrationBuilder.DropTable(
                 name: "ConnectedForm");
@@ -395,9 +405,6 @@ namespace DataAccess.Migrations
                 name: "Phones");
 
             migrationBuilder.DropTable(
-                name: "Roles");
-
-            migrationBuilder.DropTable(
                 name: "ScheduledRounds");
 
             migrationBuilder.DropTable(
@@ -414,6 +421,9 @@ namespace DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Departements");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Customers");

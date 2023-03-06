@@ -36,7 +36,7 @@ namespace BusinessAccessLayer.Tools.Employee
                 Vehicle = busi.Vehicle,
                 EmployeeCardNumber = busi.EmployeeCardNumber,
                 EntryService = busi.EntryService,
-                RoleId = busi.RoleId,
+                Role = busi.Role._Role(),
                 Phones= listPhone,
                 Emails= listEmail,
                 Address = busi.Address._address(),
@@ -52,6 +52,16 @@ namespace BusinessAccessLayer.Tools.Employee
                 State = address.State,
                 StateId = address.StateId,
                 ZipCode = address.ZipCode,
+            };
+        }
+
+        private static DATA.Role _Role(this BUSI.Role role)
+        {
+            return new DATA.Role
+            {
+                DiminName = role.DiminName,
+                Name = role.Name,
+                Id = role.Id,
             };
         }
 

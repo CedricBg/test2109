@@ -34,13 +34,11 @@ namespace test2109.Tools.Employee
                 RegistreNational = employee.RegistreNational,
                 EmployeeCardNumber = employee.EmployeeCardNumber,
                 EntryService = employee.EntryService,
-                RoleId = employee.RoleId,
+                Role = employee.Role._Role(),
                 Phones = listPhone,
                 Emails= listEmail,
-                Address = employee.Address._Address(),
-                
-            };
-            
+                Address = employee.Address._Address(),  
+            }; 
         }
 
         private static BUSI.Employee.Address _Address(this TEST.Address form)
@@ -53,6 +51,16 @@ namespace test2109.Tools.Employee
                 State = form.State,
                 StateId = form.StateId,
 
+            };
+        }
+
+        private static BusinessAccessLayer.Models.Role _Role(this TEST.Role model)
+        {
+            return new BusinessAccessLayer.Models.Role
+            {
+                DiminName = model.DiminName,
+                Name = model.Name,
+                Id = model.Id,
             };
         }
 

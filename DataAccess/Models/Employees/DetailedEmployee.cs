@@ -35,10 +35,9 @@ namespace DataAccess.Models.Employees
 
         public Address Address { get; set; }
 
-        [Column("UserId")]
         public Users? User { get; set; }
 
-        public int? RoleId { get; set; }
+        public Role Role { get; set; }
 
         public List<Email>? Emails { get; set; } = null!;
 

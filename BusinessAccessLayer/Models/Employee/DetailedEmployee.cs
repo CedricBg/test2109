@@ -30,7 +30,7 @@ namespace BusinessAccessLayer.Models.Employee
 
         public bool Actif { get; set; }
 
-        public int RoleId { get; set; }
+        public Role Role { get; set; }
 
         public List<Email>? Emails { get; set; } = null!;
 

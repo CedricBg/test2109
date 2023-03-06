@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(SecurityCompanyContext))]
-    [Migration("20230225224836_initDb")]
+    [Migration("20230305114938_initDb")]
     partial class initDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,7 +76,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("addRegisterForms");
+                    b.ToTable("AddRegisterForm");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Auth.ConnectedForm", b =>
@@ -105,7 +105,8 @@ namespace DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -257,6 +258,8 @@ namespace DataAccess.Migrations
                     b.HasIndex("AddressId");
 
                     b.HasIndex("DepartementId");
+
+                    b.HasIndex("RoleId");
 
                     b.HasIndex("UserId");
 
@@ -468,11 +471,17 @@ namespace DataAccess.Migrations
                         .WithMany("Employees")
                         .HasForeignKey("DepartementId");
 
+                    b.HasOne("DataAccess.Models.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId");
+
                     b.HasOne("DataAccess.Models.Users", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
                     b.Navigation("Address");
+
+                    b.Navigation("Role");
 
                     b.Navigation("User");
                 });
