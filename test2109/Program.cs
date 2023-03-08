@@ -12,6 +12,7 @@ using DATA = DataAccess.Models.Employees;
 using BusinessAccessLayer.Tools;
 using test2109.Tools;
 using DataAccess.tools;
+using Newtonsoft;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,12 +21,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IEmployeeServices, EmployeeServices>();
 builder.Services.AddScoped<IAuthServices, AuthServices>();
 builder.Services.AddScoped<ICountryServices, CountryServices>();
+builder.Services.AddScoped<IInformationServices, InformationServices>();
 
 
 //BLL
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICountryService, CountryService>();
+builder.Services.AddScoped<IInformationService, InformationService>();
 builder.Services.AddScoped<TokenService>();
 
 builder.Services.AddAutoMapper(profiles =>
@@ -34,7 +37,6 @@ builder.Services.AddAutoMapper(profiles =>
     profiles.AddProfile(typeof(AutoMapperProfileApi));
     profiles.AddProfile(typeof(AutoMapperProfileData));
 });
-
 
 builder.Services.AddControllers();
 

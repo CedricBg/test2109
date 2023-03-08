@@ -28,13 +28,13 @@ namespace BusinessAccessLayer.Models.Employee
 
         public string RegistreNational { get; set; } = null!;
 
-        public bool Actif { get; set; }
+        public bool? IsDeleted { get; set; }
 
         public Role Role { get; set; }
 
-        public List<Email>? Emails { get; set; } = null!;
+        public List<Email>? Email { get; set; } = null!;
 
-        public List<Phone>? Phones { get; set; } = null!;
+        public List<Phone>? Phone { get; set; } = null!;
 
         public Address Address { get; set; }
 

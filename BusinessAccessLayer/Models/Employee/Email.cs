@@ -8,7 +8,7 @@ namespace BusinessAccessLayer.Models.Employee
 {
     public class Email
     {
-        public int? Id { get; set; }
+        public int? EmailId { get; set; }
 
         public string EmailAddress { get; set; }
     }

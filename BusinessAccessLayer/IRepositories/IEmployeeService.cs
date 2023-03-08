@@ -8,5 +8,6 @@ namespace BusinessAccessLayer.IRepositories
         bool AddEmployee(DetailedEmployee form);
         List<Employee> GetAll();
         public DetailedEmployee GetOne(int id);
+        bool Deactive(int id);
     }
 }

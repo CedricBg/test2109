@@ -9,5 +9,6 @@ namespace DataAccess.Repository
         bool PostData(DetailedEmployee employee);
         List<Employee> GetAll();
         DetailedEmployee GetOne(int id);
+        bool Deactive(int id);
     }
 }

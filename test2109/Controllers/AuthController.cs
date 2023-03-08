@@ -21,11 +21,11 @@ namespace test2109.Controllers
         }
         
         [HttpPost("AddLogin")]
-        public async Task<IActionResult> Post(AddRegisterForm form)
+        public IActionResult Post(AddRegisterForm form)
         {
             try
             {
-                return Ok(_authService.Post(form.MapRegisterEmployee()));
+                return  Ok(_authService.Post(form.MapRegisterEmployee()));
             }
             catch (Exception ex)
             {
@@ -34,11 +34,11 @@ namespace test2109.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginForm form)
+        public IActionResult Login(LoginForm form)
         {
             try
             {
-                ConnectedForm user =  _authService.Login(form.Login()).MapConnect();
+                ConnectedForm user = _authService.Login(form.Login()).MapConnect();
                 if (user.SurName != null) 
                 {  
                     return Ok(user);

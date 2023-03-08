@@ -22,6 +22,6 @@ Begin
 	Where U.[Login] = @Login
 	and U.Password_hash = @password_hash
 	and E.UserId = U.Id 
-	and E.RoleId = R.Id
+	and E.RoleId = R.roleId
 	
 End

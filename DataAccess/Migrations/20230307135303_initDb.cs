@@ -97,14 +97,14 @@ namespace DataAccess.Migrations
                 name: "Roles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    roleId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DiminName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roles", x => x.Id);
+                    table.PrimaryKey("PK_Roles", x => x.roleId);
                 });
 
             migrationBuilder.CreateTable(
@@ -152,6 +152,7 @@ namespace DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: true),
                     firstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     SurName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -160,11 +161,10 @@ namespace DataAccess.Migrations
                     EntryService = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EmployeeCardNumber = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     RegistreNational = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Actif = table.Column<bool>(type: "bit", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AddressId = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: true),
-                    RoleId = table.Column<int>(type: "int", nullable: true),
+                    roleId = table.Column<int>(type: "int", nullable: true),
                     DepartementId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -181,15 +181,17 @@ namespace DataAccess.Migrations
                         principalTable: "Departements",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_DetailedEmployees_Roles_RoleId",
-                        column: x => x.RoleId,
+                        name: "FK_DetailedEmployees_Roles_roleId",
+                        column: x => x.roleId,
                         principalTable: "Roles",
-                        principalColumn: "Id");
+                        principalColumn: "roleId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DetailedEmployees_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -234,14 +236,14 @@ namespace DataAccess.Migrations
                 name: "EmailAddresses",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    EmailId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EmailAddress = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     DetailedEmployeeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmailAddresses", x => x.Id);
+                    table.PrimaryKey("PK_EmailAddresses", x => x.EmailId);
                     table.ForeignKey(
                         name: "FK_EmailAddresses_DetailedEmployees_DetailedEmployeeId",
                         column: x => x.DetailedEmployeeId,
@@ -253,14 +255,14 @@ namespace DataAccess.Migrations
                 name: "Phones",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    PhoneId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Number = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     DetailedEmployeeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Phones", x => x.Id);
+                    table.PrimaryKey("PK_Phones", x => x.PhoneId);
                     table.ForeignKey(
                         name: "FK_Phones_DetailedEmployees_DetailedEmployeeId",
                         column: x => x.DetailedEmployeeId,
@@ -329,9 +331,9 @@ namespace DataAccess.Migrations
                 column: "DepartementId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DetailedEmployees_RoleId",
+                name: "IX_DetailedEmployees_roleId",
                 table: "DetailedEmployees",
-                column: "RoleId");
+                column: "roleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DetailedEmployees_UserId",

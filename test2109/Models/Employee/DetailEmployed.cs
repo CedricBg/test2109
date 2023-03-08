@@ -21,13 +21,13 @@
 
         public string RegistreNational { get; set; } = null!;
 
-        public bool Actif { get; set; }
+        public bool? IsDeleted { get; set; }
 
         public Role Role { get; set; }
 
-        public List<Phone> Phones { get; set; }
+        public List<Phone> Phone { get; set; }
 
-        public List<Email> Emails { get; set; } 
+        public List<Email> Email { get; set; } 
 
         public Address Address { get; set; }    
     }

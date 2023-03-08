@@ -16,11 +16,11 @@ namespace BusinessAccessLayer.Tools.Employee
         {
             List<DATA.Phone> listPhone = new List<DATA.Phone>();
             List<DATA.Email> listEmail = new List<DATA.Email>();
-            foreach(var elt in busi.Phones)
+            foreach(var elt in busi.Phone)
             {
                 listPhone.Add(elt._Phone());
             }
-            foreach(var elt in busi.Emails)
+            foreach(var elt in busi.Email)
             {
                 listEmail.Add(elt._Email());
             }
@@ -31,14 +31,13 @@ namespace BusinessAccessLayer.Tools.Employee
                 SurName = busi.SurName,
                 RegistreNational = busi.RegistreNational,
                 BirthDate = busi.BirthDate,
-                Actif = busi.Actif,
                 SecurityCard = busi.SecurityCard,
                 Vehicle = busi.Vehicle,
                 EmployeeCardNumber = busi.EmployeeCardNumber,
                 EntryService = busi.EntryService,
                 Role = busi.Role._Role(),
-                Phones= listPhone,
-                Emails= listEmail,
+                Phone = listPhone,
+                Email = listEmail,
                 Address = busi.Address._address(),
             };
         }
@@ -61,7 +60,7 @@ namespace BusinessAccessLayer.Tools.Employee
             {
                 DiminName = role.DiminName,
                 Name = role.Name,
-                Id = role.Id,
+                roleId = role.roleId,
             };
         }
 

@@ -4,7 +4,7 @@ namespace DataAccess.Models
 {
     public class Phone
     {
-        public int? Id { get; set; }
+        public int? PhoneId { get; set; }
 
         public string Number { get; set; }
     }

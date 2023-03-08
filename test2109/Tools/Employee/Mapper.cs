@@ -12,12 +12,12 @@ namespace test2109.Tools.Employee
             
             List<Phone> listPhone = new List<Phone>();
             List<Email> listEmail = new List<Email>();  
-            foreach(var emplo in employee.Phones)
+            foreach(var emplo in employee.Phone)
             {
                 listPhone.Add(emplo._Phone());
             }
             
-            foreach(var email in employee.Emails)
+            foreach(var email in employee.Email)
             {
                 listEmail.Add(email._Email());
             }
@@ -29,14 +29,13 @@ namespace test2109.Tools.Employee
                 BirthDate = employee.BirthDate,
                 SurName = employee.SurName,
                 Vehicle = employee.Vehicle,
-                Actif = employee.Actif,
                 SecurityCard = employee.SecurityCard,
                 RegistreNational = employee.RegistreNational,
                 EmployeeCardNumber = employee.EmployeeCardNumber,
                 EntryService = employee.EntryService,
                 Role = employee.Role._Role(),
-                Phones = listPhone,
-                Emails= listEmail,
+                Phone = listPhone,
+                Email = listEmail,
                 Address = employee.Address._Address(),  
             }; 
         }
@@ -60,7 +59,7 @@ namespace test2109.Tools.Employee
             {
                 DiminName = model.DiminName,
                 Name = model.Name,
-                Id = model.Id,
+                roleId = model.roleId,
             };
         }
 

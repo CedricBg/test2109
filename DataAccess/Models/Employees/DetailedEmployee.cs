@@ -13,6 +13,8 @@ namespace DataAccess.Models.Employees
     {
         public int? Id { get; set; }
 
+        public bool? IsDeleted { get; set; }
+
         public string firstName { get; set; } = null!;
 
         public string SurName { get; set; } = null!;
@@ -29,8 +31,6 @@ namespace DataAccess.Models.Employees
 
         public string RegistreNational { get; set; } = null!;
 
-        public bool Actif { get; set; }
-
         public DateTime CreationDate { get; set; }
 
         public Address Address { get; set; }
@@ -39,9 +39,9 @@ namespace DataAccess.Models.Employees
 
         public Role Role { get; set; }
 
-        public List<Email>? Emails { get; set; } = null!;
+        public List<Email>? Email { get; set; } = null!;
 
-        public List<Phone>? Phones { get; set; } = null!;
+        public List<Phone>? Phone { get; set; } = null!;
 
 
 

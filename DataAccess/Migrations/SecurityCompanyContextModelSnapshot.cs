@@ -172,11 +172,11 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Email", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int?>("EmailId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("EmailId"), 1L, 1);
 
                     b.Property<int?>("DetailedEmployeeId")
                         .HasColumnType("int");
@@ -185,7 +185,7 @@ namespace DataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("Id");
+                    b.HasKey("EmailId");
 
                     b.HasIndex("DetailedEmployeeId");
 
@@ -199,9 +199,6 @@ namespace DataAccess.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
-
-                    b.Property<bool>("Actif")
-                        .HasColumnType("bit");
 
                     b.Property<int?>("AddressId")
                         .HasColumnType("int");
@@ -223,13 +220,13 @@ namespace DataAccess.Migrations
                     b.Property<DateTime>("EntryService")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("RegistreNational")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
-
-                    b.Property<int?>("RoleId")
-                        .HasColumnType("int");
 
                     b.Property<string>("SecurityCard")
                         .HasMaxLength(100)
@@ -251,15 +248,18 @@ namespace DataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int?>("roleId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
 
                     b.HasIndex("DepartementId");
 
-                    b.HasIndex("RoleId");
-
                     b.HasIndex("UserId");
+
+                    b.HasIndex("roleId");
 
                     b.ToTable("DetailedEmployees");
                 });
@@ -309,11 +309,11 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Phone", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int?>("PhoneId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("PhoneId"), 1L, 1);
 
                     b.Property<int?>("DetailedEmployeeId")
                         .HasColumnType("int");
@@ -322,7 +322,7 @@ namespace DataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("Id");
+                    b.HasKey("PhoneId");
 
                     b.HasIndex("DetailedEmployeeId");
 
@@ -352,11 +352,11 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Role", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("roleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("roleId"), 1L, 1);
 
                     b.Property<string>("DiminName")
                         .HasColumnType("nvarchar(max)");
@@ -364,7 +364,7 @@ namespace DataAccess.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("roleId");
 
                     b.ToTable("Roles");
                 });
@@ -469,13 +469,15 @@ namespace DataAccess.Migrations
                         .WithMany("Employees")
                         .HasForeignKey("DepartementId");
 
-                    b.HasOne("DataAccess.Models.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId");
-
                     b.HasOne("DataAccess.Models.Users", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DataAccess.Models.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("roleId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Address");
 

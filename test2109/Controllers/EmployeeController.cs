@@ -26,7 +26,7 @@ namespace test2109.Controllers
 
         [Authorize("authpolicy")]
         [HttpGet("all")]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
             try
             {   
@@ -42,10 +42,9 @@ namespace test2109.Controllers
         [HttpPost("insert/")]
         public IActionResult Post(DetailEmployed form)
         {
-
             try
             {
-                _employeeService.AddEmployee(form.AddEmployee());
+                Ok(_employeeService.AddEmployee(form.AddEmployee()));
 
                 return StatusCode(StatusCodes.Status201Created);
             }
@@ -68,6 +67,10 @@ namespace test2109.Controllers
                 return Ok(false);
             }
         }
-
+        [HttpDelete("deactiveUser/{id}")]
+        public bool Deactive(int id)
+        {
+            return _employeeService.Deactive(id);
+        }
     }
 }

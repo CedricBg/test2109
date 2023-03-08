@@ -43,5 +43,11 @@ namespace BusinessAccessLayer.Services
             DetailedEmployee employee = _Mapper.Map<DetailedEmployee>(_employeeServices.GetOne(id));
             return employee;
         }
+
+        public bool Deactive(int id)
+        {
+            return _employeeServices.Deactive(id);
+        }
+            
     }
 }

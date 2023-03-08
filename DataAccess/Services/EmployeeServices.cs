@@ -32,24 +32,24 @@ namespace DataAccess.Services
             if (_db.DetailedEmployees is not null)
             {
 
-                Role role = _db.Roles.FirstOrDefault(c =>c.Id == employee.Role.Id);
+                Role role = _db.Roles.FirstOrDefault(c =>c.roleId == employee.Role.roleId);
 
                 _db.DetailedEmployees.Add(new DetailedEmployee
                 {
                     Id = employee.Id,
                     firstName = employee.firstName,
                     SurName = employee.SurName,
-                    CreationDate = DateTime.Now,
+                    CreationDate = DateTime.UtcNow,
                     BirthDate = employee.BirthDate,
                     Vehicle = employee.Vehicle,
                     SecurityCard = employee.SecurityCard,
                     EmployeeCardNumber = employee.EmployeeCardNumber,
                     RegistreNational = employee.RegistreNational,
-                    Actif = employee.Actif,
                     Role = role,
-                    Phones = employee.Phones,
-                    Emails = employee.Emails,
+                    Phone = employee.Phone,
+                    Email = employee.Email,
                     Address = employee.Address,
+                    IsDeleted = false
                 });
 
                 _db.SaveChanges();
@@ -70,11 +70,12 @@ namespace DataAccess.Services
                 if (_db.employees is not null)
                 { 
                     List<Employee> requete = _db.DetailedEmployees
+                    .Where(e=>e.IsDeleted == false)
                         .Select((employee) => new Employee
                         {
                             Id = employee.Id,
                             firstName = employee.firstName,
-                            SurName = employee.SurName
+                            SurName = employee.SurName,
                         }).ToList();
                     return requete;
                 }
@@ -97,8 +98,8 @@ namespace DataAccess.Services
                 {
                     DetailedEmployee person = _db.DetailedEmployees
                                         .Where(e => e.Id == id)
-                                        .Include(e => e.Phones)
-                                        .Include(e => e.Emails)
+                                        .Include(e => e.Phone)
+                                        .Include(e => e.Email)
                                         .Include(e => e.Address)
                                         .Include(e =>e.Role)
                                         .First();
@@ -132,6 +133,25 @@ namespace DataAccess.Services
             {
                 throw new Exception();
             }
+        }
+        public bool Deactive(int id)
+        {
+            if(_db.DetailedEmployees.First().Id != null && id != 1)
+            {
+                DetailedEmployee detailedEmployee =  _db.DetailedEmployees.Where(e => e.Id == id).FirstOrDefault();
+                if(detailedEmployee.IsDeleted == true)
+                {
+                    return false;
+                }
+                detailedEmployee.IsDeleted = true;
+                _db.SaveChanges();
+                return true;
+            }
+            else 
+            { 
+             return false;
+            }
+
         }
     }
 }
