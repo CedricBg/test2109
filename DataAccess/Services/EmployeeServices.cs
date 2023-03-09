@@ -31,12 +31,10 @@ namespace DataAccess.Services
         {
             if (_db.DetailedEmployees is not null)
             {
-
                 Role role = _db.Roles.FirstOrDefault(c =>c.roleId == employee.Role.roleId);
 
                 _db.DetailedEmployees.Add(new DetailedEmployee
                 {
-                    Id = employee.Id,
                     firstName = employee.firstName,
                     SurName = employee.SurName,
                     CreationDate = DateTime.UtcNow,
@@ -51,20 +49,45 @@ namespace DataAccess.Services
                     Address = employee.Address,
                     IsDeleted = false
                 });
-
-                _db.SaveChanges();
-                return true;
+                try
+                {
+                    _db.SaveChanges();
+                    return true;
+                }
+                catch(Exception ex)
+                {
+                    return false;
+                }
             }
             else
             {
                 return false;
             }
         }
-      /// <summary>
-      /// le données de detaieldemplyee.db
-      /// </summary>
-      /// <returns></returns>
-      /// <exception cref="Exception"></exception>
+        public DetailedEmployee UpdateEmployee(DetailedEmployee employee)
+        {
+            if (_db.DetailedEmployees.First().Id != null)
+            {
+                Role role = _db.Roles.FirstOrDefault(c => c.roleId == employee.Role.roleId);
+                DetailedEmployee dBemployee = _db.DetailedEmployees.Where(e=> e.Id == employee.Id).FirstOrDefault();
+                if(dBemployee.Role.roleId != employee.Role.roleId) { }
+                    dBemployee.Role = role;
+                if(dBemployee.Address != employee.Address)
+                    dBemployee.Address = employee.Address;
+                if(dBemployee.Email != employee.Email)
+                    dBemployee.Email = employee.Email;
+                if(dBemployee.Phone != employee.Phone) 
+                    dBemployee.Phone = employee.Phone;
+                dBemployee = employee;
+                _db.SaveChanges();
+                return dBemployee;
+            }
+            else 
+            { 
+                return null; 
+            }
+
+        }
         public List<Employee> GetAll()
         {
                 if (_db.employees is not null)
@@ -90,8 +113,7 @@ namespace DataAccess.Services
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
         public DetailedEmployee GetOne(int id)
-        {
-            
+        {  
             if(_db.DetailedEmployees is not null)
             { 
                 try
@@ -103,8 +125,7 @@ namespace DataAccess.Services
                                         .Include(e => e.Address)
                                         .Include(e =>e.Role)
                                         .First();
-
-                    Countrys country = _AllCountrys(person.Address.StateId);
+                    Countrys country = _Country(person.Address.StateId);
 
                     person.Address.State = country.Country;
                     person.Address.StateId = country.Id;
@@ -119,9 +140,8 @@ namespace DataAccess.Services
             {
                 return new DetailedEmployee();
             }
-
         }
-        private Countrys _AllCountrys(int? id)
+        private Countrys _Country(int? id)
         {
             try
             {
@@ -145,6 +165,7 @@ namespace DataAccess.Services
                 }
                 detailedEmployee.IsDeleted = true;
                 _db.SaveChanges();
+
                 return true;
             }
             else 

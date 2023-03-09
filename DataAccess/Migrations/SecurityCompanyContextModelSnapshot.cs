@@ -217,9 +217,6 @@ namespace DataAccess.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime>("EntryService")
-                        .HasColumnType("datetime2");
-
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -455,7 +452,7 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("DataAccess.Models.Email", b =>
                 {
                     b.HasOne("DataAccess.Models.Employees.DetailedEmployee", null)
-                        .WithMany("Emails")
+                        .WithMany("Email")
                         .HasForeignKey("DetailedEmployeeId");
                 });
 
@@ -504,7 +501,7 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("DataAccess.Models.Phone", b =>
                 {
                     b.HasOne("DataAccess.Models.Employees.DetailedEmployee", null)
-                        .WithMany("Phones")
+                        .WithMany("Phone")
                         .HasForeignKey("DetailedEmployeeId");
                 });
 
@@ -547,9 +544,9 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Employees.DetailedEmployee", b =>
                 {
-                    b.Navigation("Emails");
+                    b.Navigation("Email");
 
-                    b.Navigation("Phones");
+                    b.Navigation("Phone");
                 });
 #pragma warning restore 612, 618
         }

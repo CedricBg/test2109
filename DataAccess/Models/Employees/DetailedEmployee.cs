@@ -25,8 +25,6 @@ namespace DataAccess.Models.Employees
 
         public string? SecurityCard { get; set; }
 
-        public DateTime EntryService { get; set; }
-
         public string? EmployeeCardNumber { get; set; }
 
         public string RegistreNational { get; set; } = null!;

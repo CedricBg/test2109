@@ -10,5 +10,6 @@ namespace DataAccess.Repository
         List<Employee> GetAll();
         DetailedEmployee GetOne(int id);
         bool Deactive(int id);
+        DetailedEmployee UpdateEmployee(DetailedEmployee employee);
     }
 }

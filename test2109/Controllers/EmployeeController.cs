@@ -24,7 +24,7 @@ namespace test2109.Controllers
             _Mapper = mapper;
         }
 
-        [Authorize("authpolicy")]
+        
         [HttpGet("all")]
         public IActionResult Get()
         {
@@ -50,7 +50,7 @@ namespace test2109.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return Ok(BadRequest(ex.Message));
             }
         }
         
@@ -67,10 +67,18 @@ namespace test2109.Controllers
                 return Ok(false);
             }
         }
+
         [HttpDelete("deactiveUser/{id}")]
-        public bool Deactive(int id)
+        public IActionResult Deactive(int id)
         {
-            return _employeeService.Deactive(id);
+            return Ok(_employeeService.Deactive(id));
+        }
+
+        [HttpPut("update")]
+        public IActionResult UpdateEmployee(DetailEmployed detailedEmployee)
+        {
+            DetailEmployed employed =  _Mapper.Map<DetailEmployed>(_employeeService.UpdateEmployee(detailedEmployee.AddEmployee()));
+            return Ok(employed);
         }
     }
 }

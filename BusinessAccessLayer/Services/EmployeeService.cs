@@ -48,6 +48,13 @@ namespace BusinessAccessLayer.Services
         {
             return _employeeServices.Deactive(id);
         }
-            
+
+        public DetailedEmployee UpdateEmployee(DetailedEmployee detailedEmployee)
+        {
+            DetailedEmployee employee = _Mapper.Map<DetailedEmployee>(_employeeServices.UpdateEmployee(detailedEmployee.PostAnEmployee()));
+            return employee;
+        }
+
+
     }
 }

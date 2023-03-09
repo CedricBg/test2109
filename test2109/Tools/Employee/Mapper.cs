@@ -44,6 +44,7 @@ namespace test2109.Tools.Employee
         {
             return new BUSI.Employee.Address
             {
+                Id= form.Id,
                 SreetAddress = form.SreetAddress,
                 City = form.City,
                 ZipCode = form.ZipCode,
@@ -67,6 +68,7 @@ namespace test2109.Tools.Employee
         { 
             return new BUSI.Employee.Phone
             {
+                PhoneId = form.PhoneId,
                 Number = form.Number,
             };
         }
@@ -74,6 +76,7 @@ namespace test2109.Tools.Employee
         {
             return new BUSI.Employee.Email
             {
+                EmailId = form.EmailId,
                 EmailAddress = form.EmailAddress
             };
         }

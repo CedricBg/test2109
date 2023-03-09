@@ -27,6 +27,7 @@ namespace BusinessAccessLayer.Tools.Employee
 
             return new DATA.Employees.DetailedEmployee
             {
+                Id = busi.Id,
                 firstName = busi.firstName,
                 SurName = busi.SurName,
                 RegistreNational = busi.RegistreNational,
@@ -34,7 +35,6 @@ namespace BusinessAccessLayer.Tools.Employee
                 SecurityCard = busi.SecurityCard,
                 Vehicle = busi.Vehicle,
                 EmployeeCardNumber = busi.EmployeeCardNumber,
-                EntryService = busi.EntryService,
                 Role = busi.Role._Role(),
                 Phone = listPhone,
                 Email = listEmail,
@@ -46,6 +46,7 @@ namespace BusinessAccessLayer.Tools.Employee
         {
             return new DATA.Address
             {
+                Id = address.Id,
                 SreetAddress = address.SreetAddress,
                 City = address.City,
                 State = address.State,
@@ -68,6 +69,7 @@ namespace BusinessAccessLayer.Tools.Employee
         {
             return new DATA.Phone
             {
+                PhoneId = phone.PhoneId,
                 Number = phone.Number,
             };
         }
@@ -75,6 +77,7 @@ namespace BusinessAccessLayer.Tools.Employee
         {
             return new DATA.Email
             {
+                EmailId = phone.EmailId,
                 EmailAddress = phone.EmailAddress,
             };
         }

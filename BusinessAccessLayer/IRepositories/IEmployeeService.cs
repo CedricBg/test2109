@@ -9,5 +9,6 @@ namespace BusinessAccessLayer.IRepositories
         List<Employee> GetAll();
         public DetailedEmployee GetOne(int id);
         bool Deactive(int id);
+        DetailedEmployee UpdateEmployee(DetailedEmployee detailedEmployee);
     }
 }

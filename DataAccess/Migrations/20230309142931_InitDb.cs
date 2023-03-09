@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Migrations
 {
-    public partial class initDb : Migration
+    public partial class InitDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -158,7 +158,6 @@ namespace DataAccess.Migrations
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Vehicle = table.Column<bool>(type: "bit", nullable: false),
                     SecurityCard = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    EntryService = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EmployeeCardNumber = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     RegistreNational = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
