@@ -16,11 +16,11 @@ namespace BusinessAccessLayer.Tools.Employee
         {
             List<DATA.Phone> listPhone = new List<DATA.Phone>();
             List<DATA.Email> listEmail = new List<DATA.Email>();
-            foreach(var elt in busi.Phone)
+            foreach (var elt in busi.Phone)
             {
                 listPhone.Add(elt._Phone());
             }
-            foreach(var elt in busi.Email)
+            foreach (var elt in busi.Email)
             {
                 listEmail.Add(elt._Email());
             }
@@ -46,7 +46,7 @@ namespace BusinessAccessLayer.Tools.Employee
         {
             return new DATA.Address
             {
-                Id = address.Id,
+                AddressId = address.AddressId,
                 SreetAddress = address.SreetAddress,
                 City = address.City,
                 State = address.State,

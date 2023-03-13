@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Migrations
 {
-    public partial class InitDb : Migration
+    public partial class initdb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,17 +28,16 @@ namespace DataAccess.Migrations
                 name: "Address",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    AddressId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SreetAddress = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    State = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StateId = table.Column<int>(type: "int", nullable: true),
                     ZipCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Address", x => x.Id);
+                    table.PrimaryKey("PK_Address", x => x.AddressId);
                 });
 
             migrationBuilder.CreateTable(
@@ -173,7 +172,8 @@ namespace DataAccess.Migrations
                         name: "FK_DetailedEmployees_Address_AddressId",
                         column: x => x.AddressId,
                         principalTable: "Address",
-                        principalColumn: "Id");
+                        principalColumn: "AddressId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DetailedEmployees_Departements_DepartementId",
                         column: x => x.DepartementId,
@@ -238,7 +238,7 @@ namespace DataAccess.Migrations
                     EmailId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EmailAddress = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    DetailedEmployeeId = table.Column<int>(type: "int", nullable: true)
+                    DetailedEmployeeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -247,7 +247,8 @@ namespace DataAccess.Migrations
                         name: "FK_EmailAddresses_DetailedEmployees_DetailedEmployeeId",
                         column: x => x.DetailedEmployeeId,
                         principalTable: "DetailedEmployees",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -257,7 +258,7 @@ namespace DataAccess.Migrations
                     PhoneId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Number = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    DetailedEmployeeId = table.Column<int>(type: "int", nullable: true)
+                    DetailedEmployeeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -266,7 +267,8 @@ namespace DataAccess.Migrations
                         name: "FK_Phones_DetailedEmployees_DetailedEmployeeId",
                         column: x => x.DetailedEmployeeId,
                         principalTable: "DetailedEmployees",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

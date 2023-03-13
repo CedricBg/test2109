@@ -8,7 +8,7 @@ namespace DataAccess.Models
 {
     public class Address
     {
-        public int Id { get; set; }
+        public int AddressId { get; set; }
 
         public string? SreetAddress { get; set; }
 

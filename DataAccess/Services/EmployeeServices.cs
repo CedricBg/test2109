@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.Internal;
 using DataAccess.DataAccess;
 using DataAccess.Models;
 using DataAccess.Models.Employees;
@@ -54,7 +55,7 @@ namespace DataAccess.Services
                     _db.SaveChanges();
                     return true;
                 }
-                catch(Exception ex)
+                catch(Exception)
                 {
                     return false;
                 }
@@ -64,21 +65,56 @@ namespace DataAccess.Services
                 return false;
             }
         }
+
+
         public DetailedEmployee UpdateEmployee(DetailedEmployee employee)
         {
             if (_db.DetailedEmployees.First().Id != null)
             {
                 Role role = _db.Roles.FirstOrDefault(c => c.roleId == employee.Role.roleId);
-                DetailedEmployee dBemployee = _db.DetailedEmployees.Where(e=> e.Id == employee.Id).FirstOrDefault();
-                if(dBemployee.Role.roleId != employee.Role.roleId) { }
-                    dBemployee.Role = role;
-                if(dBemployee.Address != employee.Address)
-                    dBemployee.Address = employee.Address;
-                if(dBemployee.Email != employee.Email)
-                    dBemployee.Email = employee.Email;
-                if(dBemployee.Phone != employee.Phone) 
-                    dBemployee.Phone = employee.Phone;
-                dBemployee = employee;
+                DetailedEmployee dBemployee = _db.DetailedEmployees.Where(e=> e.Id == employee.Id)
+                    .Include("Email")
+                    .Include("Phone")
+                    .Include("Address")
+                    .Include("Role")
+                    .FirstOrDefault();
+                
+                foreach(var phone in employee.Phone)
+                {
+                    var existingPhone = _db.Phones.Find(phone.PhoneId);
+                    if (existingPhone != null)
+                    {
+                        existingPhone.Number = phone.Number; 
+                    }
+                }
+
+                foreach(var email in employee.Email)
+                {
+                    var existingEmail = _db.EmailAddresses.Find(email.EmailId);
+                    if(existingEmail != null)
+                    {
+                        existingEmail.EmailAddress = email.EmailAddress;
+                    }
+                }
+                var existingAdrress = _db.Address.Find(employee.Address.AddressId);
+                    if(existingAdrress != null)
+                    {
+                        existingAdrress.SreetAddress = employee.Address.SreetAddress;
+                        existingAdrress.StateId = employee.Address.StateId;
+                        existingAdrress.State = employee.Address.State;
+                        existingAdrress.City = employee.Address.City;
+                        existingAdrress.ZipCode = employee.Address.ZipCode;
+                    }
+                        
+
+                    if (dBemployee.Role.roleId != employee.Role.roleId && dBemployee.Id != 1) dBemployee.Role = role;
+                if (dBemployee.Email != employee.Email) dBemployee.Email = employee.Email;
+                if (dBemployee.Phone != employee.Phone) dBemployee.Phone = employee.Phone;
+                if(dBemployee.firstName != employee.firstName) dBemployee.firstName = employee.firstName;
+                if(dBemployee.SurName != employee.SurName) dBemployee.SurName = employee.SurName;
+                if (dBemployee.EmployeeCardNumber != employee.EmployeeCardNumber) dBemployee.EmployeeCardNumber = employee.EmployeeCardNumber;
+                if (dBemployee.SecurityCard != employee.SecurityCard) dBemployee.SecurityCard = employee.SecurityCard;
+
                 _db.SaveChanges();
                 return dBemployee;
             }
@@ -107,11 +143,8 @@ namespace DataAccess.Services
                     throw new Exception();
                 }  
         }
-        /// <summary>
-        /// Renvoi de l'utilisateur on ajoute le nom du pays avec l'aide de l'id stocké dans Address.db
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
+
+
         public DetailedEmployee GetOne(int id)
         {  
             if(_db.DetailedEmployees is not null)

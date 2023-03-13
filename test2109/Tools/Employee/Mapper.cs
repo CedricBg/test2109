@@ -1,5 +1,6 @@
 ﻿using BusinessAccessLayer.Models.Employee;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using test2109.Models.Employee;
 using BUSI = BusinessAccessLayer.Models;
 using TEST = test2109.Models;
 
@@ -7,11 +8,11 @@ namespace test2109.Tools.Employee
 {
     public static class Mapper
     {
-        public static BUSI.Employee.DetailedEmployee AddEmployee(this TEST.Employee.DetailEmployed employee)
+        public static BUSI.Employee.DetailedEmployee AddEmployee(this DetailEmployed employee)
         {
             
-            List<Phone> listPhone = new List<Phone>();
-            List<Email> listEmail = new List<Email>();  
+            List< BUSI.Employee.Phone > listPhone = new List<BUSI.Employee.Phone>();
+            List<BUSI.Employee.Email> listEmail = new List<BUSI.Employee.Email>();  
             foreach(var emplo in employee.Phone)
             {
                 listPhone.Add(emplo._Phone());
@@ -44,7 +45,7 @@ namespace test2109.Tools.Employee
         {
             return new BUSI.Employee.Address
             {
-                Id= form.Id,
+                AddressId = form.AddressId,
                 SreetAddress = form.SreetAddress,
                 City = form.City,
                 ZipCode = form.ZipCode,

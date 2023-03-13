@@ -2,16 +2,16 @@
 {
     public class Address
     {
-        public int Id { get; set; }
+        public int AddressId { get; set; }
 
-        public string? SreetAddress { get; set; }
+        public string SreetAddress { get; set; }
 
-        public string? City { get; set; }
+        public string City { get; set; }
 
-        public string? State { get; set; }
+        public string State { get; set; }
 
-        public int? StateId { get; set; }
+        public int StateId { get; set; }
 
-        public string? ZipCode { get; set; }
+        public string ZipCode { get; set; }
     }
 }

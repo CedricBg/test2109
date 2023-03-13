@@ -27,8 +27,8 @@
 
         public List<Phone> Phone { get; set; }
 
-        public List<Email> Email { get; set; } 
+        public List<Email> Email { get; set; }
 
-        public Address Address { get; set; }    
+        public Address Address { get; set; }
     }
 }

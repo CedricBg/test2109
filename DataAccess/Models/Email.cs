@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccess.Models.Employees;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,5 +13,9 @@ namespace DataAccess.Models
         public int? EmailId { get; set; }
 
         public string EmailAddress { get; set; }
+
+        public int DetailedEmployeeId { get; set; }
+
+        public DetailedEmployee employee { get; set; }
     }
 }

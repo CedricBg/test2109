@@ -32,9 +32,9 @@ namespace BusinessAccessLayer.Models.Employee
 
         public Role Role { get; set; }
 
-        public List<Email>? Email { get; set; } = null!;
+        public IList<Email>? Email { get; set; } = null!;
 
-        public List<Phone>? Phone { get; set; } = null!;
+        public IList<Phone> Phone { get; set; } = null!;
 
         public Address Address { get; set; }
 

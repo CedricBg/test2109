@@ -55,6 +55,7 @@ namespace DataAccess.DataAccess
                 entity.Property(e=>e.EmployeeCardNumber).HasMaxLength(100);
                 entity.Property(e=>e.RegistreNational).HasMaxLength(20).IsRequired(true);
                 entity.Property(e=>e.CreationDate).ValueGeneratedOnAdd();
+                entity.HasOne(e => e.Address).WithMany().OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Rfid>(entity =>
@@ -63,6 +64,7 @@ namespace DataAccess.DataAccess
                 entity.Property(e=>e.RfidNr).HasMaxLength(80).HasMaxLength(80).IsRequired(true);
                 entity.Property(e=>e.Location).HasMaxLength(50).IsRequired(true);
             });
+
 
             modelBuilder.Entity<Customer>(entity =>
             {
@@ -75,13 +77,12 @@ namespace DataAccess.DataAccess
 
             modelBuilder.Entity<Email>(entity =>
             {
-                entity.Property(e=>e.EmailAddress).HasMaxLength(50);
-               
-                
+                entity.Property(e=>e.EmailAddress).HasMaxLength(50);  
             });
             
             modelBuilder.Entity<Phone>(entity =>
             {
+
                 entity.Property(e=>e.Number).HasMaxLength(50);
             });
 
@@ -90,6 +91,7 @@ namespace DataAccess.DataAccess
                 Entity.Property(e=>e.SreetAddress).HasMaxLength(50);
                 Entity.Property(e=>e.City).HasMaxLength(50);
                 Entity.Property(e=>e.ZipCode).HasMaxLength(50);
+                Entity.Ignore(e => e.State);
             });
 
             modelBuilder.Entity<Countrys>(Entity =>

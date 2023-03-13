@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(SecurityCompanyContext))]
-    [Migration("20230309142931_InitDb")]
-    partial class InitDb
+    [Migration("20230312094703_initdb")]
+    partial class initdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,11 +26,11 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Address", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AddressId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AddressId"), 1L, 1);
 
                     b.Property<string>("City")
                         .HasMaxLength(50)
@@ -40,9 +40,6 @@ namespace DataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("State")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("StateId")
                         .HasColumnType("int");
 
@@ -50,7 +47,7 @@ namespace DataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("Id");
+                    b.HasKey("AddressId");
 
                     b.ToTable("Address");
                 });
@@ -180,7 +177,7 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("EmailId"), 1L, 1);
 
-                    b.Property<int?>("DetailedEmployeeId")
+                    b.Property<int>("DetailedEmployeeId")
                         .HasColumnType("int");
 
                     b.Property<string>("EmailAddress")
@@ -308,13 +305,13 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Phone", b =>
                 {
-                    b.Property<int?>("PhoneId")
+                    b.Property<int>("PhoneId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("PhoneId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PhoneId"), 1L, 1);
 
-                    b.Property<int?>("DetailedEmployeeId")
+                    b.Property<int>("DetailedEmployeeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Number")
@@ -453,16 +450,21 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Email", b =>
                 {
-                    b.HasOne("DataAccess.Models.Employees.DetailedEmployee", null)
+                    b.HasOne("DataAccess.Models.Employees.DetailedEmployee", "employee")
                         .WithMany("Email")
-                        .HasForeignKey("DetailedEmployeeId");
+                        .HasForeignKey("DetailedEmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("employee");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Employees.DetailedEmployee", b =>
                 {
                     b.HasOne("DataAccess.Models.Address", "Address")
                         .WithMany()
-                        .HasForeignKey("AddressId");
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DataAccess.Models.Departement", null)
                         .WithMany("Employees")
@@ -502,9 +504,13 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Phone", b =>
                 {
-                    b.HasOne("DataAccess.Models.Employees.DetailedEmployee", null)
+                    b.HasOne("DataAccess.Models.Employees.DetailedEmployee", "employee")
                         .WithMany("Phone")
-                        .HasForeignKey("DetailedEmployeeId");
+                        .HasForeignKey("DetailedEmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("employee");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Rfid", b =>
