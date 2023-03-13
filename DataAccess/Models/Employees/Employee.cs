@@ -15,5 +15,7 @@ namespace DataAccess.Models.Employees
         public string firstName { get; set; }
 
         public string SurName { get; set; }
+
+        public Role Role { get; set; }
     }
 }

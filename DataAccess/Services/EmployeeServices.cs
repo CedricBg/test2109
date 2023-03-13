@@ -122,20 +122,23 @@ namespace DataAccess.Services
             { 
                 return null; 
             }
-
         }
         public List<Employee> GetAll()
         {
                 if (_db.employees is not null)
                 { 
                     List<Employee> requete = _db.DetailedEmployees
-                    .Where(e=>e.IsDeleted == false)
+                    .Where(e=>e.IsDeleted == false).Include(e=>e.Role)
                         .Select((employee) => new Employee
                         {
                             Id = employee.Id,
                             firstName = employee.firstName,
                             SurName = employee.SurName,
-                        }).ToList();
+                            Role = employee.Role,
+                        })
+
+                        .ToList();
+
                     return requete;
                 }
                     else

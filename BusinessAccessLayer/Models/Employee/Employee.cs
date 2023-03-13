@@ -13,5 +13,7 @@ namespace BusinessAccessLayer.Models.Employee
         public string firstName { get; set; }
 
         public string SurName { get; set; }
+
+        public Role Role { get; set; }
     }
 }
