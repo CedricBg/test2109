@@ -1,4 +1,6 @@
-﻿namespace test2109.Models.Employee
+﻿using DataAccess.Models;
+
+namespace test2109.Models.Employee
 {
     public class DetailEmployed
     {
@@ -30,5 +32,7 @@
         public List<Email> Email { get; set; }
 
         public Address Address { get; set; }
+
+        public Language Language { get; set; }
     }
 }

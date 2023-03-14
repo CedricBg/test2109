@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccess.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,5 +16,7 @@ namespace BusinessAccessLayer.Models.Employee
         public string SurName { get; set; }
 
         public Role Role { get; set; }
+
+        public Language Language { get; set; }
     }
 }

@@ -37,12 +37,11 @@ namespace DataAccess.Models.Employees
 
         public Role Role { get; set; }
 
-        public List<Email>? Email { get; set; } = null!;
+        public List<Email> Email { get; set; } = null!;
 
-        public List<Phone>? Phone { get; set; } = null!;
+        public List<Phone> Phone { get; set; } = null!;
 
-
-
+        public Language Language { get; set; }
 
     }
 }

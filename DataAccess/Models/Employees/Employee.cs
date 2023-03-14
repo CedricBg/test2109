@@ -17,5 +17,7 @@ namespace DataAccess.Models.Employees
         public string SurName { get; set; }
 
         public Role Role { get; set; }
+
+        public Language Language { get; set; }
     }
 }

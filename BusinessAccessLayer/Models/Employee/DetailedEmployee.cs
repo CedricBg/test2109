@@ -38,5 +38,6 @@ namespace BusinessAccessLayer.Models.Employee
 
         public Address Address { get; set; }
 
+        public Language Language { get; set; }
     }
 }

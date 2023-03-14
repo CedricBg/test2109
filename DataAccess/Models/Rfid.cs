@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccess.Models.Customer;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -13,8 +14,7 @@ namespace DataAccess.Models
 
         public string Location { get; set; } = null!;
 
-        [Required]
-        public Customer Customer { get; set; } = null!;
+        public Customers Customer { get; set; }
 
 
     }

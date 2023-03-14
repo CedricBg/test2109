@@ -48,7 +48,8 @@ namespace DataAccess.Services
                     Phone = employee.Phone,
                     Email = employee.Email,
                     Address = employee.Address,
-                    IsDeleted = false
+                    IsDeleted = false,
+                    Language = employee.Language,
                 });
                 try
                 {
@@ -72,11 +73,13 @@ namespace DataAccess.Services
             if (_db.DetailedEmployees.First().Id != null)
             {
                 Role role = _db.Roles.FirstOrDefault(c => c.roleId == employee.Role.roleId);
+                Language language = _db.Languages.FirstOrDefault(c => c.Id == employee.Language.Id);
                 DetailedEmployee dBemployee = _db.DetailedEmployees.Where(e=> e.Id == employee.Id)
                     .Include("Email")
                     .Include("Phone")
                     .Include("Address")
                     .Include("Role")
+                    .Include("Language")
                     .FirstOrDefault();
                 
                 foreach(var phone in employee.Phone)
@@ -96,6 +99,7 @@ namespace DataAccess.Services
                         existingEmail.EmailAddress = email.EmailAddress;
                     }
                 }
+
                 var existingAdrress = _db.Address.Find(employee.Address.AddressId);
                     if(existingAdrress != null)
                     {
@@ -107,7 +111,9 @@ namespace DataAccess.Services
                     }
                         
 
-                    if (dBemployee.Role.roleId != employee.Role.roleId && dBemployee.Id != 1) dBemployee.Role = role;
+                if (dBemployee.Role.roleId != employee.Role.roleId && dBemployee.Id != 1) dBemployee.Role = role;
+                if (dBemployee.Language.Id != employee.Language.Id) dBemployee.Language = language;
+
                 if (dBemployee.Email != employee.Email) dBemployee.Email = employee.Email;
                 if (dBemployee.Phone != employee.Phone) dBemployee.Phone = employee.Phone;
                 if(dBemployee.firstName != employee.firstName) dBemployee.firstName = employee.firstName;
@@ -128,13 +134,14 @@ namespace DataAccess.Services
                 if (_db.employees is not null)
                 { 
                     List<Employee> requete = _db.DetailedEmployees
-                    .Where(e=>e.IsDeleted == false).Include(e=>e.Role)
+                    .Where(e=>e.IsDeleted == false).Include(e=>e.Role).Include(e=>e.Language)
                         .Select((employee) => new Employee
                         {
                             Id = employee.Id,
                             firstName = employee.firstName,
                             SurName = employee.SurName,
                             Role = employee.Role,
+                            Language = employee.Language
                         })
 
                         .ToList();

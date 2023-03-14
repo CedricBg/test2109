@@ -1,4 +1,5 @@
 ﻿using DataAccess.Models;
+using DataAccess.Models.Customer;
 using DataAccess.Models.Auth;
 using DataAccess.Models.Employees;
 using Microsoft.EntityFrameworkCore;
@@ -56,6 +57,7 @@ namespace DataAccess.DataAccess
                 entity.Property(e=>e.RegistreNational).HasMaxLength(20).IsRequired(true);
                 entity.Property(e=>e.CreationDate).ValueGeneratedOnAdd();
                 entity.HasOne(e => e.Address).WithMany().OnDelete(DeleteBehavior.Cascade);
+                entity.HasOne(e => e.Language).WithMany().OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Rfid>(entity =>
@@ -66,23 +68,24 @@ namespace DataAccess.DataAccess
             });
 
 
-            modelBuilder.Entity<Customer>(entity =>
+            modelBuilder.Entity<Customers>(entity =>
             {
-                entity.Property(e=>e.Name).HasMaxLength(30).IsRequired(true);
-                entity.Property(e=>e.GeneralPhone).HasMaxLength(20);
-                entity.Property(e=>e.EmergencyEmail).HasMaxLength(50);
-                entity.Property(e=>e.EmergencyPhoneNumber).HasMaxLength(40);
+                entity.HasMany(e=>e.EmergencyEmail).WithOne(e=>e.CustomerE).HasForeignKey(e=>e.CustomerId).OnDelete(DeleteBehavior.Cascade);
+                entity.HasMany(e=>e.GeneralEmail).WithOne(e=>e.CustomerG).HasForeignKey(e=>e.CustomerId).OnDelete(DeleteBehavior.Cascade); 
+                entity.HasMany(e=>e.GeneralPhone).WithOne(e=>e.CustomerG).HasForeignKey(e=>e.CustomerId).OnDelete(DeleteBehavior.Cascade); 
+                entity.HasMany(e=>e.EmergencyPhone).WithOne(e => e.CustomerE).HasForeignKey(e => e.CustomerId).OnDelete(DeleteBehavior.Cascade); 
+                entity.HasMany(e=>e.ContactPerson).WithOne(e => e.customers).HasForeignKey(e => e.CustomerId).OnDelete(DeleteBehavior.Cascade); 
+                entity.Property(e=>e.NameCustomer).HasMaxLength(30).IsRequired(true);
                 entity.Property(e=>e.CreationDate).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<Email>(entity =>
             {
-                entity.Property(e=>e.EmailAddress).HasMaxLength(50);  
+                entity.Property(e=>e.EmailAddress).HasMaxLength(50);
             });
             
             modelBuilder.Entity<Phone>(entity =>
             {
-
                 entity.Property(e=>e.Number).HasMaxLength(50);
             });
 
@@ -117,7 +120,7 @@ namespace DataAccess.DataAccess
 
         public DbSet<Email> EmailAddresses { get; set; }
 
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Customers> Customers { get; set; }
 
         public DbSet<Departement> Departements { get; set; }
 
