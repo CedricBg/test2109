@@ -22,6 +22,7 @@ builder.Services.AddScoped<IEmployeeServices, EmployeeServices>();
 builder.Services.AddScoped<IAuthServices, AuthServices>();
 builder.Services.AddScoped<ICountryServices, CountryServices>();
 builder.Services.AddScoped<IInformationServices, InformationServices>();
+builder.Services.AddScoped<ICustomerServices, CustomerServices>();
 
 
 //BLL
@@ -29,6 +30,7 @@ builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICountryService, CountryService>();
 builder.Services.AddScoped<IInformationService, InformationService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<TokenService>();
 
 builder.Services.AddAutoMapper(profiles =>

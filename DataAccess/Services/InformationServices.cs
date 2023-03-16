@@ -27,5 +27,16 @@ namespace DataAccess.Services
                 .Select((roles) => new Role { roleId = roles.roleId, Name = roles.Name, DiminName = roles.DiminName }).ToList();
             return roles;
         }
+
+        public List<Language> GetAllLanguages()
+        {
+            List<Language> languages = _DbContext.Languages
+                .Select((languages) => new Language
+                {
+                    Id = languages.Id,
+                    Name = languages.Name
+                }).ToList();
+            return languages;
+        }
     }
 }

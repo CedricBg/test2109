@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
+using BUSI = BusinessAccessLayer.Models;
 using BusinessAccessLayer.IRepositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using test2109.Models.Employee;
-using test2109.Tools.Employee;
 
 
 
@@ -44,7 +44,8 @@ namespace test2109.Controllers
         {
             try
             {
-                Ok(_employeeService.AddEmployee(form.AddEmployee()));
+                var detail = _Mapper.Map<BUSI.Employee.DetailedEmployee>(form);
+                Ok(_employeeService.AddEmployee(detail));
 
                 return StatusCode(StatusCodes.Status201Created);
             }
@@ -77,7 +78,8 @@ namespace test2109.Controllers
         [HttpPut("update")]
         public IActionResult UpdateEmployee(DetailEmployed detailedEmployee)
         {
-            DetailEmployed employed =  _Mapper.Map<DetailEmployed>(_employeeService.UpdateEmployee(detailedEmployee.AddEmployee()));
+            var detail = _Mapper.Map<BUSI.Employee.DetailedEmployee>(detailedEmployee);
+            DetailEmployed employed =  _Mapper.Map<DetailEmployed>(_employeeService.UpdateEmployee(detail));
             return Ok(employed);
         }
     }

@@ -24,9 +24,10 @@ INSERT INTO Roles (DiminName, Name) Values('AGENT' , 'Accès minimum' )
 INSERT INTO Roles (DiminName, Name) Values('SUB'   , 'Sous-traitant' )
 INSERT INTO Roles (DiminName, Name) Values('CUST'  , 'Client' )
 
-INSERT INTO Languages Values('french')
+INSERT INTO Languages Values('French')
 INSERT INTO Languages Values('Nederlands')
 INSERT INTO Languages Values('English')
+INSERT INTO Languages Values('German')
 
 INSERT INTO Countrys Values('Afghanistan')
 INSERT INTO Countrys Values('Albania')
@@ -232,6 +233,8 @@ INSERT INTO Address (SreetAddress,City,StateId,ZipCode) Values('new', 'new', 18,
 
 INSERT INTO DetailedEmployees (IsDeleted, [firstName], [SurName], AddressId, UserId, [roleId], BirthDate, Vehicle, RegistreNational, CreationDate, LanguageId)
 Values('False', 'admin', 'admin', 1, 1, 17, '01-01-1970', 'False', 0000000, '01-01-1970', 1)
+
+INSERT INTO Customers(roleId, VatNumber, NameCustomer, LanguageId, IsDeleted) Values(21, 1154235444, 'Test Company',1, 'False')
 
 INSERT INTO EmailAddresses (EmailAddress, DetailedEmployeeId) Values('admin@hotmail.com', 1)
 

@@ -22,12 +22,18 @@ namespace test2109.Controllers
             _Mapper = mapper;
         }
 
-        [HttpGet("AllRole")]
-        public IActionResult Get()
+        [HttpGet("Role")]
+        public IActionResult Role()
         {
             return Ok(_informationService.GetAllRoles().Select(d => _Mapper.Map<Role>(d)).ToList());
 
         }
+        [HttpGet("Language")]
+        public IActionResult Language()
+        {
+            return Ok(_informationService.languages().Select(d => _Mapper.Map<Language>(d)).ToList());
+        }
+
 
 
 

@@ -5,6 +5,7 @@ using BusinessAccessLayer.IRepositories;
 using DataAccess.Repository;
 using BusinessAccessLayer.Models.Employee;
 using AutoMapper;
+using DATA = DataAccess.Models.Employees;
 
 namespace BusinessAccessLayer.Services
 {
@@ -24,7 +25,8 @@ namespace BusinessAccessLayer.Services
         {
             try
             {
-                _employeeServices.PostData(form.PostAnEmployee());
+                var detail = _Mapper.Map<DATA.DetailedEmployee>(form);
+                _employeeServices.PostData(detail);
                 return true;
             }
             catch (Exception)
@@ -51,7 +53,8 @@ namespace BusinessAccessLayer.Services
 
         public DetailedEmployee UpdateEmployee(DetailedEmployee detailedEmployee)
         {
-            DetailedEmployee employee = _Mapper.Map<DetailedEmployee>(_employeeServices.UpdateEmployee(detailedEmployee.PostAnEmployee()));
+            var detail = _Mapper.Map<DATA.DetailedEmployee>(detailedEmployee);
+            DetailedEmployee employee = _Mapper.Map<DetailedEmployee>(_employeeServices.UpdateEmployee(detail));
             return employee;
         }
 

@@ -28,5 +28,10 @@ namespace BusinessAccessLayer.Services
         {
             return _IInformationServices.GetAllRoles().Select(dr => _Mapper.Map<Role>(dr)).ToList();
         }
+
+        public List<Language> languages()
+        {
+            return _IInformationServices.GetAllLanguages().Select(dr => _Mapper.Map<Language>(dr)).ToList();
+        }
     }
 }

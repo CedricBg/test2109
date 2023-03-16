@@ -1,11 +1,12 @@
 ﻿using System;
+using AutoMapper;
 using BusinessAccessLayer.IRepositories;
+using BUSI = BusinessAccessLayer.Models;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using test2109.Models.Auth;
-using test2109.Tools.Auth;
 
 namespace test2109.Controllers
 {
@@ -15,9 +16,12 @@ namespace test2109.Controllers
     {
         private readonly IAuthService _authService;
 
-        public AuthController(IAuthService authService)
+        private readonly IMapper _Mapper;
+
+        public AuthController(IAuthService authService, IMapper mapper)
         {
             _authService = authService;
+            _Mapper = mapper;
         }
         
         [HttpPost("AddLogin")]
@@ -25,7 +29,8 @@ namespace test2109.Controllers
         {
             try
             {
-                return  Ok(_authService.Post(form.MapRegisterEmployee()));
+                var detail = _Mapper.Map<BUSI.Auth.AddRegisterForm>(form);
+                return  Ok(_authService.Post(detail));
             }
             catch (Exception ex)
             {
@@ -38,7 +43,8 @@ namespace test2109.Controllers
         {
             try
             {
-                ConnectedForm user = _authService.Login(form.Login()).MapConnect();
+                var detail = _Mapper.Map<BUSI.Auth.LoginForm>(form);
+                ConnectedForm user = _Mapper.Map<ConnectedForm>(_authService.Login(detail));
                 if (user.SurName != null) 
                 {  
                     return Ok(user);

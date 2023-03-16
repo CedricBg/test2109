@@ -5,5 +5,6 @@ namespace BusinessAccessLayer.IRepositories
     public interface IInformationService
     {
         List<Role> GetAllRoles();
+        List<Language> languages();
     }
 }

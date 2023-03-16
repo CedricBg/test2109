@@ -134,7 +134,9 @@ namespace DataAccess.Services
                 if (_db.employees is not null)
                 { 
                     List<Employee> requete = _db.DetailedEmployees
-                    .Where(e=>e.IsDeleted == false).Include(e=>e.Role).Include(e=>e.Language)
+                    .Where(e=>e.IsDeleted == false)
+                    .Include(e=>e.Role)
+                    .Include(e=>e.Language)
                         .Select((employee) => new Employee
                         {
                             Id = employee.Id,
@@ -167,6 +169,7 @@ namespace DataAccess.Services
                                         .Include(e => e.Email)
                                         .Include(e => e.Address)
                                         .Include(e =>e.Role)
+                                        .Include(e =>e.Language)
                                         .First();
                     Countrys country = _Country(person.Address.StateId);
 
