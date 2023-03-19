@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using BusinessAccessLayer.Models.Employee;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using BUSI = BusinessAccessLayer.Models;
 using DATA = DataAccess.Models;
@@ -12,7 +10,9 @@ namespace BusinessAccessLayer.Tools
         public AutoMapperProfileBll()
         {
             CreateMap<DATA.Countrys, BUSI.Employee.Countrys>().ReverseMap();
+
             CreateMap<DATA.Employees.Employee, BUSI.Employee.Employee>().ReverseMap();
+            
             CreateMap<BUSI.Employee.DetailedEmployee, DATA.Employees.DetailedEmployee>()
                 .ForMember(e => e.Phone, x => x.MapFrom(y => y.Phone))
                 .ForMember(e => e.Email, x => x.MapFrom(y => y.Email))
@@ -29,7 +29,6 @@ namespace BusinessAccessLayer.Tools
                 .ForMember(e => e.Language, x => x.MapFrom(y => y.Language))
                 .ForMember(e => e.Role, x => x.MapFrom(y => y.Role))
                 .ForMember(e => e.Address, x => x.MapFrom(y => y.Address))
-
                 .ReverseMap();
 
 
@@ -46,6 +45,10 @@ namespace BusinessAccessLayer.Tools
             CreateMap<DATA.Language, BUSI.Language>()
                 .ReverseMap();
             CreateMap<DATA.Customer.ContactPerson, BUSI.Customer.ContactPerson>()
+                .ReverseMap();
+            CreateMap<DATA.Customer.CustomerAll, BUSI.Customer.CustomerAll>()
+                .ReverseMap();
+            CreateMap<DATA.Customer.Customers, BUSI.Customer.Customers>()
                 .ReverseMap();
         }         
     }

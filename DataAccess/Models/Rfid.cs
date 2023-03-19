@@ -14,7 +14,7 @@ namespace DataAccess.Models
 
         public string Location { get; set; } = null!;
 
-        public Customers Customer { get; set; }
+        public Customer.Customers Customer { get; set; }
 
 
     }

@@ -11,5 +11,6 @@ namespace DataAccess.Repository
         DetailedEmployee GetOne(int id);
         bool Deactive(int id);
         DetailedEmployee UpdateEmployee(DetailedEmployee employee);
+        Countrys Country(int? id);
     }
 }

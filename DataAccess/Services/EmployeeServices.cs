@@ -54,6 +54,7 @@ namespace DataAccess.Services
                 try
                 {
                     _db.SaveChanges();
+
                     return true;
                 }
                 catch(Exception)
@@ -65,6 +66,7 @@ namespace DataAccess.Services
             {
                 return false;
             }
+           
         }
 
 
@@ -89,6 +91,10 @@ namespace DataAccess.Services
                     {
                         existingPhone.Number = phone.Number; 
                     }
+                    if(phone.PhoneId == null)
+                    {
+                        dBemployee.Phone.Add(phone);    
+                    }
                 }
 
                 foreach(var email in employee.Email)
@@ -97,6 +103,10 @@ namespace DataAccess.Services
                     if(existingEmail != null)
                     {
                         existingEmail.EmailAddress = email.EmailAddress;
+                    }
+                    if(email.EmailId == null)
+                    {
+                        dBemployee.Email.Add(email);
                     }
                 }
 
@@ -114,18 +124,18 @@ namespace DataAccess.Services
                 if (dBemployee.Role.roleId != employee.Role.roleId && dBemployee.Id != 1) dBemployee.Role = role;
                 if (dBemployee.Language.Id != employee.Language.Id) dBemployee.Language = language;
 
-                if (dBemployee.Email != employee.Email) dBemployee.Email = employee.Email;
-                if (dBemployee.Phone != employee.Phone) dBemployee.Phone = employee.Phone;
+
                 if(dBemployee.firstName != employee.firstName) dBemployee.firstName = employee.firstName;
                 if(dBemployee.SurName != employee.SurName) dBemployee.SurName = employee.SurName;
                 if (dBemployee.EmployeeCardNumber != employee.EmployeeCardNumber) dBemployee.EmployeeCardNumber = employee.EmployeeCardNumber;
                 if (dBemployee.SecurityCard != employee.SecurityCard) dBemployee.SecurityCard = employee.SecurityCard;
 
                 _db.SaveChanges();
+
                 return dBemployee;
             }
             else 
-            { 
+            {
                 return null; 
             }
         }
@@ -171,10 +181,8 @@ namespace DataAccess.Services
                                         .Include(e =>e.Role)
                                         .Include(e =>e.Language)
                                         .First();
-                    Countrys country = _Country(person.Address.StateId);
-
+                    Countrys country = Country(person.Address.StateId);
                     person.Address.State = country.Country;
-                    person.Address.StateId = country.Id;
                     return person;
                 }
                 catch(Exception) 
@@ -187,7 +195,7 @@ namespace DataAccess.Services
                 return new DetailedEmployee();
             }
         }
-        private Countrys _Country(int? id)
+        public Countrys Country(int? id)
         {
             try
             {
@@ -207,16 +215,17 @@ namespace DataAccess.Services
                 DetailedEmployee detailedEmployee =  _db.DetailedEmployees.Where(e => e.Id == id).FirstOrDefault();
                 if(detailedEmployee.IsDeleted == true)
                 {
+
                     return false;
                 }
                 detailedEmployee.IsDeleted = true;
+ 
                 _db.SaveChanges();
-
                 return true;
             }
             else 
-            { 
-             return false;
+            {
+                return false;
             }
 
         }

@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using BusinessAccessLayer.IRepositories;
-using DataAccess.Models.Customer;
+using BUSI = BusinessAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
-
+using API = test2109.Models;
+using test2109.Models.Employee;
 
 namespace test2109.Controllers
 {
@@ -23,32 +24,21 @@ namespace test2109.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_customerService.All().Select(d => _mapper.Map<CustomerAll>(d)).ToList());
+            return Ok(_customerService.All().Select(d => _mapper.Map<BUSI.Customer.CustomerAll>(d)).ToList());
         }
 
 
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            return Ok(_mapper.Map<API.Customer.Customers>(_customerService.GetCustomer(id)));
         }
 
 
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPut]
+        public API.Customer.Customers Put(API.Customer.Customers customer)
         {
-        }
-
-
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return new API.Customer.Customers();
         }
     }
 }

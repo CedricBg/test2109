@@ -40,7 +40,7 @@ namespace test2109.Controllers
 
         
         [HttpPost("insert/")]
-        public IActionResult Post(DetailEmployed form)
+        public IActionResult Posts(DetailEmployed form)
         {
             try
             {

@@ -8,7 +8,7 @@ namespace DataAccess.Models
 {
     public class Phone
     {
-        public int PhoneId { get; set; }
+        public int? PhoneId { get; set; }
 
         public string Number { get; set; }
 
@@ -18,8 +18,8 @@ namespace DataAccess.Models
 
         public int? CustomerId { get; set; }
 
-        public Customers CustomerG { get; set; }
+        public Customer.Customers CustomerG { get; set; }
 
-        public Customers CustomerE { get; set; }
+        public Customer.Customers CustomerE { get; set; }
     }
 }

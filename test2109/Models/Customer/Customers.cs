@@ -1,5 +1,4 @@
-﻿using DataAccess.Models.Customer;
-using DataAccess.Models;
+﻿using test2109.Models.Employee;
 
 namespace test2109.Models.Customer
 {
@@ -25,9 +24,7 @@ namespace test2109.Models.Customer
 
         public Role Role { get; set; }
 
-        public Users Users { get; set; }
-
-        public Address Address { get; set; }
+        public List<Address> Address { get; set; }
 
         public bool? IsDeleted { get; set; }
 

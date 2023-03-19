@@ -8,7 +8,7 @@ namespace BusinessAccessLayer.Models.Employee
 {
     public class Phone
     {
-        public int PhoneId { get; set; }
+        public int? PhoneId { get; set; }
 
         public string Number { get; set; }
     }

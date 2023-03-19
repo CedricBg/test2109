@@ -14,12 +14,18 @@ namespace test2109.Tools
             CreateMap<BUSI.Employee.Email, API.Employee.Email>().ReverseMap();
             CreateMap<BUSI.Employee.Phone, API.Employee.Phone>().ReverseMap();
             CreateMap<BUSI.Employee.Address, API.Address>().ReverseMap();
+
             CreateMap<BUSI.Language, API.Employee.Language>().ReverseMap();
+
             CreateMap<BUSI.Role, API.Role>().ReverseMap();
+
             CreateMap<BUSI.Customer.Customers, API.Customer.Customers>().ReverseMap();
+            CreateMap<BUSI.Customer.CustomerAll, API.Customer.CustomerAll>().ReverseMap();
+
             CreateMap<BUSI.Auth.ConnectedForm, API.Auth.ConnectedForm>().ReverseMap();
             CreateMap<BUSI.Auth.LoginForm, API.Auth.LoginForm>().ReverseMap();
             CreateMap<BUSI.Auth.AddRegisterForm, API.Auth.AddRegisterForm>().ReverseMap();
+
             
         }
     }

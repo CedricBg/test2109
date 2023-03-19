@@ -34,6 +34,9 @@ namespace DataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int?>("CustomersId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SreetAddress")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -46,6 +49,8 @@ namespace DataAccess.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("AddressId");
+
+                    b.HasIndex("CustomersId");
 
                     b.ToTable("Address");
                 });
@@ -126,7 +131,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("ContactPerson");
+                    b.ToTable("ContactPersons");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Customer.Customers", b =>
@@ -137,10 +142,7 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("AddressId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreationDate")
+                    b.Property<DateTime?>("CreationDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
@@ -165,8 +167,6 @@ namespace DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AddressId");
 
                     b.HasIndex("LanguageId");
 
@@ -344,11 +344,11 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Phone", b =>
                 {
-                    b.Property<int>("PhoneId")
+                    b.Property<int?>("PhoneId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PhoneId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("PhoneId"), 1L, 1);
 
                     b.Property<int?>("CustomerGId")
                         .HasColumnType("int");
@@ -483,6 +483,13 @@ namespace DataAccess.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("DataAccess.Models.Address", b =>
+                {
+                    b.HasOne("DataAccess.Models.Customer.Customers", null)
+                        .WithMany("Address")
+                        .HasForeignKey("CustomersId");
+                });
+
             modelBuilder.Entity("DataAccess.Models.Customer.ContactPerson", b =>
                 {
                     b.HasOne("DataAccess.Models.Customer.Customers", "customers")
@@ -496,10 +503,6 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Customer.Customers", b =>
                 {
-                    b.HasOne("DataAccess.Models.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId");
-
                     b.HasOne("DataAccess.Models.Language", "Language")
                         .WithMany()
                         .HasForeignKey("LanguageId");
@@ -510,9 +513,8 @@ namespace DataAccess.Migrations
 
                     b.HasOne("DataAccess.Models.Role", "Role")
                         .WithMany()
-                        .HasForeignKey("roleId");
-
-                    b.Navigation("Address");
+                        .HasForeignKey("roleId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Language");
 
@@ -635,6 +637,8 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Customer.Customers", b =>
                 {
+                    b.Navigation("Address");
+
                     b.Navigation("ContactPerson");
 
                     b.Navigation("EmergencyEmail");

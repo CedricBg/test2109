@@ -74,7 +74,8 @@ namespace DataAccess.DataAccess
                 entity.HasMany(e=>e.GeneralEmail).WithOne(e=>e.CustomerG).HasForeignKey(e=>e.CustomerId).OnDelete(DeleteBehavior.Cascade); 
                 entity.HasMany(e=>e.GeneralPhone).WithOne(e=>e.CustomerG).HasForeignKey(e=>e.CustomerId).OnDelete(DeleteBehavior.Cascade); 
                 entity.HasMany(e=>e.EmergencyPhone).WithOne(e => e.CustomerE).HasForeignKey(e => e.CustomerId).OnDelete(DeleteBehavior.Cascade); 
-                entity.HasMany(e=>e.ContactPerson).WithOne(e => e.customers).HasForeignKey(e => e.CustomerId).OnDelete(DeleteBehavior.Cascade); 
+                entity.HasMany(e=>e.ContactPerson).WithOne(e => e.customers).HasForeignKey(e => e.CustomerId).OnDelete(DeleteBehavior.Cascade);
+                entity.HasOne(e => e.Role).WithMany().OnDelete(DeleteBehavior.Cascade);
                 entity.Property(e=>e.NameCustomer).HasMaxLength(30).IsRequired(true);
                 entity.Property(e=>e.CreationDate).ValueGeneratedOnAdd();
             });
@@ -137,6 +138,8 @@ namespace DataAccess.DataAccess
         public DbSet<Users> Users { get; set; }
 
         public DbSet<Phone> Phones { get; set; }
+
+        public DbSet<ContactPerson> ContactPersons { get; set; }
 
     }
 }

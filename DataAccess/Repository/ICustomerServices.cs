@@ -6,5 +6,6 @@ namespace DataAccess.Repository
     public interface ICustomerServices
     {
         List<CustomerAll> All();
+        Customers Get(int id);
     }
 }

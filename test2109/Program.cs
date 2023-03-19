@@ -13,6 +13,7 @@ using BusinessAccessLayer.Tools;
 using test2109.Tools;
 using DataAccess.tools;
 using Newtonsoft;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,7 +50,14 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddDbContext<SecurityCompanyContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString")));
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"), o=>o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
+});
+
+
+builder.Services.AddSwaggerGen(options =>
+    options.CustomSchemaIds(type => type.ToString()
+));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
     options =>
@@ -77,6 +85,7 @@ builder.Services.AddAuthorization(options =>
 );
 
 
+
 var app = builder.Build();
 
 
@@ -88,11 +97,13 @@ if (app.Environment.IsDevelopment())
 }
 
 
-
 app.UseCors(o => o.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.UseAuthentication();
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+
 
 app.UseAuthorization();
 
