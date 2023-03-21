@@ -1,11 +1,11 @@
 ﻿
-using BusinessAccessLayer.Models.Customer;
+using BusinessAccessLayer.Models.Customers;
 
 namespace BusinessAccessLayer.IRepositories
 {
     public interface ICustomerService
     {
-        List<CustomerAll> All();
+        List<Customers> All();
         Customers GetCustomer(int id);
     }
 }

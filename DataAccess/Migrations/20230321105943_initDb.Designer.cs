@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(SecurityCompanyContext))]
-    [Migration("20230318145253_initDb")]
+    [Migration("20230321105943_initDb")]
     partial class initDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,9 +36,6 @@ namespace DataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("CustomersId")
-                        .HasColumnType("int");
-
                     b.Property<string>("SreetAddress")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -51,8 +48,6 @@ namespace DataAccess.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("AddressId");
-
-                    b.HasIndex("CustomersId");
 
                     b.ToTable("Address");
                 });
@@ -123,15 +118,15 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("SiteId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("SiteId");
 
                     b.ToTable("ContactPersons");
                 });
@@ -151,10 +146,45 @@ namespace DataAccess.Migrations
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("NameCustomer")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<int?>("roleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("roleId");
+
+                    b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("DataAccess.Models.Customer.Site", b =>
+                {
+                    b.Property<int>("SiteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SiteId"), 1L, 1);
+
+                    b.Property<int?>("AdressAddressId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CustomersId")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("LanguageId")
                         .HasColumnType("int");
 
-                    b.Property<string>("NameCustomer")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
@@ -165,18 +195,17 @@ namespace DataAccess.Migrations
                     b.Property<string>("VatNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("roleId")
-                        .HasColumnType("int");
+                    b.HasKey("SiteId");
 
-                    b.HasKey("Id");
+                    b.HasIndex("AdressAddressId");
+
+                    b.HasIndex("CustomersId");
 
                     b.HasIndex("LanguageId");
 
                     b.HasIndex("UsersId");
 
-                    b.HasIndex("roleId");
-
-                    b.ToTable("Customers");
+                    b.ToTable("Sites");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Departement", b =>
@@ -204,7 +233,7 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("EmailId"), 1L, 1);
 
-                    b.Property<int?>("CustomerEId")
+                    b.Property<int?>("CustomerESiteId")
                         .HasColumnType("int");
 
                     b.Property<int?>("CustomerId")
@@ -219,7 +248,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("EmailId");
 
-                    b.HasIndex("CustomerEId");
+                    b.HasIndex("CustomerESiteId");
 
                     b.HasIndex("CustomerId");
 
@@ -352,7 +381,7 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("PhoneId"), 1L, 1);
 
-                    b.Property<int?>("CustomerGId")
+                    b.Property<int?>("CustomerGSiteId")
                         .HasColumnType("int");
 
                     b.Property<int?>("CustomerId")
@@ -367,7 +396,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("PhoneId");
 
-                    b.HasIndex("CustomerGId");
+                    b.HasIndex("CustomerGSiteId");
 
                     b.HasIndex("CustomerId");
 
@@ -485,26 +514,33 @@ namespace DataAccess.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DataAccess.Models.Address", b =>
-                {
-                    b.HasOne("DataAccess.Models.Customer.Customers", null)
-                        .WithMany("Address")
-                        .HasForeignKey("CustomersId");
-                });
-
             modelBuilder.Entity("DataAccess.Models.Customer.ContactPerson", b =>
                 {
-                    b.HasOne("DataAccess.Models.Customer.Customers", "customers")
-                        .WithMany("ContactPerson")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("customers");
+                    b.HasOne("DataAccess.Models.Customer.Site", null)
+                        .WithMany("contacts")
+                        .HasForeignKey("SiteId");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Customer.Customers", b =>
                 {
+                    b.HasOne("DataAccess.Models.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("roleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("DataAccess.Models.Customer.Site", b =>
+                {
+                    b.HasOne("DataAccess.Models.Address", "Adress")
+                        .WithMany()
+                        .HasForeignKey("AdressAddressId");
+
+                    b.HasOne("DataAccess.Models.Customer.Customers", null)
+                        .WithMany("Site")
+                        .HasForeignKey("CustomersId");
+
                     b.HasOne("DataAccess.Models.Language", "Language")
                         .WithMany()
                         .HasForeignKey("LanguageId");
@@ -513,25 +549,20 @@ namespace DataAccess.Migrations
                         .WithMany()
                         .HasForeignKey("UsersId");
 
-                    b.HasOne("DataAccess.Models.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("roleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.Navigation("Adress");
 
                     b.Navigation("Language");
-
-                    b.Navigation("Role");
 
                     b.Navigation("Users");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Email", b =>
                 {
-                    b.HasOne("DataAccess.Models.Customer.Customers", "CustomerE")
+                    b.HasOne("DataAccess.Models.Customer.Site", "CustomerE")
                         .WithMany("EmergencyEmail")
-                        .HasForeignKey("CustomerEId");
+                        .HasForeignKey("CustomerESiteId");
 
-                    b.HasOne("DataAccess.Models.Customer.Customers", "CustomerG")
+                    b.HasOne("DataAccess.Models.Customer.Site", "CustomerG")
                         .WithMany("GeneralEmail")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -599,11 +630,11 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Phone", b =>
                 {
-                    b.HasOne("DataAccess.Models.Customer.Customers", "CustomerG")
+                    b.HasOne("DataAccess.Models.Customer.Site", "CustomerG")
                         .WithMany("GeneralPhone")
-                        .HasForeignKey("CustomerGId");
+                        .HasForeignKey("CustomerGSiteId");
 
-                    b.HasOne("DataAccess.Models.Customer.Customers", "CustomerE")
+                    b.HasOne("DataAccess.Models.Customer.Site", "CustomerE")
                         .WithMany("EmergencyPhone")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -639,10 +670,11 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Customer.Customers", b =>
                 {
-                    b.Navigation("Address");
+                    b.Navigation("Site");
+                });
 
-                    b.Navigation("ContactPerson");
-
+            modelBuilder.Entity("DataAccess.Models.Customer.Site", b =>
+                {
                     b.Navigation("EmergencyEmail");
 
                     b.Navigation("EmergencyPhone");
@@ -650,6 +682,8 @@ namespace DataAccess.Migrations
                     b.Navigation("GeneralEmail");
 
                     b.Navigation("GeneralPhone");
+
+                    b.Navigation("contacts");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Departement", b =>

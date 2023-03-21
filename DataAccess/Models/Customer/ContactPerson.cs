@@ -12,8 +12,5 @@ namespace DataAccess.Models.Customer
 
         public string FirstName { get; set; }
 
-        public int CustomerId { get; set; }
-
-        public Customers customers { get; set; }
     }
 }

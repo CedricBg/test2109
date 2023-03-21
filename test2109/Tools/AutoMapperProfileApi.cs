@@ -19,8 +19,9 @@ namespace test2109.Tools
 
             CreateMap<BUSI.Role, API.Role>().ReverseMap();
 
-            CreateMap<BUSI.Customer.Customers, API.Customer.Customers>().ReverseMap();
-            CreateMap<BUSI.Customer.CustomerAll, API.Customer.CustomerAll>().ReverseMap();
+            CreateMap<BUSI.Customers.Customers, API.Customer.Customers>().ReverseMap();
+            CreateMap<BUSI.Customers.Site, API.Customer.Site>().ReverseMap();
+            CreateMap<BUSI.Customers.ContactPerson, API.Customer.ContactPerson>().ReverseMap();
 
             CreateMap<BUSI.Auth.ConnectedForm, API.Auth.ConnectedForm>().ReverseMap();
             CreateMap<BUSI.Auth.LoginForm, API.Auth.LoginForm>().ReverseMap();

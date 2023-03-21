@@ -11,7 +11,6 @@ using System.Configuration;
 using DATA = DataAccess.Models.Employees;
 using BusinessAccessLayer.Tools;
 using test2109.Tools;
-using DataAccess.tools;
 using Newtonsoft;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -38,7 +37,6 @@ builder.Services.AddAutoMapper(profiles =>
 { 
     profiles.AddProfile(typeof(AutoMapperProfileBll));
     profiles.AddProfile(typeof(AutoMapperProfileApi));
-    profiles.AddProfile(typeof(AutoMapperProfileData));
 });
 
 builder.Services.AddControllers();

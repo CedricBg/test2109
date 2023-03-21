@@ -70,14 +70,18 @@ namespace DataAccess.DataAccess
 
             modelBuilder.Entity<Customers>(entity =>
             {
-                entity.HasMany(e=>e.EmergencyEmail).WithOne(e=>e.CustomerE).HasForeignKey(e=>e.CustomerId).OnDelete(DeleteBehavior.Cascade);
-                entity.HasMany(e=>e.GeneralEmail).WithOne(e=>e.CustomerG).HasForeignKey(e=>e.CustomerId).OnDelete(DeleteBehavior.Cascade); 
-                entity.HasMany(e=>e.GeneralPhone).WithOne(e=>e.CustomerG).HasForeignKey(e=>e.CustomerId).OnDelete(DeleteBehavior.Cascade); 
-                entity.HasMany(e=>e.EmergencyPhone).WithOne(e => e.CustomerE).HasForeignKey(e => e.CustomerId).OnDelete(DeleteBehavior.Cascade); 
-                entity.HasMany(e=>e.ContactPerson).WithOne(e => e.customers).HasForeignKey(e => e.CustomerId).OnDelete(DeleteBehavior.Cascade);
                 entity.HasOne(e => e.Role).WithMany().OnDelete(DeleteBehavior.Cascade);
                 entity.Property(e=>e.NameCustomer).HasMaxLength(30).IsRequired(true);
                 entity.Property(e=>e.CreationDate).ValueGeneratedOnAdd();
+            });
+
+            modelBuilder.Entity<Site>(entity =>
+            {
+                entity.Property(e=>e.Name).HasMaxLength(30).IsRequired(true);
+                entity.HasMany(e => e.EmergencyEmail).WithOne(e => e.CustomerE).HasForeignKey(e => e.CustomerId).OnDelete(DeleteBehavior.Cascade);
+                entity.HasMany(e => e.GeneralEmail).WithOne(e => e.CustomerG).HasForeignKey(e => e.CustomerId).OnDelete(DeleteBehavior.Cascade);
+                entity.HasMany(e => e.GeneralPhone).WithOne(e => e.CustomerG).HasForeignKey(e => e.CustomerId).OnDelete(DeleteBehavior.Cascade);
+                entity.HasMany(e => e.EmergencyPhone).WithOne(e => e.CustomerE).HasForeignKey(e => e.CustomerId).OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Email>(entity =>
@@ -140,6 +144,11 @@ namespace DataAccess.DataAccess
         public DbSet<Phone> Phones { get; set; }
 
         public DbSet<ContactPerson> ContactPersons { get; set; }
+
+        public DbSet<Address> addressCustomers { get; set; }
+
+        public DbSet<Site> Sites { get; set; }
+
 
     }
 }

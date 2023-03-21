@@ -5,7 +5,7 @@ namespace DataAccess.Repository
 {
     public interface ICustomerServices
     {
-        List<CustomerAll> All();
+        List<Customers> All();
         Customers Get(int id);
     }
 }

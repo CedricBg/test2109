@@ -23,6 +23,8 @@ namespace DataAccess.Models
         public string? ZipCode { get; set; }
 
 
+
+
     }
 }
 

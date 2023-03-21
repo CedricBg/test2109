@@ -229,22 +229,25 @@ INSERT INTO Countrys Values('Zimbabwe')
  
 INSERT INTO Users ([Login],Password_hash ,Salt) Values('ced', 0x9E149878EC37324060F2D97BF4DDE3ADB17E14475B699CBCA9BF05A6BC3CB31BD06D3E7E7A66B0C017445263DE5E2590406E0C6CF6FF3CE3A84061AEFA04284E,'BB70ECB3-E500-4533-90B3-7C2461E77C327E43A91F-5DB2-4049-94BD-444FB5F3BC4F05E161FC-7AC2-41A4-986B-D289')
 
-INSERT INTO Address (SreetAddress,City,StateId,ZipCode) Values('new', 'new', 18, 1000)
+INSERT INTO Address (SreetAddress,City,StateId,ZipCode) Values('Rue du centre 53', 'Bruxelles', 18, 1000)
 
 
 
 INSERT INTO DetailedEmployees (IsDeleted, [firstName], [SurName], AddressId, UserId, [roleId], BirthDate, Vehicle, RegistreNational, CreationDate, LanguageId)
 Values('False', 'admin', 'admin', 1, 1, 17, '01-01-1970', 'False', 0000000, '01-01-1970', 1)
 
-INSERT INTO Customers(roleId, VatNumber, NameCustomer, LanguageId, IsDeleted) Values(21, 1154235444, 'Test Company',1, 'False')
 
-INSERT INTO Address (SreetAddress,City,StateId,ZipCode,CustomersId) Values('new', 'new', 18, 1000,1)
+INSERT INTO Customers(NameCustomer, RoleId,IsDeleted) Values('Test Company', 21, 'False')
 
-INSERT INTO Address (SreetAddress,City,StateId,ZipCode,CustomersId) Values('Rue du centre 18', 'Hotton', 18, 1030,1)
+INSERT INTO Sites(VatNumber,IsDeleted, LanguageId,AdressAddressId,[CustomersId],[Name]) Values(1154235444,'False',  3,  1, 1,'Dockx')
+INSERT INTO Sites(VatNumber,IsDeleted, LanguageId,AdressAddressId,[CustomersId],[Name]) Values(455443435,'False',  2,  1, 1,'Dockx')
+
+INSERT INTO Address (SreetAddress,City,StateId,ZipCode) Values('Avenue du désert 33', 'Hotton', 18, 1020)
+INSERT INTO Address (SreetAddress,City,StateId,ZipCode) Values('Rue du pont 22', 'Marche en fammenne', 18, 6000)
+
+INSERT INTO ContactPersons (FirstName, [SiteId]) Values ('cedric', 1)
 
 INSERT INTO EmailAddresses (EmailAddress, DetailedEmployeeId) Values('admin@hotmail.com', 1)
 
 INSERT INTO Phones (Number, DetailedEmployeeId) Values (0487345912, 1)
 
-INSERT INTO ContactPersons (FirstName,CustomerId) Values("Jean Dupont",1)
-INSERT INTO ContactPersons (FirstName,CustomerId) Values("Michele jaques",1)

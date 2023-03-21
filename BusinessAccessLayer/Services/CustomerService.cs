@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BusinessAccessLayer.IRepositories;
-using BusinessAccessLayer.Models.Customer;
+using BusinessAccessLayer.Models.Customers;
 using DataAccess.Repository;
 using DataAccess.Services;
 using System;
@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DATA = DataAccess.Models;
 
 namespace BusinessAccessLayer.Services
 {
@@ -23,9 +24,9 @@ namespace BusinessAccessLayer.Services
             _services = services;
         }
 
-        public List<CustomerAll> All()
+        public List<Customers> All()
         {
-            return _services.All().Select(dr => _mapper.Map<CustomerAll>(dr)).ToList();
+            return _services.All().Select(dr => _mapper.Map<Customers>(dr)).ToList();
         }
 
         public Customers GetCustomer(int id)

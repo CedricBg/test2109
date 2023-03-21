@@ -18,8 +18,8 @@ namespace DataAccess.Models
 
         public int? CustomerId { get; set; }
 
-        public Customer.Customers CustomerG { get; set; }
+        public Customer.Site CustomerG { get; set; }
 
-        public Customer.Customers CustomerE { get; set; }
+        public Customer.Site CustomerE { get; set; }
     }
 }

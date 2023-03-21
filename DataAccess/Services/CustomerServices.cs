@@ -26,34 +26,23 @@ namespace DataAccess.Services
             _Mapper = mapper;
         }
 
-        public List<CustomerAll> All()
+        public List<Customers> All()
         {
             if (_context.Customers != null)
             {
-                List<CustomerAll> customers = _context.Customers
+                List<Customers> customers = _context.Customers
                     .Where(e => e.IsDeleted == false && e.Role.Name == "Client")
-                    .Include("EmergencyPhone")
-                    .Include("GeneralPhone")
-                    .Include("EmergencyEmail")
-                    .Include("GeneralEmail")
-                    .Include("ContactPerson")
-                    .Include("Language")
-                    .Select((Client) => new CustomerAll
+                    .Select((Client) => new Customers
                     {
-                        Id = Client.Id,
                         NameCustomer = Client.NameCustomer,
-                        GeneralEmail = Client.GeneralEmail,
-                        EmergencyEmail = Client.EmergencyEmail,
-                        GeneralPhone = Client.GeneralPhone,
-                        EmergencyPhone = Client.EmergencyPhone,
-                        Language = Client.Language,
-                        ContactPerson = Client.ContactPerson
+                        Id = Client.Id,
+                        Role = Client.Role,
                     }
                     ).ToList();
 
                 return customers;
             }
-            else { return new List<CustomerAll>(); }
+            else { return new List<Customers>(); }
         }
 
         public Customers Get(int id) 
@@ -62,22 +51,16 @@ namespace DataAccess.Services
             {
                 Customers customer =  _context.Customers
                     .Where(e => e.Id == id)
-                    .Include(x=>x.Address)
-                    .Include(x=>x.Language)
-                    .Include(x=>x.Role)
-                    .Include(x=>x.EmergencyPhone)
-                    .Include(x=>x.GeneralPhone)
-                    .Include(x=>x.EmergencyEmail)
-                    .Include(x=>x.GeneralEmail)
-                    .Include(x=>x.ContactPerson)
+                    .Include(x=>x.Site).ThenInclude(y=>y.Adress)
+                    .Include(y=>y.Site).ThenInclude(x=>x.Language)
+                    .Include(y=>y.Site).ThenInclude(x=>x.contacts)
+                    .Include(y=>y.Site).ThenInclude(x=>x.GeneralEmail)
+                    .Include(y=>y.Site).ThenInclude(x=>x.EmergencyEmail)
+                    .Include(y=>y.Site).ThenInclude(x=>x.GeneralPhone)
+                    .Include(y=>y.Site).ThenInclude(x=>x.EmergencyPhone)
+
                     .First();
-               
-                foreach(var elt in customer.Address)
-                {
-                    Countrys country = Country(elt.StateId);
-                    elt.State = country.Country;
-                }
-                   
+                 
                 return customer;
             }
             else
@@ -92,44 +75,30 @@ namespace DataAccess.Services
                 return null;
 
             Customers customers1 = _context.Customers
-                .Include(x=>x.Address)
-                .Include(x=>x.Language)
                 .Include (x=>x.Role)
-                .Include(x=>x.EmergencyEmail)
-                .Include(x=>x.GeneralPhone)
-                .Include(x=>x.ContactPerson)
-                .Include(x=>x.GeneralEmail)
-                .Include(x=>x.EmergencyPhone)
+                .Include (x=>x.NameCustomer)
                 .FirstOrDefault(c => c.Id == customers.Id);
 
 
-            insertEmails(customers.EmergencyEmail, customers1.EmergencyEmail);
-            insertEmails(customers.GeneralEmail, customers1.GeneralEmail);
-            insertPhones(customers.GeneralPhone, customers1.GeneralPhone);
-            insertPhones(customers.EmergencyPhone, customers1.EmergencyPhone);
+            //insertEmails(customers.EmergencyEmail, customers1.EmergencyEmail);
+            //insertEmails(customers.GeneralEmail, customers1.GeneralEmail);
+            //insertPhones(customers.GeneralPhone, customers1.GeneralPhone);
+            //insertPhones(customers.EmergencyPhone, customers1.EmergencyPhone);
 
-            foreach(var elt in customers.ContactPerson)
-            {
-                var existingPerson = _context.ContactPersons.Find(elt.Id);
-                if (existingPerson != null)
-                    existingPerson.FirstName = elt.FirstName;
-                if(existingPerson == null)
-                    customers1.ContactPerson.Add(elt);
-            }
 
-            foreach (var elt in customers.Address)
-            {
-                var existingPerson = _context.Address.Find(elt.AddressId);
-                if (existingPerson != null)
-                    existingPerson.SreetAddress = elt.SreetAddress;
-                    existingPerson.City = elt.City;
-                    existingPerson.StateId = elt.StateId;
-                    existingPerson.ZipCode = elt.ZipCode;
+            //foreach (var elt in customers.Address)
+            //{
+            //    var existingPerson = _context.Address.Find(elt.AddressId);
+            //    if (existingPerson != null)
+            //        existingPerson.SreetAddress = elt.SreetAddress;
+            //        existingPerson.City = elt.City;
+            //        existingPerson.StateId = elt.StateId;
+            //        existingPerson.ZipCode = elt.ZipCode;
                     
 
-                if (existingPerson == null)
-                    customers1.Address.Add(elt);
-            }
+            //    if (existingPerson == null)
+            //        customers1.Address.Add(elt);
+            //}
 
             return customers1;
         }

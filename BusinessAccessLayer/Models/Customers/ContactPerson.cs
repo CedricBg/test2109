@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessAccessLayer.Models.Customer
+namespace BusinessAccessLayer.Models.Customers
 {
     public class ContactPerson
     {

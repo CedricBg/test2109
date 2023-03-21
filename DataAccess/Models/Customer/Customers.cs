@@ -13,29 +13,13 @@ namespace DataAccess.Models.Customer
 
         public string NameCustomer { get; set; }
 
-        public List<ContactPerson> ContactPerson { get; set; } = null!;
-
-        public List<Phone>? EmergencyPhone { get; set; } = null!;
-
-        public List<Phone>? GeneralPhone { get; set; } = null!;
-
-        public List<Email>? EmergencyEmail { get; set; } = null!;
-
-        public List<Email>? GeneralEmail { get; set; } = null!;
-
-        public string VatNumber { get; set; }
-
-        public DateTime? CreationDate { get; set; }
+        public List<Site> Site { get; set; }
 
         public Role Role { get; set; }
 
-        public Users Users { get; set; }
-
-        public List<Address>? Address { get; set; }
-
         public bool? IsDeleted { get; set; }
 
-        public Language? Language { get; set; }
+        public DateTime? CreationDate { get; set; }
 
     }
 }
