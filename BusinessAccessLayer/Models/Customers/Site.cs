@@ -1,4 +1,5 @@
-﻿using DataAccess.Models;
+﻿
+using BusinessAccessLayer.Models.Employee;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,13 +26,11 @@ namespace BusinessAccessLayer.Models.Customers
 
         public DateTime? CreationDate { get; set; }
 
-        public Users Users { get; set; }
-
         public bool? IsDeleted { get; set; }
 
         public Language? Language { get; set; }
 
-        public Address customer { get; set; }
+        public Address adress { get; set; }
 
         public List<ContactPerson>? contacts { get; set; }
     }

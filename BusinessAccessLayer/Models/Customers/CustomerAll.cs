@@ -13,16 +13,5 @@ namespace BusinessAccessLayer.Models.Customers
 
         public string NameCustomer { get; set; }
 
-        public List<ContactPerson> ContactPerson { get; set; } = null!;
-
-        public List<Phone> EmergencyPhone { get; set; } = null!;
-
-        public List<Phone> GeneralPhone { get; set; } = null!;
-
-        public List<Email> EmergencyEmail { get; set; } = null!;
-
-        public List<Email> GeneralEmail { get; set; } = null!;
-
-        public Language Language { get; set; }
     }
 }

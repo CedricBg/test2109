@@ -26,8 +26,9 @@ namespace test2109.Models.Customer
 
         public Language? Language { get; set; }
 
-        public Address customer { get; set; }
+        public Address adress { get; set; }
 
         public List<ContactPerson>? contacts { get; set; }
+
     }
 }

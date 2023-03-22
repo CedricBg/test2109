@@ -33,6 +33,7 @@ namespace test2109.Controllers
         public IActionResult Get(int id)
         {
             Customers customer = _mapper.Map<API.Customer.Customers>(_customerService.GetCustomer(id));
+  
             return Ok(customer);
         }
 

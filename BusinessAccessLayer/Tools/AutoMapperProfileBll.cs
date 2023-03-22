@@ -10,7 +10,6 @@ namespace BusinessAccessLayer.Tools
         public AutoMapperProfileBll()
         {
             CreateMap<DATA.Countrys, BUSI.Employee.Countrys>().ReverseMap();
-
             CreateMap<DATA.Employees.Employee, BUSI.Employee.Employee>().ReverseMap();
             
             CreateMap<BUSI.Employee.DetailedEmployee, DATA.Employees.DetailedEmployee>()
