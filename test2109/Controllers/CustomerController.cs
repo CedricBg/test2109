@@ -25,16 +25,16 @@ namespace test2109.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_customerService.All().Select(d => _mapper.Map<BUSI.Customers.Customers>(d)).ToList());
+            return Ok(_customerService.All().Select(d => _mapper.Map<BUSI.Customers.AllCustomers>(d)).ToList());
         }
 
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            Customers customer = _mapper.Map<API.Customer.Customers>(_customerService.GetCustomer(id));
+            Site site = _mapper.Map<API.Customer.Site>(_customerService.GetCustomer(id));
   
-            return Ok(customer);
+            return Ok(site);
         }
 
 

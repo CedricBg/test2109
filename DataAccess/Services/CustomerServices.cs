@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using DataAccess.Tools;
 using System.Threading.Tasks;
 
 namespace DataAccess.Services
@@ -26,46 +27,48 @@ namespace DataAccess.Services
             _Mapper = mapper;
         }
 
-        public List<Customers> All()
+        public List<AllCustomers> All()
         {
             if (_context.Customers != null)
             {
-                List<Customers> customers = _context.Customers
+                List<AllCustomers> customers = _context.Customers
                     .Where(e => e.IsDeleted == false && e.Role.Name == "Client")
-                    .Select((Client) => new Customers
+                    .Select((Client) => new AllCustomers
                     {
+                        
                         NameCustomer = Client.NameCustomer,
-                        Id = Client.Id,
-                        Role = Client.Role,
+                        Id = Client.CustomerId,
+                        Site = Client.Site.sites()
                     }
                     ).ToList();
 
                 return customers;
             }
-            else { return new List<Customers>(); }
+            else { return new List<AllCustomers>(); }
         }
 
-        public Customers Get(int id) 
+        public Site Get(int id) 
         {
             if(_context.Customers != null)
             {
-                Customers customer =  _context.Customers
-                    .Where(e => e.Id == id)
-                    .Include(x=>x.Site).ThenInclude(y=>y.Adress)
-                    .Include(y=>y.Site).ThenInclude(x=>x.Language)
-                    .Include(y=>y.Site).ThenInclude(x=>x.contacts)
-                    .Include(y=>y.Site).ThenInclude(x=>x.GeneralEmail)
-                    .Include(y=>y.Site).ThenInclude(x=>x.EmergencyEmail)
-                    .Include(y=>y.Site).ThenInclude(x=>x.GeneralPhone)
-                    .Include(y=>y.Site).ThenInclude(x=>x.EmergencyPhone)
+                Site site =  _context.Sites.Where(e => e.SiteId == id)
+                    .Include(y => y.Address)
+                    .Include(x => x.Language)
+                    .Include(x => x.EmergencyContacts).ThenInclude(x=> x.Phone)
+                    .Include(x => x.EmergencyContacts).ThenInclude(x=> x.Email)
+                    .Include(x => x.GeneralContacts).ThenInclude(x => x.Phone)
+                    .Include(x => x.GeneralContacts).ThenInclude(x => x.Email)
 
                     .First();
-                 
-                return customer;
+
+                    Countrys countrys = Country(site.Address.StateId);
+                    site.Address.State = countrys.Country;
+
+                return site;
             }
             else
             {
-                return new Customers();
+                return new Site();
             }
         }
 
@@ -77,28 +80,8 @@ namespace DataAccess.Services
             Customers customers1 = _context.Customers
                 .Include (x=>x.Role)
                 .Include (x=>x.NameCustomer)
-                .FirstOrDefault(c => c.Id == customers.Id);
+                .FirstOrDefault(c => c.CustomerId == customers.CustomerId);
 
-
-            //insertEmails(customers.EmergencyEmail, customers1.EmergencyEmail);
-            //insertEmails(customers.GeneralEmail, customers1.GeneralEmail);
-            //insertPhones(customers.GeneralPhone, customers1.GeneralPhone);
-            //insertPhones(customers.EmergencyPhone, customers1.EmergencyPhone);
-
-
-            //foreach (var elt in customers.Address)
-            //{
-            //    var existingPerson = _context.Address.Find(elt.AddressId);
-            //    if (existingPerson != null)
-            //        existingPerson.SreetAddress = elt.SreetAddress;
-            //        existingPerson.City = elt.City;
-            //        existingPerson.StateId = elt.StateId;
-            //        existingPerson.ZipCode = elt.ZipCode;
-                    
-
-            //    if (existingPerson == null)
-            //        customers1.Address.Add(elt);
-            //}
 
             return customers1;
         }

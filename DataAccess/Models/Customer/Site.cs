@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace DataAccess.Models.Customer
@@ -16,24 +17,26 @@ namespace DataAccess.Models.Customer
         public string VatNumber { get; set; }
 
         public bool? IsDeleted { get; set; }
-
-        public List<Phone>? EmergencyPhone { get; set; } = null!;
-
-        public List<Phone>? GeneralPhone { get; set; } = null!;
-
-        public List<Email>? EmergencyEmail { get; set; } = null!;
-
-        public List<Email>? GeneralEmail { get; set; } = null!;
-
-        public List<ContactPerson>? contacts { get; set; } = null!;
+        [JsonIgnore]
+        public  List<ContactPerson>? EmergencyContacts { get; set; }
+        [JsonIgnore]
+        public List<ContactPerson>? GeneralContacts { get; set; }
 
         public DateTime? CreationDate { get; set; }
 
-        public Users Users { get; set;}
-
         public Language? Language { get; set; }
 
-        public Address Adress { get; set; }
+        public Address Address { get; set; }
+
+        public Users Users { get; set; }
+        [JsonIgnore]
+        public int CustomersId { get; set; }
+        [JsonIgnore]
+        public Customers Customer { get; set; }
+
+        
+
+
 
     }
 }

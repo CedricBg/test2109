@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace DataAccess.Models
@@ -21,13 +22,9 @@ namespace DataAccess.Models
 
         public DetailedEmployee employee { get; set; }
 
-        public int? CustomerId { get; set; }
-
-        public Customer.Site CustomerG { get; set; }
-        
-        public Customer.Site CustomerE { get; set; }
-
+        public int? ContactId { get; set; }
+        [JsonIgnore]
+        public ContactPerson Sender { get; set; }
 
     }
-
 }

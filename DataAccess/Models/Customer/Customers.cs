@@ -9,7 +9,7 @@ namespace DataAccess.Models.Customer
 {
     public class Customers
     {
-        public int Id { get; set; }
+        public int CustomerId { get; set; }
 
         public string NameCustomer { get; set; }
 
@@ -20,6 +20,8 @@ namespace DataAccess.Models.Customer
         public bool? IsDeleted { get; set; }
 
         public DateTime? CreationDate { get; set; }
+
+        public List<ContactPerson>? Contacts { get; set; } = null!;
 
     }
 }

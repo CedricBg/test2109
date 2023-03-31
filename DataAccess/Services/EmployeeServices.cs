@@ -28,7 +28,7 @@ namespace DataAccess.Services
             _country = country;
         }
 
-        public bool PostData(DetailedEmployee employee)
+        public Boolean PostData(DetailedEmployee employee)
         {
             if (_db.DetailedEmployees is not null)
             {
@@ -74,9 +74,9 @@ namespace DataAccess.Services
         {
             if (_db.DetailedEmployees.First().Id != null)
             {
-                Role role = _db.Roles.FirstOrDefault(c => c.roleId == employee.Role.roleId);
-                Language language = _db.Languages.FirstOrDefault(c => c.Id == employee.Language.Id);
-                DetailedEmployee dBemployee = _db.DetailedEmployees.Where(e=> e.Id == employee.Id)
+                Role role =  _db.Roles.FirstOrDefault(c => c.roleId == employee.Role.roleId);
+                Language language =  _db.Languages.FirstOrDefault(c => c.Id == employee.Language.Id);
+                DetailedEmployee dBemployee =  _db.DetailedEmployees.Where(e=> e.Id == employee.Id)
                     .Include("Email")
                     .Include("Phone")
                     .Include("Address")
@@ -139,11 +139,11 @@ namespace DataAccess.Services
                 return null; 
             }
         }
-        public List<Employee> GetAll()
+        public  List<Employee> GetAll()
         {
                 if (_db.employees is not null)
                 { 
-                    List<Employee> requete = _db.DetailedEmployees
+                    List<Employee> requete =  _db.DetailedEmployees
                     .Where(e=>e.IsDeleted == false)
                     .Include(e=>e.Role)
                     .Include(e=>e.Language)
@@ -155,7 +155,6 @@ namespace DataAccess.Services
                             Role = employee.Role,
                             Language = employee.Language
                         })
-
                         .ToList();
 
                     return requete;
@@ -173,7 +172,7 @@ namespace DataAccess.Services
             { 
                 try
                 {
-                    DetailedEmployee person = _db.DetailedEmployees
+                    DetailedEmployee person =  _db.DetailedEmployees
                                         .Where(e => e.Id == id)
                                         .Include(e => e.Phone)
                                         .Include(e => e.Email)

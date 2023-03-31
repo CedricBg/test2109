@@ -32,6 +32,10 @@ namespace test2109.Tools
                 .ForMember(e => e.NameCustomer, x => x.MapFrom(y => y.NameCustomer))
                 .ReverseMap();
 
+            CreateMap<BUSI.Customers.AllCustomers, API.Customer.AllCustomers>()
+               .ReverseMap();
+            CreateMap<BUSI.Customers.AllSites, API.Customer.AllSites>()
+               .ReverseMap();
             CreateMap<BUSI.Customers.Site, API.Customer.Site>()
                 .ReverseMap();
             CreateMap<API.Address, BUSI.Employee.Address>()

@@ -23,12 +23,26 @@ namespace BusinessAccessLayer.Tools
             CreateMap<BUSI.Customers.Customers, DATA.Customer.Customers>()
                 .ForMember(e => e.Site, x => x.MapFrom(y => y.Site))
                 .ForMember(e => e.Role, x => x.MapFrom(y => y.Role))
-                .ForMember(e => e.Id, x => x.MapFrom(y => y.Id))
+                .ForMember(e => e.CustomerId, x => x.MapFrom(y => y.Id))
                 .ForMember(e => e.IsDeleted, x => x.MapFrom(y => y.IsDeleted))
                 .ForMember(e => e.NameCustomer, x => x.MapFrom(y => y.NameCustomer))
                 .ReverseMap();
 
+            CreateMap<DATA.Customer.Site, BUSI.Customers.Site>()
+                .ForMember(e => e.EmergencyContacts, x => x.MapFrom(y => y.EmergencyContacts))
+                .ForMember(e => e.GeneralContacts, x => x.MapFrom(y => y.GeneralContacts))
+                .ReverseMap();
 
+
+            CreateMap<DATA.Customer.ContactPerson, BUSI.Customers.ContactPerson>()
+                .ForMember(e => e.Phone, x => x.MapFrom(y => y.Phone))
+                .ForMember(e => e.Email, x => x.MapFrom(y => y.Email))
+                .ReverseMap();
+
+            CreateMap<DATA.Customer.AllSites, BUSI.Customers.AllSites>()
+                .ReverseMap();
+            CreateMap<DATA.Customer.AllCustomers, BUSI.Customers.AllCustomers>()
+                .ReverseMap();
             CreateMap<DATA.Phone, BUSI.Employee.Phone>()
                 .ReverseMap();
             CreateMap<DATA.Email, BUSI.Employee.Email>()
@@ -41,10 +55,8 @@ namespace BusinessAccessLayer.Tools
                 .ReverseMap();
             CreateMap<DATA.Language, BUSI.Language>()
                 .ReverseMap();
-            CreateMap<DATA.Customer.ContactPerson, BUSI.Customers.ContactPerson>()
-                .ReverseMap();
-            CreateMap<DATA.Customer.Site, BUSI.Customers.Site>()
-                .ReverseMap();
+           
+            
 
         }         
     }

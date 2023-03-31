@@ -18,7 +18,7 @@ INSERT INTO Roles (DiminName, Name) Values('BI'    , 'Brigadier/instructeur' )
 INSERT INTO Roles (DiminName, Name) Values('TM'    , 'Transport de munitions' )
 INSERT INTO Roles (DiminName, Name) Values('G'     , 'Homme de métier' )
 INSERT INTO Roles (DiminName, Name) Values('DIR'   , 'Direction' )
-INSERT INTO Roles (DiminName, Name) Values('OP'    , 'Opérations' )
+INSERT INTO Roles (DiminName, Name) Values('OPS'    , 'Opérations' )
 INSERT INTO Roles (DiminName, Name) Values('ADM'   , 'Administratif' )
 INSERT INTO Roles (DiminName, Name) Values('AGENT' , 'Accès minimum' )
 INSERT INTO Roles (DiminName, Name) Values('SUB'   , 'Sous-traitant' )
@@ -239,13 +239,15 @@ Values('False', 'admin', 'admin', 1, 1, 17, '01-01-1970', 'False', 0000000, '01-
 
 INSERT INTO Customers(NameCustomer, RoleId,IsDeleted) Values('Test Company', 21, 'False')
 
-INSERT INTO Sites(VatNumber,IsDeleted, LanguageId,AdressAddressId,[CustomersId],[Name]) Values(1154235444,'False',  3,  1, 1,'Dockx')
-INSERT INTO Sites(VatNumber,IsDeleted, LanguageId,AdressAddressId,[CustomersId],[Name]) Values(455443435,'False',  2,  1, 1,'Dockx')
+INSERT INTO Sites(VatNumber,IsDeleted, LanguageId, AddressId, [CustomersId], [Name]) Values(1154235444, 'False', 3, 1, 1, 'Dockx')
+INSERT INTO Sites(VatNumber,IsDeleted, LanguageId, AddressId, [CustomersId], [Name]) Values(455443435, 'False', 2, 1, 1, 'Danone')
 
 INSERT INTO Address (SreetAddress,City,StateId,ZipCode) Values('Avenue du désert 33', 'Hotton', 18, 1020)
 INSERT INTO Address (SreetAddress,City,StateId,ZipCode) Values('Rue du pont 22', 'Marche en fammenne', 18, 6000)
 
-INSERT INTO ContactPersons (FirstName, [SiteId]) Values ('cedric', 1)
+INSERT INTO ContactPersons (FirstName, LastName, EmergencySiteId,Created ) Values ('Cedric','Bogaert', 1, '01-01-1970')
+INSERT INTO ContactPersons (FirstName, LastName, GeneralSiteId, Created) Values ('Test1','Test1', 1, '01-01-1970')
+INSERT INTO ContactPersons (FirstName, LastName, Created) Values ('Test2','Test2', '01-01-1970')
 
 INSERT INTO EmailAddresses (EmailAddress, DetailedEmployeeId) Values('admin@hotmail.com', 1)
 

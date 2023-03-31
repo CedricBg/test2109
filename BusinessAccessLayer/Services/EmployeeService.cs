@@ -37,7 +37,7 @@ namespace BusinessAccessLayer.Services
 
         public List<Employee> GetAll() 
         {
-            return _employeeServices.GetAll().Select(dr => _Mapper.Map<Employee>(dr)).ToList();
+            return  _employeeServices.GetAll().Select(dr => _Mapper.Map<Employee>(dr)).ToList();
         }
 
         public DetailedEmployee GetOne(int id) 

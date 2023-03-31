@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DATA = DataAccess.Models;
 
 namespace BusinessAccessLayer.Services
 {
@@ -24,15 +23,15 @@ namespace BusinessAccessLayer.Services
             _services = services;
         }
 
-        public List<Customers> All()
+        public List<AllCustomers> All()
         {
-            return _services.All().Select(dr => _mapper.Map<Customers>(dr)).ToList();
+            return _services.All().Select(dr => _mapper.Map<AllCustomers>(dr)).ToList();
         }
 
-        public Customers GetCustomer(int id)
+        public Site GetCustomer(int id)
         {
-            Customers customer = _mapper.Map<Customers>(_services.Get(id));
-              return customer;                   
+            Site site = _mapper.Map<Site>(_services.Get(id));
+            return site;                   
         }
     }
 }

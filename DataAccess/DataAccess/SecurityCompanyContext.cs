@@ -70,6 +70,7 @@ namespace DataAccess.DataAccess
 
             modelBuilder.Entity<Customers>(entity =>
             {
+                entity.HasKey(e => e.CustomerId);
                 entity.HasOne(e => e.Role).WithMany().OnDelete(DeleteBehavior.Cascade);
                 entity.Property(e=>e.NameCustomer).HasMaxLength(30).IsRequired(true);
                 entity.Property(e=>e.CreationDate).ValueGeneratedOnAdd();
@@ -77,21 +78,29 @@ namespace DataAccess.DataAccess
 
             modelBuilder.Entity<Site>(entity =>
             {
-                entity.Property(e=>e.Name).HasMaxLength(30).IsRequired(true);
-                entity.HasMany(e => e.EmergencyEmail).WithOne(e => e.CustomerE).HasForeignKey(e => e.CustomerId).OnDelete(DeleteBehavior.Cascade);
-                entity.HasMany(e => e.GeneralEmail).WithOne(e => e.CustomerG).HasForeignKey(e => e.CustomerId).OnDelete(DeleteBehavior.Cascade);
-                entity.HasMany(e => e.GeneralPhone).WithOne(e => e.CustomerG).HasForeignKey(e => e.CustomerId).OnDelete(DeleteBehavior.Cascade);
-                entity.HasMany(e => e.EmergencyPhone).WithOne(e => e.CustomerE).HasForeignKey(e => e.CustomerId).OnDelete(DeleteBehavior.Cascade);
+                entity.HasIndex(e => e.Name).IsUnique();
+                entity.HasOne(e=>e.Customer).WithMany(e=>e.Site).HasPrincipalKey(e=>e.CustomerId).OnDelete(DeleteBehavior.Restrict);
+                
+                entity.Property(e => e.Name).HasMaxLength(30).IsRequired(true);
+            });
+
+            modelBuilder.Entity<ContactPerson>(entity =>
+            {
+                entity.HasKey(e => e.ContactId);
+                entity.Property(e=>e.LastName).HasMaxLength(30).IsRequired(true);
+                entity.Property(e=>e.FirstName).HasMaxLength(30).IsRequired(true);
+                entity.HasOne(p => p.EmergencySite).WithMany(s => s.EmergencyContacts).HasForeignKey(p => p.EmergencySiteId).OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(p => p.GeneralSite).WithMany(s => s.GeneralContacts).HasForeignKey(p => p.GeneralSiteId).OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<Email>(entity =>
             {
-                entity.Property(e=>e.EmailAddress).HasMaxLength(50);
+                entity.Property(e=>e.EmailAddress).HasMaxLength(30);
             });
             
             modelBuilder.Entity<Phone>(entity =>
             {
-                entity.Property(e=>e.Number).HasMaxLength(50);
+                entity.Property(e=>e.Number).HasMaxLength(30);
             });
 
             modelBuilder.Entity<Address>(Entity =>
@@ -106,6 +115,8 @@ namespace DataAccess.DataAccess
             {
                 Entity.Property(e => e.Country).HasMaxLength(50);
             });
+            
+            
 
         }
 
