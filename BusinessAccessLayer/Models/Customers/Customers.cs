@@ -9,7 +9,7 @@ namespace BusinessAccessLayer.Models.Customers
 {
     public  class Customers
     {
-        public int Id { get; set; }
+        public int CustomerId { get; set; }
 
         public string NameCustomer { get; set; }
 
@@ -18,6 +18,10 @@ namespace BusinessAccessLayer.Models.Customers
         public Role Role { get; set; }
 
         public bool? IsDeleted { get; set; }
+
+        public DateTime? CreationDate { get; set; }
+
+        public ContactPerson? Contact { get; set; } = null!;
 
     }
 }

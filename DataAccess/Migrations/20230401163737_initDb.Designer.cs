@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(SecurityCompanyContext))]
-    [Migration("20230401094346_initDb")]
+    [Migration("20230401163737_initDb")]
     partial class initDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -127,9 +127,6 @@ namespace DataAccess.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CustomersCustomerId")
-                        .HasColumnType("int");
-
                     b.Property<bool?>("EmergencyContact")
                         .HasColumnType("bit");
 
@@ -153,8 +150,6 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("ContactSiteId");
 
-                    b.HasIndex("CustomersCustomerId");
-
                     b.ToTable("ContactPersons");
                 });
 
@@ -165,6 +160,9 @@ namespace DataAccess.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"), 1L, 1);
+
+                    b.Property<int?>("ContactId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("CreationDate")
                         .ValueGeneratedOnAdd()
@@ -182,6 +180,8 @@ namespace DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("CustomerId");
+
+                    b.HasIndex("ContactId");
 
                     b.HasIndex("roleId");
 
@@ -547,19 +547,21 @@ namespace DataAccess.Migrations
                         .HasForeignKey("ContactSiteId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("DataAccess.Models.Customer.Customers", null)
-                        .WithMany("Contacts")
-                        .HasForeignKey("CustomersCustomerId");
-
                     b.Navigation("ContactSite");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Customer.Customers", b =>
                 {
+                    b.HasOne("DataAccess.Models.Customer.ContactPerson", "Contact")
+                        .WithMany()
+                        .HasForeignKey("ContactId");
+
                     b.HasOne("DataAccess.Models.Role", "Role")
                         .WithMany()
                         .HasForeignKey("roleId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Contact");
 
                     b.Navigation("Role");
                 });
@@ -700,8 +702,6 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Customer.Customers", b =>
                 {
-                    b.Navigation("Contacts");
-
                     b.Navigation("Site");
                 });
 

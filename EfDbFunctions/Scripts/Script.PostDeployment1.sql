@@ -231,25 +231,28 @@ INSERT INTO Users ([Login],Password_hash ,Salt) Values('ced', 0x9E149878EC373240
 
 INSERT INTO Address (SreetAddress,City,StateId,ZipCode) Values('Rue du centre 53', 'Bruxelles', 18, 1000)
 
-
+INSERT INTO Customers (NameCustomer, RoleId,IsDeleted) Values('Test Company', 21, 'False')
 
 INSERT INTO DetailedEmployees (IsDeleted, [firstName], [SurName], AddressId, UserId, [roleId], BirthDate, Vehicle, RegistreNational, CreationDate, LanguageId)
 Values('False', 'admin', 'admin', 1, 1, 17, '01-01-1970', 'False', 0000000, '01-01-1970', 1)
 
-
-INSERT INTO Customers(NameCustomer, RoleId,IsDeleted) Values('Test Company', 21, 'False')
-
 INSERT INTO Sites(VatNumber,IsDeleted, LanguageId, AddressId, [CustomersId], [Name]) Values(1154235444, 'False', 3, 1, 1, 'Dockx')
 INSERT INTO Sites(VatNumber,IsDeleted, LanguageId, AddressId, [CustomersId], [Name]) Values(455443435, 'False', 2, 1, 1, 'Danone')
-
-INSERT INTO Address (SreetAddress,City,StateId,ZipCode) Values('Avenue du désert 33', 'Hotton', 18, 1020)
-INSERT INTO Address (SreetAddress,City,StateId,ZipCode) Values('Rue du pont 22', 'Marche en fammenne', 18, 6000)
 
 INSERT INTO ContactPersons (FirstName, LastName, ContactSiteId,Created ,NightContact) Values ('Cedric','Bogaert', 1, '01-01-1970','True')
 INSERT INTO ContactPersons (FirstName, LastName, ContactSiteId, Created, EmergencyContact) Values ('Test1','Test1', 2, '01-01-1970', 'True')
 INSERT INTO ContactPersons (FirstName, LastName, ContactSiteId, Created) Values ('Test2','Test2', 2, '01-01-1970')
+INSERT INTO ContactPersons (FirstName, LastName, Created) Values ('Test2','Test2', '01-01-1970')
+
+
+INSERT INTO Address (SreetAddress,City,StateId,ZipCode) Values('Avenue du désert 33', 'Hotton', 18, 1020)
+INSERT INTO Address (SreetAddress,City,StateId,ZipCode) Values('Rue du pont 22', 'Marche en fammenne', 18, 6000)
+
 
 INSERT INTO EmailAddresses (EmailAddress, DetailedEmployeeId) Values('admin@hotmail.com', 1)
-
+INSERT INTO EmailAddresses (EmailAddress, SenderContactId) Values('ced@hotmail.com', 1)
+INSERT INTO EmailAddresses (EmailAddress, SenderContactId) Values('Roger@Rabbit.com', 1)
 INSERT INTO Phones (Number, DetailedEmployeeId) Values (0487345912, 1)
+INSERT INTO Phones (Number, SenderContactId) Values (022163945, 1)
+INSERT INTO Phones (Number, SenderContactId) Values (010215975, 1)
 

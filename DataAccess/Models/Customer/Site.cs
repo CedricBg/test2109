@@ -9,7 +9,6 @@ namespace DataAccess.Models.Customer
 {
     public class Site
     {
-
         public int SiteId { get; set; }
 
         public string Name { get; set; }

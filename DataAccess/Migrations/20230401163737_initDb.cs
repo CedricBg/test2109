@@ -136,28 +136,6 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Customers",
-                columns: table => new
-                {
-                    CustomerId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NameCustomer = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    roleId = table.Column<int>(type: "int", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: true),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Customers", x => x.CustomerId);
-                    table.ForeignKey(
-                        name: "FK_Customers_Roles_roleId",
-                        column: x => x.roleId,
-                        principalTable: "Roles",
-                        principalColumn: "roleId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ScheduledRounds",
                 columns: table => new
                 {
@@ -230,6 +208,105 @@ namespace DataAccess.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ContactPersons",
+                columns: table => new
+                {
+                    ContactId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    responsible = table.Column<bool>(type: "bit", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EmergencyContact = table.Column<bool>(type: "bit", nullable: true),
+                    NightContact = table.Column<bool>(type: "bit", nullable: true),
+                    ContactSiteId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ContactPersons", x => x.ContactId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Customers",
+                columns: table => new
+                {
+                    CustomerId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NameCustomer = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    roleId = table.Column<int>(type: "int", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: true),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ContactId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customers", x => x.CustomerId);
+                    table.ForeignKey(
+                        name: "FK_Customers_ContactPersons_ContactId",
+                        column: x => x.ContactId,
+                        principalTable: "ContactPersons",
+                        principalColumn: "ContactId");
+                    table.ForeignKey(
+                        name: "FK_Customers_Roles_roleId",
+                        column: x => x.roleId,
+                        principalTable: "Roles",
+                        principalColumn: "roleId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmailAddresses",
+                columns: table => new
+                {
+                    EmailId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmailAddress = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    DetailedEmployeeId = table.Column<int>(type: "int", nullable: true),
+                    ContactId = table.Column<int>(type: "int", nullable: true),
+                    SenderContactId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmailAddresses", x => x.EmailId);
+                    table.ForeignKey(
+                        name: "FK_EmailAddresses_ContactPersons_SenderContactId",
+                        column: x => x.SenderContactId,
+                        principalTable: "ContactPersons",
+                        principalColumn: "ContactId");
+                    table.ForeignKey(
+                        name: "FK_EmailAddresses_DetailedEmployees_DetailedEmployeeId",
+                        column: x => x.DetailedEmployeeId,
+                        principalTable: "DetailedEmployees",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Phones",
+                columns: table => new
+                {
+                    PhoneId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Number = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    DetailedEmployeeId = table.Column<int>(type: "int", nullable: true),
+                    ContactId = table.Column<int>(type: "int", nullable: true),
+                    SenderContactId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Phones", x => x.PhoneId);
+                    table.ForeignKey(
+                        name: "FK_Phones_ContactPersons_SenderContactId",
+                        column: x => x.SenderContactId,
+                        principalTable: "ContactPersons",
+                        principalColumn: "ContactId");
+                    table.ForeignKey(
+                        name: "FK_Phones_DetailedEmployees_DetailedEmployeeId",
+                        column: x => x.DetailedEmployeeId,
+                        principalTable: "DetailedEmployees",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -316,98 +393,15 @@ namespace DataAccess.Migrations
                         principalColumn: "RondsId");
                 });
 
-            migrationBuilder.CreateTable(
-                name: "ContactPersons",
-                columns: table => new
-                {
-                    ContactId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    responsible = table.Column<bool>(type: "bit", nullable: true),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EmergencyContact = table.Column<bool>(type: "bit", nullable: true),
-                    NightContact = table.Column<bool>(type: "bit", nullable: true),
-                    ContactSiteId = table.Column<int>(type: "int", nullable: true),
-                    CustomersCustomerId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ContactPersons", x => x.ContactId);
-                    table.ForeignKey(
-                        name: "FK_ContactPersons_Customers_CustomersCustomerId",
-                        column: x => x.CustomersCustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "CustomerId");
-                    table.ForeignKey(
-                        name: "FK_ContactPersons_Sites_ContactSiteId",
-                        column: x => x.ContactSiteId,
-                        principalTable: "Sites",
-                        principalColumn: "SiteId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EmailAddresses",
-                columns: table => new
-                {
-                    EmailId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EmailAddress = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
-                    DetailedEmployeeId = table.Column<int>(type: "int", nullable: true),
-                    ContactId = table.Column<int>(type: "int", nullable: true),
-                    SenderContactId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EmailAddresses", x => x.EmailId);
-                    table.ForeignKey(
-                        name: "FK_EmailAddresses_ContactPersons_SenderContactId",
-                        column: x => x.SenderContactId,
-                        principalTable: "ContactPersons",
-                        principalColumn: "ContactId");
-                    table.ForeignKey(
-                        name: "FK_EmailAddresses_DetailedEmployees_DetailedEmployeeId",
-                        column: x => x.DetailedEmployeeId,
-                        principalTable: "DetailedEmployees",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Phones",
-                columns: table => new
-                {
-                    PhoneId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Number = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
-                    DetailedEmployeeId = table.Column<int>(type: "int", nullable: true),
-                    ContactId = table.Column<int>(type: "int", nullable: true),
-                    SenderContactId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Phones", x => x.PhoneId);
-                    table.ForeignKey(
-                        name: "FK_Phones_ContactPersons_SenderContactId",
-                        column: x => x.SenderContactId,
-                        principalTable: "ContactPersons",
-                        principalColumn: "ContactId");
-                    table.ForeignKey(
-                        name: "FK_Phones_DetailedEmployees_DetailedEmployeeId",
-                        column: x => x.DetailedEmployeeId,
-                        principalTable: "DetailedEmployees",
-                        principalColumn: "Id");
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_ContactPersons_ContactSiteId",
                 table: "ContactPersons",
                 column: "ContactSiteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ContactPersons_CustomersCustomerId",
-                table: "ContactPersons",
-                column: "CustomersCustomerId");
+                name: "IX_Customers_ContactId",
+                table: "Customers",
+                column: "ContactId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Customers_roleId",
@@ -511,10 +505,22 @@ namespace DataAccess.Migrations
                 column: "Login",
                 unique: true,
                 filter: "[Login] IS NOT NULL");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_ContactPersons_Sites_ContactSiteId",
+                table: "ContactPersons",
+                column: "ContactSiteId",
+                principalTable: "Sites",
+                principalColumn: "SiteId",
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_ContactPersons_Sites_ContactSiteId",
+                table: "ContactPersons");
+
             migrationBuilder.DropTable(
                 name: "AddRegisterForm");
 
@@ -540,19 +546,16 @@ namespace DataAccess.Migrations
                 name: "Rfids");
 
             migrationBuilder.DropTable(
-                name: "ContactPersons");
-
-            migrationBuilder.DropTable(
                 name: "DetailedEmployees");
 
             migrationBuilder.DropTable(
                 name: "Rounds");
 
             migrationBuilder.DropTable(
-                name: "Sites");
+                name: "Departements");
 
             migrationBuilder.DropTable(
-                name: "Departements");
+                name: "Sites");
 
             migrationBuilder.DropTable(
                 name: "Address");
@@ -565,6 +568,9 @@ namespace DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "ContactPersons");
 
             migrationBuilder.DropTable(
                 name: "Roles");

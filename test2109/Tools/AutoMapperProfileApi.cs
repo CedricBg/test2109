@@ -27,9 +27,10 @@ namespace test2109.Tools
             CreateMap<API.Customer.Customers ,BUSI.Customers.Customers>()
                 .ForMember(e => e.Site, x => x.MapFrom(y => y.Site))
                 .ForMember(e => e.Role, x => x.MapFrom(y => y.Role))
-                .ForMember(e => e.Id, x => x.MapFrom(y => y.Id))
+                .ForMember(e => e.CustomerId, x => x.MapFrom(y => y.CustomerId))
                 .ForMember(e => e.IsDeleted, x => x.MapFrom(y => y.IsDeleted))
                 .ForMember(e => e.NameCustomer, x => x.MapFrom(y => y.NameCustomer))
+                .ForMember(e => e.Contact, x => x.MapFrom(y => y.Contact))
                 .ReverseMap();
 
             CreateMap<BUSI.Customers.AllCustomers, API.Customer.AllCustomers>()

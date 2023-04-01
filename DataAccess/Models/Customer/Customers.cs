@@ -21,7 +21,7 @@ namespace DataAccess.Models.Customer
 
         public DateTime? CreationDate { get; set; }
 
-        public List<ContactPerson>? Contacts { get; set; } = null!;
+        public ContactPerson? Contact { get; set; } = null!;
 
     }
 }

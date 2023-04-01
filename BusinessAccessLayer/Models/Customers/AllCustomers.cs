@@ -13,5 +13,7 @@ namespace BusinessAccessLayer.Models.Customers
         public string NameCustomer { get; set; }
 
         public List<AllSites> Site { get; set; }
+
+        public ContactPerson Contact { get; set; }
     }
 }

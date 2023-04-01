@@ -25,7 +25,9 @@ namespace test2109.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_customerService.All().Select(d => _mapper.Map<BUSI.Customers.AllCustomers>(d)).ToList());
+            List<AllCustomers> list = _customerService.All().Select(d => _mapper.Map<AllCustomers>(d)).ToList();
+            return Ok(list);
+
         }
 
 

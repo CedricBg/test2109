@@ -4,7 +4,7 @@ namespace test2109.Models.Customer
 {
     public class Customers
     {
-        public int Id { get; set; }
+        public int CustomerId { get; set; }
 
         public string NameCustomer { get; set; }
 
@@ -13,5 +13,7 @@ namespace test2109.Models.Customer
         public Role Role { get; set; }
 
         public bool? IsDeleted { get; set; }
+
+        public ContactPerson? Contact { get; set; } = null!;
     }
 }

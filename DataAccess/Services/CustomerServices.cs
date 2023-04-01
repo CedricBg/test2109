@@ -4,13 +4,8 @@ using DataAccess.Models;
 using DataAccess.Models.Customer;
 using DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
 using DataAccess.Tools;
-using System.Threading.Tasks;
+
 
 namespace DataAccess.Services
 {
@@ -35,9 +30,9 @@ namespace DataAccess.Services
                     .Where(e => e.IsDeleted == false && e.Role.Name == "Client")
                     .Select((Client) => new AllCustomers
                     {
-                        
                         NameCustomer = Client.NameCustomer,
                         Id = Client.CustomerId,
+                        Contact = Client.Contact,
                         Site = Client.Site.sites()
                     }
                     ).ToList();
