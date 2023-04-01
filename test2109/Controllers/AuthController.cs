@@ -2,7 +2,6 @@
 using AutoMapper;
 using BusinessAccessLayer.IRepositories;
 using BUSI = BusinessAccessLayer.Models;
-using DataAccess.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

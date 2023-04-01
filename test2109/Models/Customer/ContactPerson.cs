@@ -19,6 +19,6 @@ namespace test2109.Models.Customer
         public Boolean? EmergencyContact { get; set; }
 
         public Boolean? NightContact { get; set; }
-
+         
     }
 }

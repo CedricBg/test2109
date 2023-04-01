@@ -29,8 +29,7 @@ namespace BusinessAccessLayer.Tools
                 .ReverseMap();
 
             CreateMap<DATA.Customer.Site, BUSI.Customers.Site>()
-                .ForMember(e => e.EmergencyContacts, x => x.MapFrom(y => y.EmergencyContacts))
-                .ForMember(e => e.GeneralContacts, x => x.MapFrom(y => y.GeneralContacts))
+                .ForMember(e => e.ContactSite, x => x.MapFrom(y => y.ContactSite))
                 .ReverseMap();
 
 

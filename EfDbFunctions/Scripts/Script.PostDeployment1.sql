@@ -245,9 +245,9 @@ INSERT INTO Sites(VatNumber,IsDeleted, LanguageId, AddressId, [CustomersId], [Na
 INSERT INTO Address (SreetAddress,City,StateId,ZipCode) Values('Avenue du désert 33', 'Hotton', 18, 1020)
 INSERT INTO Address (SreetAddress,City,StateId,ZipCode) Values('Rue du pont 22', 'Marche en fammenne', 18, 6000)
 
-INSERT INTO ContactPersons (FirstName, LastName, EmergencySiteId,Created ) Values ('Cedric','Bogaert', 1, '01-01-1970')
-INSERT INTO ContactPersons (FirstName, LastName, GeneralSiteId, Created) Values ('Test1','Test1', 1, '01-01-1970')
-INSERT INTO ContactPersons (FirstName, LastName, Created) Values ('Test2','Test2', '01-01-1970')
+INSERT INTO ContactPersons (FirstName, LastName, ContactSiteId,Created ,NightContact) Values ('Cedric','Bogaert', 1, '01-01-1970','True')
+INSERT INTO ContactPersons (FirstName, LastName, ContactSiteId, Created, EmergencyContact) Values ('Test1','Test1', 2, '01-01-1970', 'True')
+INSERT INTO ContactPersons (FirstName, LastName, ContactSiteId, Created) Values ('Test2','Test2', 2, '01-01-1970')
 
 INSERT INTO EmailAddresses (EmailAddress, DetailedEmployeeId) Values('admin@hotmail.com', 1)
 

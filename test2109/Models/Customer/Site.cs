@@ -12,9 +12,7 @@ namespace test2109.Models.Customer
 
         public bool? IsDeleted { get; set; }
 
-        public List<ContactPerson>? EmergencyContacts { get; set; }
-
-        public List<ContactPerson>? GeneralContacts { get; set; }
+        public List<ContactPerson>? ContactSite { get; set; }
 
         public DateTime? CreationDate { get; set; }
 

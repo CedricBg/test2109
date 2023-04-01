@@ -328,8 +328,7 @@ namespace DataAccess.Migrations
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EmergencyContact = table.Column<bool>(type: "bit", nullable: true),
                     NightContact = table.Column<bool>(type: "bit", nullable: true),
-                    EmergencySiteId = table.Column<int>(type: "int", nullable: true),
-                    GeneralSiteId = table.Column<int>(type: "int", nullable: true),
+                    ContactSiteId = table.Column<int>(type: "int", nullable: true),
                     CustomersCustomerId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -341,14 +340,8 @@ namespace DataAccess.Migrations
                         principalTable: "Customers",
                         principalColumn: "CustomerId");
                     table.ForeignKey(
-                        name: "FK_ContactPersons_Sites_EmergencySiteId",
-                        column: x => x.EmergencySiteId,
-                        principalTable: "Sites",
-                        principalColumn: "SiteId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ContactPersons_Sites_GeneralSiteId",
-                        column: x => x.GeneralSiteId,
+                        name: "FK_ContactPersons_Sites_ContactSiteId",
+                        column: x => x.ContactSiteId,
                         principalTable: "Sites",
                         principalColumn: "SiteId",
                         onDelete: ReferentialAction.Restrict);
@@ -407,19 +400,14 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_ContactPersons_ContactSiteId",
+                table: "ContactPersons",
+                column: "ContactSiteId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ContactPersons_CustomersCustomerId",
                 table: "ContactPersons",
                 column: "CustomersCustomerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContactPersons_EmergencySiteId",
-                table: "ContactPersons",
-                column: "EmergencySiteId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContactPersons_GeneralSiteId",
-                table: "ContactPersons",
-                column: "GeneralSiteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Customers_roleId",

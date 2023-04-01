@@ -31,7 +31,8 @@ namespace test2109.Controllers
         [HttpGet("Language")]
         public IActionResult Language()
         {
-            return Ok(_informationService.languages().Select(d => _Mapper.Map<Language>(d)).ToList());
+            List<Language> list = _informationService.languages().Select(d => _Mapper.Map<Language>(d)).ToList();
+            return Ok(list);
         }
 
 

@@ -29,13 +29,9 @@ namespace DataAccess.Models.Customer
         
         public Boolean? NightContact { get; set; }
 
-        public int? EmergencySiteId { get; set; }
+        public int? ContactSiteId { get; }
         [JsonIgnore]
-        public Site EmergencySite { get; set; }
-
-        public int? GeneralSiteId { get; }
-        [JsonIgnore]
-        public Site GeneralSite { get; }
+        public Site ContactSite { get; }
 
     }
 }

@@ -89,8 +89,7 @@ namespace DataAccess.DataAccess
                 entity.HasKey(e => e.ContactId);
                 entity.Property(e=>e.LastName).HasMaxLength(30).IsRequired(true);
                 entity.Property(e=>e.FirstName).HasMaxLength(30).IsRequired(true);
-                entity.HasOne(p => p.EmergencySite).WithMany(s => s.EmergencyContacts).HasForeignKey(p => p.EmergencySiteId).OnDelete(DeleteBehavior.Restrict);
-                entity.HasOne(p => p.GeneralSite).WithMany(s => s.GeneralContacts).HasForeignKey(p => p.GeneralSiteId).OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(p => p.ContactSite).WithMany(s => s.ContactSite).HasForeignKey(p => p.ContactSiteId).OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<Email>(entity =>

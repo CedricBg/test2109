@@ -18,9 +18,7 @@ namespace DataAccess.Models.Customer
 
         public bool? IsDeleted { get; set; }
         [JsonIgnore]
-        public  List<ContactPerson>? EmergencyContacts { get; set; }
-        [JsonIgnore]
-        public List<ContactPerson>? GeneralContacts { get; set; }
+        public  List<ContactPerson>? ContactSite { get; set; }
 
         public DateTime? CreationDate { get; set; }
 

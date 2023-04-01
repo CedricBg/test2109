@@ -54,11 +54,8 @@ namespace DataAccess.Services
                 Site site =  _context.Sites.Where(e => e.SiteId == id)
                     .Include(y => y.Address)
                     .Include(x => x.Language)
-                    .Include(x => x.EmergencyContacts).ThenInclude(x=> x.Phone)
-                    .Include(x => x.EmergencyContacts).ThenInclude(x=> x.Email)
-                    .Include(x => x.GeneralContacts).ThenInclude(x => x.Phone)
-                    .Include(x => x.GeneralContacts).ThenInclude(x => x.Email)
-
+                    .Include(x => x.ContactSite).ThenInclude(x=> x.Phone)
+                    .Include(x => x.ContactSite).ThenInclude(x=> x.Email)
                     .First();
 
                     Countrys countrys = Country(site.Address.StateId);

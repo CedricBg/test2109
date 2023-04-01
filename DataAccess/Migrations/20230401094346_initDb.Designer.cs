@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(SecurityCompanyContext))]
-    [Migration("20230331105639_initDb")]
+    [Migration("20230401094346_initDb")]
     partial class initDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -121,6 +121,9 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContactId"), 1L, 1);
 
+                    b.Property<int?>("ContactSiteId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
@@ -130,16 +133,10 @@ namespace DataAccess.Migrations
                     b.Property<bool?>("EmergencyContact")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("EmergencySiteId")
-                        .HasColumnType("int");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
-
-                    b.Property<int?>("GeneralSiteId")
-                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -154,11 +151,9 @@ namespace DataAccess.Migrations
 
                     b.HasKey("ContactId");
 
+                    b.HasIndex("ContactSiteId");
+
                     b.HasIndex("CustomersCustomerId");
-
-                    b.HasIndex("EmergencySiteId");
-
-                    b.HasIndex("GeneralSiteId");
 
                     b.ToTable("ContactPersons");
                 });
@@ -547,23 +542,16 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Customer.ContactPerson", b =>
                 {
+                    b.HasOne("DataAccess.Models.Customer.Site", "ContactSite")
+                        .WithMany("ContactSite")
+                        .HasForeignKey("ContactSiteId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("DataAccess.Models.Customer.Customers", null)
                         .WithMany("Contacts")
                         .HasForeignKey("CustomersCustomerId");
 
-                    b.HasOne("DataAccess.Models.Customer.Site", "EmergencySite")
-                        .WithMany("EmergencyContacts")
-                        .HasForeignKey("EmergencySiteId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("DataAccess.Models.Customer.Site", "GeneralSite")
-                        .WithMany("GeneralContacts")
-                        .HasForeignKey("GeneralSiteId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("EmergencySite");
-
-                    b.Navigation("GeneralSite");
+                    b.Navigation("ContactSite");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Customer.Customers", b =>
@@ -719,9 +707,7 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Customer.Site", b =>
                 {
-                    b.Navigation("EmergencyContacts");
-
-                    b.Navigation("GeneralContacts");
+                    b.Navigation("ContactSite");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Departement", b =>

@@ -29,7 +29,7 @@ namespace test2109.Controllers
         }
 
 
-        [HttpGet("{id}")]
+        [HttpGet("site/{id}")]
         public IActionResult Get(int id)
         {
             Site site = _mapper.Map<API.Customer.Site>(_customerService.GetCustomer(id));
