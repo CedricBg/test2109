@@ -5,6 +5,7 @@ using DataAccess.Models.Customer;
 using DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
 using DataAccess.Tools;
+using DataAccess.Models.Employees;
 
 
 namespace DataAccess.Services
@@ -74,20 +75,83 @@ namespace DataAccess.Services
                 .Include (x=>x.NameCustomer)
                 .FirstOrDefault(c => c.CustomerId == customers.CustomerId);
 
-
             return customers1;
         }
-        private void insertEmails(List<Email> emails,List<Email> customers1)
+
+       
+
+
+
+
+        public Site UpdateSite(Site site)
         {
-            foreach (var elt in emails)
+            if (_context.Sites.First().Name != null)
             {
-                var existingEmail = _context.EmailAddresses.Find(elt.EmailId);
-                if (existingEmail != null)
-                    existingEmail.EmailAddress = elt.EmailAddress;
-                if (existingEmail == null)
-                    customers1.Add(elt);
+                Language language = _context.Languages.FirstOrDefault(c => c.Id == site.Language.Id);
+
+                Site dBSite = _context.Sites.Where(e => e.SiteId == site.SiteId)
+                    .Include(y => y.Address)
+                    .Include(x => x.ContactSite).ThenInclude(x => x.Phone)
+                    .Include(x => x.ContactSite).ThenInclude(x => x.Email)
+                    .Include(x => x.Language)
+                    .FirstOrDefault();
+
+                foreach (ContactPerson contact in site.ContactSite)
+                {
+                    var dBcontact = dBSite.ContactSite.Find(e => e.ContactId == contact.ContactId);
+                    if(contact.FirstName != dBcontact.FirstName) dBcontact.FirstName = contact.FirstName;
+                    if(contact.LastName != dBcontact.LastName) dBcontact.LastName = contact.LastName;
+                    if(contact.responsible != dBcontact.responsible) dBcontact.responsible = contact.responsible;
+                    if(contact.EmergencyContact != dBcontact.EmergencyContact) dBcontact.EmergencyContact = contact.EmergencyContact;
+                    if(contact.NightContact != dBcontact.NightContact) dBcontact.NightContact = contact.NightContact;
+
+                    foreach (Phone phone in contact.Phone)
+                    {
+                        var existingPhone = _context.Phones.Find(phone.PhoneId);
+                        if (phone != null)
+                        {
+                            existingPhone.Number = phone.Number;
+                        }
+                        if (phone.PhoneId == null)
+                        {
+                            dBcontact.Phone.Add(phone);
+                        }
+                    }
+                    foreach(Email email in contact.Email)
+                    {
+                        var existingMail = _context.EmailAddresses.Find(email.EmailId);
+                        if(email !=null)
+                        {
+                            existingMail.EmailAddress = email.EmailAddress;
+                        }
+                        if(email.EmailId == null)
+                        {
+                            dBcontact.Email.Add(email);
+                        }
+                    }
+                }
+                if (dBSite.Language.Id != site.Language.Id) dBSite.Language = language;
+                if (dBSite.Name != site.Name) dBSite.Name = site.Name;
+                
+                
+                var existingAdrress = _context.Address.Find(site.Address.AddressId);
+                if (existingAdrress != null)
+                {
+                    existingAdrress.SreetAddress = site.Address.SreetAddress;
+                    existingAdrress.StateId = site.Address.StateId;
+                    existingAdrress.State = site.Address.State;
+                    existingAdrress.City = site.Address.City;
+                    existingAdrress.ZipCode = site.Address.ZipCode;
+                }
+                _context.SaveChanges();
+                return dBSite;
+            }
+            else
+            {
+                return new Site();
             }
         }
+
         private void insertPhones(List<Phone> phones, List<Phone> customers1)
         {
             foreach (var elt in phones)
@@ -110,6 +174,18 @@ namespace DataAccess.Services
             catch (Exception)
             {
                 throw new Exception();
+            }
+        }
+
+        private void insertEmails(List<Email> emails, List<Email> contact)
+        {
+            foreach (var elt in emails)
+            {
+                var existingEmail = _context.EmailAddresses.Find(elt.EmailId);
+                if (existingEmail != null)
+                    existingEmail.EmailAddress = elt.EmailAddress;
+                if (existingEmail == null)
+                    contact.Add(elt);
             }
         }
     }

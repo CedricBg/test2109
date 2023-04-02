@@ -27,23 +27,35 @@ namespace test2109.Controllers
         {
             List<AllCustomers> list = _customerService.All().Select(d => _mapper.Map<AllCustomers>(d)).ToList();
             return Ok(list);
-
         }
-
 
         [HttpGet("site/{id}")]
         public IActionResult Get(int id)
         {
-            Site site = _mapper.Map<API.Customer.Site>(_customerService.GetCustomer(id));
-  
-            return Ok(site);
+            try
+            {
+                Site site = _mapper.Map<API.Customer.Site>(_customerService.GetCustomer(id));
+                return Ok(site);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-
-        [HttpPut]
-        public API.Customer.Customers Put(API.Customer.Customers customer)
+        [HttpPut("site")]
+        public IActionResult Put(API.Customer.Site site)
         {
-            return new API.Customer.Customers();
+            try
+            {
+                var detail = _mapper.Map<BUSI.Customers.Site>(site);
+                API.Customer.Site sites = _mapper.Map<Site>(_customerService.UpdateSite(detail));
+                return Ok(sites);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
         }
     }
 }

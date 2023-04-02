@@ -7,5 +7,6 @@ namespace BusinessAccessLayer.IRepositories
     {
         List<AllCustomers> All();
         Site GetCustomer(int id);
+        Site UpdateSite(Site site);
     }
 }

@@ -21,7 +21,7 @@ namespace BusinessAccessLayer.Services
             _Mapper = mapper;
         }
 
-        public bool AddEmployee(DetailedEmployee form)
+        public Boolean AddEmployee(DetailedEmployee form)
         {
             try
             {

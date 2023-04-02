@@ -3,6 +3,7 @@ using BusinessAccessLayer.IRepositories;
 using BusinessAccessLayer.Models.Customers;
 using DataAccess.Repository;
 using DataAccess.Services;
+using DATA = DataAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,19 @@ namespace BusinessAccessLayer.Services
         {
             Site site = _mapper.Map<Site>(_services.Get(id));
             return site;                   
+        }
+
+        public Site UpdateSite(Site site)
+        {
+            try
+            {
+                var detail = _mapper.Map<DATA.Customer.Site>(site);
+                return _mapper.Map<Site>(_services.UpdateSite(detail));
+            }
+            catch (Exception)
+            {
+                return new Site();
+            }
         }
     }
 }

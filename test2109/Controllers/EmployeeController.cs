@@ -45,8 +45,7 @@ namespace test2109.Controllers
             try
             {
                 var detail = _Mapper.Map<BUSI.Employee.DetailedEmployee>(form);
-                Ok(_employeeService.AddEmployee(detail));
-
+                _employeeService.AddEmployee(detail);
                 return StatusCode(StatusCodes.Status201Created);
             }
             catch (Exception ex)

@@ -33,6 +33,7 @@ namespace DataAccess.Services
             if (_db.DetailedEmployees is not null)
             {
                 Role role = _db.Roles.FirstOrDefault(c =>c.roleId == employee.Role.roleId);
+                Language language = _db.Languages.FirstOrDefault(c => c.Id == employee.Language.Id);
 
                 _db.DetailedEmployees.Add(new DetailedEmployee
                 {
@@ -49,7 +50,7 @@ namespace DataAccess.Services
                     Email = employee.Email,
                     Address = employee.Address,
                     IsDeleted = false,
-                    Language = employee.Language,
+                    Language = language,
                 });
                 try
                 {

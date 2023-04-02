@@ -24,7 +24,7 @@ INSERT INTO Roles (DiminName, Name) Values('AGENT' , 'Accès minimum' )
 INSERT INTO Roles (DiminName, Name) Values('SUB'   , 'Sous-traitant' )
 INSERT INTO Roles (DiminName, Name) Values('CUST'  , 'Client' )
 
-INSERT INTO Languages Values('French')
+INSERT INTO Languages Values('Français')
 INSERT INTO Languages Values('Nederlands')
 INSERT INTO Languages Values('English')
 INSERT INTO Languages Values('German')
@@ -237,7 +237,7 @@ INSERT INTO DetailedEmployees (IsDeleted, [firstName], [SurName], AddressId, Use
 Values('False', 'admin', 'admin', 1, 1, 17, '01-01-1970', 'False', 0000000, '01-01-1970', 1)
 
 INSERT INTO Sites(VatNumber,IsDeleted, LanguageId, AddressId, [CustomersId], [Name]) Values(1154235444, 'False', 3, 1, 1, 'Dockx')
-INSERT INTO Sites(VatNumber,IsDeleted, LanguageId, AddressId, [CustomersId], [Name]) Values(455443435, 'False', 2, 1, 1, 'Danone')
+INSERT INTO Sites(VatNumber,IsDeleted, LanguageId, AddressId, [CustomersId], [Name]) Values(455443435, 'False', 2, 2, 1, 'Danone')
 
 INSERT INTO ContactPersons (FirstName, LastName, ContactSiteId,Created ,NightContact) Values ('Cedric','Bogaert', 1, '01-01-1970','True')
 INSERT INTO ContactPersons (FirstName, LastName, ContactSiteId, Created, EmergencyContact) Values ('Test1','Test1', 2, '01-01-1970', 'True')
