@@ -57,5 +57,22 @@ namespace test2109.Controllers
                 return Ok(ex.Message);
             }
         }
+        [HttpPost("addCustomer")] 
+        public IActionResult Post([FromBody] string customer) 
+        {
+            return Ok(_customerService.AddCustomer(customer));
+        }
+
+        [HttpPost("AddSite")]
+        public IActionResult Post([FromBody] API.Customer.Site site)
+        {
+            if(site == null)
+                return Ok(0);
+            else
+            {
+                var detail = _mapper.Map<BUSI.Customers.Site>(site);
+                return Ok(_customerService.AddSite(detail));
+            }
+        }
     }
 }

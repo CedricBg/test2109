@@ -8,5 +8,7 @@ namespace DataAccess.Repository
         List<AllCustomers> All();
         Site Get(int id);
         Site UpdateSite(Site site);
+        int AddCustomer(string customers);
+        int? AddSite(Site site);
     }
 }

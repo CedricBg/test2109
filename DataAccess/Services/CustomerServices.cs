@@ -23,6 +23,60 @@ namespace DataAccess.Services
             _Mapper = mapper;
         }
 
+        public int? AddSite(Site site)
+        {
+            if (site == null)
+                return 0;
+            else
+            {
+                if(!(_context.Sites.Where(e => e.Name == site.Name).Any()))
+                {
+                    Language language = _context.Languages.FirstOrDefault(c => c.Id == site.Language.Id);
+                    _context.Sites.Add(new Site { 
+                    Name = site.Name,
+                    Address = site.Address,
+                    IsDeleted = false,
+                    Language = language,
+                    CustomersId = site.CustomerIdCreate
+                    });
+                    _context.SaveChanges();
+                    Site site1 = _context.Sites.Where(e=>e.Name == site.Name).First();
+                    return site1.SiteId;
+                }
+                return 0;
+            }
+        }
+
+        public int AddCustomer(string customers)
+        {
+            if (customers != null)
+            {
+
+                if (!(_context.Customers.Where(e => e.NameCustomer == customers).Any()))
+                {
+                    Customers customers1 = new Customers();
+                    customers1.Role = new Role();
+                    customers1.NameCustomer = customers;
+                    Role role = _context.Roles.FirstOrDefault(c => c.roleId == 21);
+                    customers1.Role = role;
+                    customers1.CreationDate = DateTime.Now;
+                    customers1.IsDeleted = false;
+                    _context.Customers.Add(customers1);
+
+                    _context.SaveChanges();
+                    
+                    Customers IdNewCustomer = _context.Customers.Where(e => e.NameCustomer == customers).First();
+                    return IdNewCustomer.CustomerId;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            return 0;
+        }
+
+
         public List<AllCustomers> All()
         {
             if (_context.Customers != null)
@@ -78,10 +132,7 @@ namespace DataAccess.Services
             return customers1;
         }
 
-       
-
-
-
+        
 
         public Site UpdateSite(Site site)
         {
@@ -152,17 +203,6 @@ namespace DataAccess.Services
             }
         }
 
-        private void insertPhones(List<Phone> phones, List<Phone> customers1)
-        {
-            foreach (var elt in phones)
-            {
-                var existingPhone = _context.Phones.Find(elt.PhoneId);
-                if (existingPhone != null)
-                    existingPhone.Number = elt.Number;
-                if (existingPhone == null)
-                    customers1.Add(elt);
-            }
-        }
         private Countrys Country(int? id)
         {
             try
@@ -177,16 +217,6 @@ namespace DataAccess.Services
             }
         }
 
-        private void insertEmails(List<Email> emails, List<Email> contact)
-        {
-            foreach (var elt in emails)
-            {
-                var existingEmail = _context.EmailAddresses.Find(elt.EmailId);
-                if (existingEmail != null)
-                    existingEmail.EmailAddress = elt.EmailAddress;
-                if (existingEmail == null)
-                    contact.Add(elt);
-            }
-        }
+
     }
 }

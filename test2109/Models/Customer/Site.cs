@@ -4,11 +4,11 @@ namespace test2109.Models.Customer
 {
     public class Site
     {
-        public int SiteId { get; set; }
+        public int? SiteId { get; set; }
 
         public string Name { get; set; }
 
-        public string VatNumber { get; set; }
+        public string? VatNumber { get; set; }
 
         public bool? IsDeleted { get; set; }
 
@@ -20,5 +20,6 @@ namespace test2109.Models.Customer
 
         public Address Address { get; set; }
 
+        public int? CustomerIdCreate { get; set; }
     }
 }

@@ -11,11 +11,11 @@ namespace BusinessAccessLayer.Models.Customers
 {
     public class Site
     {
-        public int SiteId { get; set; }
+        public int? SiteId { get; set; }
 
         public string Name { get; set; }
 
-        public string VatNumber { get; set; }
+        public string? VatNumber { get; set; }
 
         public bool? IsDeleted { get; set; }
         [JsonIgnore]
@@ -26,5 +26,7 @@ namespace BusinessAccessLayer.Models.Customers
         public Language? Language { get; set; }
 
         public Address Address { get; set; }
+
+        public int? CustomerIdCreate { get; set; }
     }
 }

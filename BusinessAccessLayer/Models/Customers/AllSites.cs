@@ -8,7 +8,7 @@ namespace BusinessAccessLayer.Models.Customers
 {
     public class AllSites
     {
-        public int SiteId { get; set; }
+        public int? SiteId { get; set; }
 
         public string Name { get; set; }
     }

@@ -24,6 +24,12 @@ namespace BusinessAccessLayer.Services
             _services = services;
         }
 
+        public int? AddSite(Site site)
+        {
+            var detail = _mapper.Map<DATA.Customer.Site>(site);
+            return _services.AddSite(detail); 
+        }
+
         public List<AllCustomers> All()
         {
             return _services.All().Select(dr => _mapper.Map<AllCustomers>(dr)).ToList();
@@ -46,6 +52,10 @@ namespace BusinessAccessLayer.Services
             {
                 return new Site();
             }
+        }
+        public int AddCustomer(string customers)
+        {
+            return _services.AddCustomer(customers);
         }
     }
 }

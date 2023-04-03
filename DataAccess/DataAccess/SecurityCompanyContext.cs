@@ -80,8 +80,8 @@ namespace DataAccess.DataAccess
             {
                 entity.HasIndex(e => e.Name).IsUnique();
                 entity.HasOne(e=>e.Customer).WithMany(e=>e.Site).HasPrincipalKey(e=>e.CustomerId).OnDelete(DeleteBehavior.Restrict);
-                
                 entity.Property(e => e.Name).HasMaxLength(30).IsRequired(true);
+                entity.Ignore(e => e.CustomerIdCreate);
             });
 
             modelBuilder.Entity<ContactPerson>(entity =>

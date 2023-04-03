@@ -9,11 +9,11 @@ namespace DataAccess.Models.Customer
 {
     public class Site
     {
-        public int SiteId { get; set; }
+        public int? SiteId { get; set; }
 
         public string Name { get; set; }
 
-        public string VatNumber { get; set; }
+        public string? VatNumber { get; set; }
 
         public bool? IsDeleted { get; set; }
         [JsonIgnore]
@@ -25,9 +25,11 @@ namespace DataAccess.Models.Customer
 
         public Address Address { get; set; }
 
+        public int? CustomerIdCreate { get; set; }
+
         public Users Users { get; set; }
         [JsonIgnore]
-        public int CustomersId { get; set; }
+        public int? CustomersId { get; set; }
         [JsonIgnore]
         public Customers Customer { get; set; }
 
