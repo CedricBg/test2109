@@ -74,5 +74,18 @@ namespace test2109.Controllers
                 return Ok(_customerService.AddSite(detail));
             }
         }
+        
+        [HttpPost("addContact")]
+        public IActionResult Post( ContactPerson contact)
+        {
+
+            if (contact == null)
+                return Ok(0);
+            else
+            {
+                var detail = _mapper.Map<BUSI.Customers.ContactPerson>(contact);
+                return Ok(_customerService.addContact(detail));
+            }
+        }
     }
 }

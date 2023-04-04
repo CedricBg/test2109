@@ -23,6 +23,50 @@ namespace DataAccess.Services
             _Mapper = mapper;
         }
 
+        public int addContact(ContactPerson contact)
+        {
+            if (contact == null)
+                return 0;
+            else
+            {
+ 
+                if(_context.Sites.Where(e=>e.SiteId == contact.SiteId).Any())
+                {
+                    Site site = _context.Sites.FirstOrDefault(c => c.SiteId == contact.SiteId);
+                    ContactPerson contact1 = _context.ContactPersons.Where(e => e.LastName == contact.LastName && e.ContactSiteId == contact.SiteId).FirstOrDefault();
+                    if (contact1 == null)
+                    {
+                        ContactPerson contactPerson = new ContactPerson
+                        {
+                            FirstName = contact.FirstName,
+                            LastName = contact.LastName,
+                            NightContact = contact.NightContact,
+                            Responsible = contact.Responsible,
+                            EmergencyContact = contact.EmergencyContact,
+                            Created = DateTime.Now,
+                            Email = contact.Email,
+                            Phone = contact.Phone,
+                        };
+
+                        site.ContactSite = new List<ContactPerson>();
+                        site.ContactSite.Add(contactPerson);
+                        _context.SaveChanges();
+                        ContactPerson contact2 = _context.ContactPersons.Where(e => e.LastName == contact.LastName && e.ContactSiteId == contact.SiteId).First();
+                        return contact1.ContactId;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                    
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
         public int? AddSite(Site site)
         {
             if (site == null)
@@ -152,7 +196,7 @@ namespace DataAccess.Services
                     var dBcontact = dBSite.ContactSite.Find(e => e.ContactId == contact.ContactId);
                     if(contact.FirstName != dBcontact.FirstName) dBcontact.FirstName = contact.FirstName;
                     if(contact.LastName != dBcontact.LastName) dBcontact.LastName = contact.LastName;
-                    if(contact.responsible != dBcontact.responsible) dBcontact.responsible = contact.responsible;
+                    if(contact.Responsible != dBcontact.Responsible) dBcontact.Responsible = contact.Responsible;
                     if(contact.EmergencyContact != dBcontact.EmergencyContact) dBcontact.EmergencyContact = contact.EmergencyContact;
                     if(contact.NightContact != dBcontact.NightContact) dBcontact.NightContact = contact.NightContact;
 

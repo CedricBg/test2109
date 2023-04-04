@@ -24,6 +24,12 @@ namespace BusinessAccessLayer.Services
             _services = services;
         }
 
+        public int addContact(ContactPerson contact)
+        {
+            var detail = _mapper.Map<DATA.Customer.ContactPerson>(contact);
+            return _services.addContact(detail);
+        }
+
         public int? AddSite(Site site)
         {
             var detail = _mapper.Map<DATA.Customer.Site>(site);

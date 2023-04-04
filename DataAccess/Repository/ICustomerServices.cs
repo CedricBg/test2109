@@ -10,5 +10,6 @@ namespace DataAccess.Repository
         Site UpdateSite(Site site);
         int AddCustomer(string customers);
         int? AddSite(Site site);
+        int addContact(ContactPerson contact);
     }
 }

@@ -90,6 +90,7 @@ namespace DataAccess.DataAccess
                 entity.Property(e=>e.LastName).HasMaxLength(30).IsRequired(true);
                 entity.Property(e=>e.FirstName).HasMaxLength(30).IsRequired(true);
                 entity.HasOne(p => p.ContactSite).WithMany(s => s.ContactSite).HasForeignKey(p => p.ContactSiteId).OnDelete(DeleteBehavior.Restrict);
+                entity.Ignore(e => e.SiteId);
             });
 
             modelBuilder.Entity<Email>(entity =>

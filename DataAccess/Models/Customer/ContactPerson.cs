@@ -21,13 +21,15 @@ namespace DataAccess.Models.Customer
        
         public List<Phone> Phone { get; set; }
 
-        public Boolean? responsible { get; set; }
+        public Boolean? Responsible { get; set; }
 
         public DateTime Created { get; set; }
 
         public Boolean? EmergencyContact { get; set; }
         
         public Boolean? NightContact { get; set; }
+
+        public int? SiteId { get; set; }
 
         public int? ContactSiteId { get; }
         [JsonIgnore]
