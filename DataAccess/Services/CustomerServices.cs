@@ -52,7 +52,7 @@ namespace DataAccess.Services
                         site.ContactSite.Add(contactPerson);
                         _context.SaveChanges();
                         ContactPerson contact2 = _context.ContactPersons.Where(e => e.LastName == contact.LastName && e.ContactSiteId == contact.SiteId).First();
-                        return contact1.ContactId;
+                        return contact2.ContactId;
                     }
                     else
                     {
@@ -199,6 +199,31 @@ namespace DataAccess.Services
                     if(contact.Responsible != dBcontact.Responsible) dBcontact.Responsible = contact.Responsible;
                     if(contact.EmergencyContact != dBcontact.EmergencyContact) dBcontact.EmergencyContact = contact.EmergencyContact;
                     if(contact.NightContact != dBcontact.NightContact) dBcontact.NightContact = contact.NightContact;
+
+                    var emailIdsToRemove = dBcontact.Email
+                   .Where(email => !contact.Email.Any(e => e.EmailId == email.EmailId))
+                   .Select(email => email.EmailId)
+                   .ToList();
+
+                    foreach (var emailId in emailIdsToRemove)
+                    {
+                        var emailToRemove = _context.EmailAddresses.Find(emailId);
+                        _context.EmailAddresses.Remove(emailToRemove);
+                    }
+
+
+                    var phonesIdsToRemove = dBcontact.Phone
+                    .Where(phone => !contact.Phone.Any(e => e.PhoneId == phone.PhoneId))
+                    .Select(phone => phone.PhoneId)
+                    .ToList();
+
+
+                    foreach (var phoneId in phonesIdsToRemove)
+                    {
+                        var phoneToRemove = _context.Phones.Find(phoneId);
+                        _context.Phones.Remove(phoneToRemove);
+                    }
+
 
                     foreach (Phone phone in contact.Phone)
                     {

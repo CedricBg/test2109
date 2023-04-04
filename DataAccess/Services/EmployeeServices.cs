@@ -84,8 +84,34 @@ namespace DataAccess.Services
                     .Include("Role")
                     .Include("Language")
                     .FirstOrDefault();
+
+                var emailIdsToRemove = dBemployee.Email
+                .Where(email => !employee.Email.Any(e => e.EmailId == email.EmailId))
+                .Select(email => email.EmailId)
+                .ToList();
+
+                foreach (var emailId in emailIdsToRemove)
+                {
+                    var emailToRemove = _db.EmailAddresses.Find(emailId);
+                    _db.EmailAddresses.Remove(emailToRemove);
+                }
                 
-                foreach(var phone in employee.Phone)
+
+                var phonesIdsToRemove = dBemployee.Phone
+                .Where(phone => !employee.Phone.Any(e => e.PhoneId == phone.PhoneId))
+                .Select(phone => phone.PhoneId)
+                .ToList();
+
+
+                foreach(var phoneId in phonesIdsToRemove)
+                {
+                    var phoneToRemove = _db.Phones.Find(phoneId);
+                    _db.Phones.Remove(phoneToRemove);
+                }
+
+
+
+                foreach (var phone in employee.Phone)
                 {
                     var existingPhone = _db.Phones.Find(phone.PhoneId);
                     if (existingPhone != null)
