@@ -22,13 +22,32 @@ namespace test2109.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>Gets this instance.</summary>
+        /// <returns>
+        ///   <para>Retourne list d'objet Allcustomers qui contient des infosminimaliste sur les utilisateurs</para>
+        ///   <para>
+        ///     ou une liste vide
+        ///   </para>
+        /// </returns>
         [HttpGet]
         public IActionResult Get()
         {
-            List<AllCustomers> list = _customerService.All().Select(d => _mapper.Map<AllCustomers>(d)).ToList();
-            return Ok(list);
+            try
+            {
+                List<AllCustomers> list = _customerService.All().Select(d => _mapper.Map<AllCustomers>(d)).ToList();
+                return Ok(list);
+            }
+            catch 
+            { 
+                return Ok(new List<AllCustomers>());
+            }
+
+            
         }
 
+        /// <summary>Gets the specified identifier.</summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>Retourne un site par son id</returns>
         [HttpGet("site/{id}")]
         public IActionResult Get(int id)
         {
@@ -39,10 +58,13 @@ namespace test2109.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return Ok(new Site());
             }
         }
 
+        /// <summary>Puts the specified site.</summary>
+        /// <param name="site">The site.</param>
+        /// <returns>Mise a jour d'un site</returns>
         [HttpPut("site")]
         public IActionResult Put(API.Customer.Site site)
         {
@@ -57,6 +79,11 @@ namespace test2109.Controllers
                 return Ok(ex.Message);
             }
         }
+
+
+        /// <summary>Create a customer</summary>
+        /// <param name="customer">The customer.</param>
+        /// <returns>Creation d'un client avec juste un nom de société</returns>
         [HttpPost("addCustomer")] 
         public IActionResult Post([FromBody] string customer) 
         {

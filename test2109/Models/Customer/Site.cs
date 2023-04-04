@@ -2,6 +2,10 @@
 
 namespace test2109.Models.Customer
 {
+    /// <summary>
+    /// Class qui permet de crée un site sur base d'un id client
+    /// également pour le retour des donnèes apres création pour mise a jour des donnèes dans angular
+    /// </summary>
     public class Site
     {
         public int? SiteId { get; set; }

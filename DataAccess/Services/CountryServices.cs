@@ -25,6 +25,12 @@ namespace DataAccess.Services
             _Mapper = mapper;
         }
 
+        /// <summary>Gets all countrys for use in forms</summary>
+        /// <returns>
+        ///   List of countrys, 
+        ///   If counbtry's found return an empty list of countrys
+        /// </returns>
+        /// <exception cref="System.Exception"></exception>
         public List<Countrys> GetAllCountrys()
         {
             if (!(_context.Countrys == null))
@@ -39,7 +45,8 @@ namespace DataAccess.Services
             }
             else
             {
-                throw new Exception();
+                List<Countrys> list = new List<Countrys>();
+                return list;
             }
         }
     }

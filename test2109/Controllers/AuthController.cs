@@ -22,7 +22,12 @@ namespace test2109.Controllers
             _authService = authService;
             _Mapper = mapper;
         }
-        
+
+        /// <summary>Ajout d'un login a un utilisateur déjà existant</summary>
+        /// <param name="form">The form.</param>
+        /// <returns>
+        ///   retourne un string "Created" ou le message d'erreur , creer dans le service DataAccess
+        /// </returns>
         [HttpPost("AddLogin")]
         public IActionResult Post(AddRegisterForm form)
         {
@@ -37,6 +42,11 @@ namespace test2109.Controllers
             }
         }
 
+        /// <summary>Logins with the specified form</summary>
+        /// <param name="form">The form.</param>
+        /// <returns>
+        ///   si le mot de passe et l'utilisateur sont reconnu on renvoi le token, nom, prénom, role = string et dimin  en string
+        /// </returns>
         [HttpPost("login")]
         public IActionResult Login(LoginForm form)
         {

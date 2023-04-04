@@ -24,7 +24,14 @@ namespace test2109.Controllers
             _Mapper = mapper;
         }
 
-        
+
+        /// <summary>Gets this instance.</summary>
+        /// <returns>
+        ///   <para>retourne une liste d'objet employees</para>
+        ///   <para>
+        ///   class Employee
+        ///   </para>
+        /// </returns>
         [HttpGet("all")]
         public IActionResult Get()
         {
@@ -32,13 +39,16 @@ namespace test2109.Controllers
             {   
                 return Ok(_employeeService.GetAll());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return Ok(ex.Message);
+                return Ok(new List<Employee>());
             }
         }
 
-        
+
+        /// <summary>Création d'un utilisateur</summary>
+        /// <param name="form">The form.</param>
+        /// <returns>renvoi du status http ou  du message d'erreur</returns>
         [HttpPost("insert/")]
         public IActionResult Posts(DetailEmployed form)
         {
@@ -53,7 +63,13 @@ namespace test2109.Controllers
                 return Ok(BadRequest(ex.Message));
             }
         }
-        
+
+        /// <summary>Gets the one.</summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        ///   <para>Renvoi un objet DetailEmployed si trouvé </para>
+        ///   <para>autrement on renvoi false qui est alors geré en angular</para>
+        /// </returns>
         [HttpGet("GetOne/{id}")]
         public IActionResult GetOne(int id) 
         {
@@ -68,18 +84,38 @@ namespace test2109.Controllers
             }
         }
 
+        /// <summary>Deactives the specified identifier.</summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        ///   on passe la variable Isdelelted a true sur l'id passé ce qui met l'attribut Isdelelted dans la db a true
+        /// </returns>
         [HttpDelete("deactiveUser/{id}")]
         public IActionResult Deactive(int id)
         {
             return Ok(_employeeService.Deactive(id));
         }
 
+
+        /// <summary>Updates the employee.</summary>
+        /// <param name="detailedEmployee">The detailed employee.</param>
+        /// <returns>
+        ///   <para>Renoi un objet detailedEmployee pour la mise a jour dans angular </para>
+        ///   <para>Autrement un detailedEmployee vide</para>
+        /// </returns>
         [HttpPut("update")]
         public IActionResult UpdateEmployee(DetailEmployed detailedEmployee)
         {
-            var detail = _Mapper.Map<BUSI.Employee.DetailedEmployee>(detailedEmployee);
-            DetailEmployed employed =  _Mapper.Map<DetailEmployed>(_employeeService.UpdateEmployee(detail));
-            return Ok(employed);
+            try
+            {
+                var detail = _Mapper.Map<BUSI.Employee.DetailedEmployee>(detailedEmployee);
+                DetailEmployed employed = _Mapper.Map<DetailEmployed>(_employeeService.UpdateEmployee(detail));
+                return Ok(employed);
+            }
+            catch (Exception)
+            {
+                return Ok(new DetailEmployed());
+            }
+           
         }
     }
 }

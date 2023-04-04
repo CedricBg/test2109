@@ -1,5 +1,8 @@
 ﻿namespace test2109.Models.Customer
 {
+    /// <summary>
+    /// Utilisé dans CustomerController pour récuperé une liste minimaliste de customer
+    /// </summary>
     public class AllCustomers
     {
         public int Id { get; set; }
