@@ -150,6 +150,7 @@ namespace DataAccess.Services
                     .Include(x => x.Language)
                     .Include(x => x.ContactSite).ThenInclude(x=> x.Phone)
                     .Include(x => x.ContactSite).ThenInclude(x=> x.Email)
+
                     .First();
 
                     Countrys countrys = Country(site.Address.StateId);
@@ -210,20 +211,16 @@ namespace DataAccess.Services
                         var emailToRemove = _context.EmailAddresses.Find(emailId);
                         _context.EmailAddresses.Remove(emailToRemove);
                     }
-
-
                     var phonesIdsToRemove = dBcontact.Phone
                     .Where(phone => !contact.Phone.Any(e => e.PhoneId == phone.PhoneId))
                     .Select(phone => phone.PhoneId)
                     .ToList();
-
 
                     foreach (var phoneId in phonesIdsToRemove)
                     {
                         var phoneToRemove = _context.Phones.Find(phoneId);
                         _context.Phones.Remove(phoneToRemove);
                     }
-
 
                     foreach (Phone phone in contact.Phone)
                     {
@@ -252,6 +249,7 @@ namespace DataAccess.Services
                 }
                 if (dBSite.Language.Id != site.Language.Id) dBSite.Language = language;
                 if (dBSite.Name != site.Name) dBSite.Name = site.Name;
+                if (dBSite.VatNumber != site.VatNumber) dBSite.VatNumber = site.VatNumber;
                 
                 
                 var existingAdrress = _context.Address.Find(site.Address.AddressId);
