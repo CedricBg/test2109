@@ -23,6 +23,28 @@ namespace DataAccess.Services
             _Mapper = mapper;
         }
 
+        /// <summary>
+        /// Ne supprime pas mais passe l'attribut a isdeleted true.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>string error "deleted"</returns>
+        ///
+        public string Delete(int id)
+        {
+            try
+            {
+                Customers customer =  _context.Customers.Where(e=>e.CustomerId == id).FirstOrDefault();
+                customer.IsDeleted = true;
+                _context.SaveChanges();
+                return "Deleted";
+            }
+            catch(Exception ex)
+            { 
+                return ex.Message;
+            }
+
+        }
+
         public int addContact(ContactPerson contact)
         {
             if (contact == null)
@@ -173,7 +195,6 @@ namespace DataAccess.Services
                 .Include (x=>x.Role)
                 .Include (x=>x.NameCustomer)
                 .FirstOrDefault(c => c.CustomerId == customers.CustomerId);
-
             return customers1;
         }
 
@@ -184,7 +205,6 @@ namespace DataAccess.Services
             if (_context.Sites.First().Name != null)
             {
                 Language language = _context.Languages.FirstOrDefault(c => c.Id == site.Language.Id);
-
                 Site dBSite = _context.Sites.Where(e => e.SiteId == site.SiteId)
                     .Include(y => y.Address)
                     .Include(x => x.ContactSite).ThenInclude(x => x.Phone)
@@ -225,11 +245,11 @@ namespace DataAccess.Services
                     foreach (Phone phone in contact.Phone)
                     {
                         var existingPhone = _context.Phones.Find(phone.PhoneId);
-                        if (phone != null)
+                        if (phone != null && existingPhone != null)
                         {
                             existingPhone.Number = phone.Number;
                         }
-                        if (phone.PhoneId == null)
+                        if (phone.PhoneId == null || existingPhone == null)
                         {
                             dBcontact.Phone.Add(phone);
                         }
@@ -237,18 +257,17 @@ namespace DataAccess.Services
                     foreach(Email email in contact.Email)
                     {
                         var existingMail = _context.EmailAddresses.Find(email.EmailId);
-                        if(email !=null)
+                        if(email !=null && existingMail != null)
                         {
                             existingMail.EmailAddress = email.EmailAddress;
                         }
-                        if(email.EmailId == null)
+                        if(email.EmailId == null || existingMail == null)
                         {
                             dBcontact.Email.Add(email);
                         }
                     }
                 }
                 if (dBSite.Language.Id != site.Language.Id) dBSite.Language = language;
-                if (dBSite.Name != site.Name) dBSite.Name = site.Name;
                 if (dBSite.VatNumber != site.VatNumber) dBSite.VatNumber = site.VatNumber;
                 
                 
@@ -261,6 +280,11 @@ namespace DataAccess.Services
                     existingAdrress.City = site.Address.City;
                     existingAdrress.ZipCode = site.Address.ZipCode;
                 }
+                var siteSearch = _context.Sites.Where(s=>s.Name == site.Name).FirstOrDefault();
+                if(siteSearch == null)
+                {
+                    if (dBSite.Name != site.Name) dBSite.Name = site.Name;
+                }
                 _context.SaveChanges();
                 return dBSite;
             }
@@ -268,7 +292,7 @@ namespace DataAccess.Services
             {
                 return new Site();
             }
-        }
+        } 
 
         private Countrys Country(int? id)
         {

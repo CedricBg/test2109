@@ -24,6 +24,11 @@ namespace BusinessAccessLayer.Services
             _services = services;
         }
 
+        public string Delete(int id)
+        {
+            return _services.Delete(id);
+        }
+
         public int addContact(ContactPerson contact)
         {
             var detail = _mapper.Map<DATA.Customer.ContactPerson>(contact);

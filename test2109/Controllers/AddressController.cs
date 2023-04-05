@@ -17,11 +17,14 @@ namespace test2109.Controllers
             _countryService = countryService;
             _Mapper = mapper;
         }
+        /// <summary>
+        /// Retourne une liste de pays pour les formulaires
+        /// </summary>
+        /// <returns> List<Countrys> </Countrys></returns>
         [HttpGet("allCountrys")]
         public IEnumerable<Countrys> Get()
         {
             return _countryService.GetAllCountrys().Select(e => _Mapper.Map<Countrys>(e)).ToList();
-
         }
     }
 }

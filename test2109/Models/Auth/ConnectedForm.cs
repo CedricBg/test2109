@@ -2,6 +2,12 @@
 {
     public class ConnectedForm
     {
+        /// <summary>
+        /// Objet qui est renvoyer quand on est logguer permet de creer un cookies de connexion
+        /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
         public int Id { get; set; }
 
         public string FirstName { get; set; }

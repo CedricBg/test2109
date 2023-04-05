@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace test2109.Models
 {
+    /// <summary>Class qui sert a afficher et creer des adresses</summary>
     public class Address
     {
         public int AddressId { get; set; }

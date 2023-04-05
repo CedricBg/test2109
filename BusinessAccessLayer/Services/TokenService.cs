@@ -49,7 +49,7 @@ namespace BusinessAccessLayer.Services
                 signingCredentials: credentials,
                 issuer: _issuer,
                 audience: _audience,
-                expires : DateTime.Now.AddDays(1)
+                expires : DateTime.Now.AddHours(8)
 
             );
 

@@ -22,6 +22,17 @@ namespace test2109.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// passe la variable is deleted a true mais ne supprime pas le client
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        [HttpPut("delete/{id}")]
+        public IActionResult Delete(int id)
+        {
+            return Ok(_customerService.Delete(id));
+        }
+
         /// <summary>Gets this instance.</summary>
         /// <returns>
         ///   <para>Retourne list d'objet Allcustomers qui contient des infosminimaliste sur les utilisateurs</para>
@@ -40,9 +51,7 @@ namespace test2109.Controllers
             catch 
             { 
                 return Ok(new List<AllCustomers>());
-            }
-
-            
+            }  
         }
 
         /// <summary>Gets the specified identifier.</summary>
@@ -90,6 +99,9 @@ namespace test2109.Controllers
             return Ok(_customerService.AddCustomer(customer));
         }
 
+        /// <summary>Posts the specified site.</summary>
+        /// <param name="site">The site.</param>
+        /// <returns>Creation d'un site si le retour == 0 , on estime que le site n'est pas créé et on gere avec le 0 dans angular</returns>
         [HttpPost("AddSite")]
         public IActionResult Post([FromBody] API.Customer.Site site)
         {

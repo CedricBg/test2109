@@ -2,9 +2,11 @@
 
 namespace test2109.Models.Employee
 {
+    /// <summary>
+    /// Classe qui permet de creer un employee ou d'afficher les donnèes complète pour un employée
+    /// </summary>
     public class DetailEmployed
     {
-
         public int? Id { get; set; }
 
         public string firstName { get; set; } = null!;
