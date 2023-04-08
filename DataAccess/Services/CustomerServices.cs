@@ -6,7 +6,7 @@ using DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
 using DataAccess.Tools;
 using DataAccess.Models.Employees;
-
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace DataAccess.Services
 {
@@ -23,6 +23,52 @@ namespace DataAccess.Services
             _Mapper = mapper;
         }
 
+
+        /// <summary>
+        /// Mise a jour du nom du client ou de la personne de contact pour le Customer pas les sites !!!
+        /// </summary>
+        /// <param name="customer">The customer.</param>
+        /// <returns>le nom du client</returns>
+        public string updateCustomer(AllCustomers customer)
+        {
+            if(customer == null)
+            {
+                return "pas de changements";
+            }
+            else
+            {
+                Customers dBCustomer = _context.Customers.Where(e=>e.CustomerId == customer.Id)
+                    .FirstOrDefault();
+
+                
+                if (dBCustomer != null)
+                {
+                    dBCustomer.NameCustomer = customer.NameCustomer;
+                    if (customer.Contact != null)
+                    {
+                        ContactPerson contactPerson = new ContactPerson
+                        {
+                            FirstName = customer.Contact.FirstName,
+                            LastName = customer.Contact.LastName,
+                            NightContact = customer.Contact.NightContact,
+                            Responsible = customer.Contact.Responsible,
+                            EmergencyContact = customer.Contact.EmergencyContact,
+                            Created = DateTime.Now,
+
+                        };
+                        dBCustomer.Contact = contactPerson;
+                    }
+                   
+                    _context.SaveChanges();
+                    return dBCustomer.NameCustomer;
+                }
+                else
+                {
+                    return "Le client n'existe pas";
+                }
+            }
+        }
+
         /// <summary>
         /// Ne supprime pas mais passe l'attribut a isdeleted true.
         /// </summary>
@@ -36,6 +82,7 @@ namespace DataAccess.Services
                 Customers customer =  _context.Customers.Where(e=>e.CustomerId == id).FirstOrDefault();
                 customer.IsDeleted = true;
                 _context.SaveChanges();
+
                 return "Deleted";
             }
             catch(Exception ex)
@@ -55,7 +102,7 @@ namespace DataAccess.Services
                 if(_context.Sites.Where(e=>e.SiteId == contact.SiteId).Any())
                 {
                     Site site = _context.Sites.FirstOrDefault(c => c.SiteId == contact.SiteId);
-                    ContactPerson contact1 = _context.ContactPersons.Where(e => e.LastName == contact.LastName && e.ContactSiteId == contact.SiteId).FirstOrDefault();
+                    ContactPerson contact1 = _context.ContactPersons.Where(e => e.LastName == contact.LastName && e.FirstName == contact.FirstName && e.ContactSiteId == contact.SiteId).FirstOrDefault();
                     if (contact1 == null)
                     {
                         ContactPerson contactPerson = new ContactPerson
@@ -103,7 +150,10 @@ namespace DataAccess.Services
                     Address = site.Address,
                     IsDeleted = false,
                     Language = language,
-                    CustomersId = site.CustomerIdCreate
+                    CustomersId = site.CustomerIdCreate,
+                    VatNumber = site.VatNumber,
+                    CreationDate = DateTime.Now
+                    
                     });
                     _context.SaveChanges();
                     Site site1 = _context.Sites.Where(e=>e.Name == site.Name).First();
@@ -113,16 +163,16 @@ namespace DataAccess.Services
             }
         }
 
-        public int AddCustomer(string customers)
+        public int AddCustomer(Customers customers)
         {
             if (customers != null)
             {
-
-                if (!(_context.Customers.Where(e => e.NameCustomer == customers).Any()))
+                if (!(_context.Customers.Where(e => e.NameCustomer == customers.NameCustomer).Any()))
                 {
                     Customers customers1 = new Customers();
+                    customers1.Contact = customers.Contact;
                     customers1.Role = new Role();
-                    customers1.NameCustomer = customers;
+                    customers1.NameCustomer = customers.NameCustomer;
                     Role role = _context.Roles.FirstOrDefault(c => c.roleId == 21);
                     customers1.Role = role;
                     customers1.CreationDate = DateTime.Now;
@@ -131,7 +181,7 @@ namespace DataAccess.Services
 
                     _context.SaveChanges();
                     
-                    Customers IdNewCustomer = _context.Customers.Where(e => e.NameCustomer == customers).First();
+                    Customers IdNewCustomer = _context.Customers.Where(e => e.NameCustomer == customers.NameCustomer).First();
                     return IdNewCustomer.CustomerId;
                 }
                 else
@@ -141,7 +191,6 @@ namespace DataAccess.Services
             }
             return 0;
         }
-
 
         public List<AllCustomers> All()
         {
@@ -197,9 +246,7 @@ namespace DataAccess.Services
                 .FirstOrDefault(c => c.CustomerId == customers.CustomerId);
             return customers1;
         }
-
-        
-
+ 
         public Site UpdateSite(Site site)
         {
             if (_context.Sites.First().Name != null)

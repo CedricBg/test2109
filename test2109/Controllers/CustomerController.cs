@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using API = test2109.Models;
 using test2109.Models.Employee;
 using test2109.Models.Customer;
+using System.Text.Json;
 
 namespace test2109.Controllers
 {
@@ -22,20 +23,29 @@ namespace test2109.Controllers
             _mapper = mapper;
         }
 
+
+        [HttpPut]
+        public IActionResult updateCustomer(AllCustomers customer)
+        {
+            var detail = _mapper.Map<BUSI.Customers.AllCustomers>(customer);
+            return Ok(_customerService.updateCustomer(detail));
+        }
+
         /// <summary>
         /// passe la variable is deleted a true mais ne supprime pas le client
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         [HttpPut("delete/{id}")]
-        public IActionResult Delete(int id)
+        public string Delete(int id)
         {
-            return Ok(_customerService.Delete(id));
+            string response = (_customerService.Delete(id));
+            return JsonSerializer.Serialize(response);
         }
 
         /// <summary>Gets this instance.</summary>
         /// <returns>
-        ///   <para>Retourne list d'objet Allcustomers qui contient des infosminimaliste sur les utilisateurs</para>
+        ///   <para>Retourne list d'objet Allcustomers qui contient des infos minimaliste sur les utilisateurs</para>
         ///   <para>
         ///     ou une liste vide
         ///   </para>
@@ -65,7 +75,7 @@ namespace test2109.Controllers
                 Site site = _mapper.Map<API.Customer.Site>(_customerService.GetCustomer(id));
                 return Ok(site);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Ok(new Site());
             }
@@ -94,9 +104,10 @@ namespace test2109.Controllers
         /// <param name="customer">The customer.</param>
         /// <returns>Creation d'un client avec juste un nom de société</returns>
         [HttpPost("addCustomer")] 
-        public IActionResult Post([FromBody] string customer) 
+        public IActionResult Post([FromBody] Customers customer) 
         {
-            return Ok(_customerService.AddCustomer(customer));
+            var detail = _mapper.Map<BUSI.Customers.Customers>(customer);
+            return Ok(_customerService.AddCustomer(detail));
         }
 
         /// <summary>Posts the specified site.</summary>
