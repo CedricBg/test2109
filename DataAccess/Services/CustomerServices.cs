@@ -5,8 +5,7 @@ using DataAccess.Models.Customer;
 using DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
 using DataAccess.Tools;
-using DataAccess.Models.Employees;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using System.ComponentModel;
 
 namespace DataAccess.Services
 {
@@ -16,19 +15,110 @@ namespace DataAccess.Services
         private readonly IEmployeeServices _employeeServices;
 
         private readonly IMapper _Mapper;
+ 
 
         public CustomerServices(SecurityCompanyContext context, IMapper mapper)
         {
             _context = context;
             _Mapper = mapper;
+    
+        }      
+        
+        public Customers GetOne(int id)
+        {
+            Customers customer =  _context.Customers.Where(e => e.CustomerId == id)
+                .Include(e=>e.Contact).ThenInclude(y=>y.Phone)
+                .Include(e=>e.Contact).ThenInclude(y=>y.Email)
+                .FirstOrDefault();
+            if (customer != null)
+            {
+                return customer;
+            }
+            else
+            {
+                return new Customers();
+            }
         }
 
+        public Customers UpdateCustomer(AllCustomers cust)
+        {
+            if (cust == null) throw new ArgumentNullException();
+            else
+            {
+                Customers dBCust = _context.Customers.Where(e => e.CustomerId == cust.Id)
+                    .Include(e => e.Contact).ThenInclude(y => y.Email)
+                    .Include(e => e.Contact).ThenInclude(y => y.Phone)
+                    .FirstOrDefault();
+
+                if (dBCust == null) throw new Exception();
+                else
+                {
+                    if(dBCust.NameCustomer != cust.NameCustomer) dBCust.NameCustomer = cust.NameCustomer;
+                    var emailIdsToRemove = dBCust.Contact.Email
+                   .Where(email => !dBCust.Contact.Email.Any(e => e.EmailId == email.EmailId))
+                   .Select(email => email.EmailId)
+                   .ToList();
+
+                    foreach (var emailId in emailIdsToRemove)
+                    {
+                        var emailToRemove = _context.EmailAddresses.Find(emailId);
+                        _context.EmailAddresses.Remove(emailToRemove);
+                    }
+                    var phonesIdsToRemove = dBCust.Contact.Phone
+                    .Where(phone => !dBCust.Contact.Phone.Any(e => e.PhoneId == phone.PhoneId))
+                    .Select(phone => phone.PhoneId)
+                    .ToList();
+
+                    foreach (var phoneId in phonesIdsToRemove)
+                    {
+                        var phoneToRemove = _context.Phones.Find(phoneId);
+                        _context.Phones.Remove(phoneToRemove);
+                    }
+                    if (cust.Contact.FirstName != dBCust.Contact.FirstName) dBCust.Contact.FirstName = cust.Contact.FirstName;
+                    if (cust.Contact.LastName != dBCust.Contact.LastName) dBCust.Contact.LastName = cust.Contact.LastName;
+                    if (cust.Contact.Responsible != dBCust.Contact.Responsible) dBCust.Contact.Responsible = cust.Contact.Responsible;
+                    if (cust.Contact.EmergencyContact != dBCust.Contact.EmergencyContact) dBCust.Contact.EmergencyContact = cust.Contact.EmergencyContact;
+                    if (cust.Contact.NightContact != dBCust.Contact.NightContact) dBCust.Contact.NightContact = cust.Contact.NightContact;
+
+                    foreach (Phone phone in cust.Contact.Phone)
+                    {
+                        var existingPhone = _context.Phones.Find(phone.PhoneId);
+                        if (phone != null && existingPhone != null)
+                        {
+                            existingPhone.Number = phone.Number;
+                        }
+                        if (phone.PhoneId == null || existingPhone == null)
+                        {
+                            dBCust.Contact.Phone.Add(phone);
+                        }
+                    }
+                    foreach (Email email in cust.Contact.Email)
+                    {
+                        var existingMail = _context.EmailAddresses.Find(email.EmailId);
+                        if (email != null && existingMail != null)
+                        {
+                            existingMail.EmailAddress = email.EmailAddress;
+                        }
+                        if (email.EmailId == null || existingMail == null)
+                        {
+                            dBCust.Contact.Email.Add(email);
+                        }
+                    }
+                    _context.SaveChanges();
+                }
+                return dBCust;
+            }
+        }
+
+       
 
         /// <summary>
         /// Mise a jour du nom du client ou de la personne de contact pour le Customer pas les sites !!!
         /// </summary>
         /// <param name="customer">The customer.</param>
-        /// <returns>le nom du client</returns>
+        /// <returns>
+        /// le nom du client
+        /// </returns>
         public string updateCustomer(AllCustomers customer)
         {
             if(customer == null)
@@ -235,17 +325,6 @@ namespace DataAccess.Services
             }
         }
 
-        public Customers Update(Customers customers)
-        {
-            if(customers == null)
-                return null;
-
-            Customers customers1 = _context.Customers
-                .Include (x=>x.Role)
-                .Include (x=>x.NameCustomer)
-                .FirstOrDefault(c => c.CustomerId == customers.CustomerId);
-            return customers1;
-        }
  
         public Site UpdateSite(Site site)
         {

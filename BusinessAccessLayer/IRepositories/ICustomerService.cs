@@ -1,5 +1,6 @@
 ﻿
 using BusinessAccessLayer.Models.Customers;
+using AllCustomers = BusinessAccessLayer.Models.Customers.AllCustomers;
 
 namespace BusinessAccessLayer.IRepositories
 {
@@ -12,6 +13,7 @@ namespace BusinessAccessLayer.IRepositories
         int? AddSite(Site site);
         int addContact(ContactPerson contact);
         string Delete(int id);
-        string updateCustomer(AllCustomers customer);
+        Customers updateCustomer(AllCustomers customer);
+        Customers GetOne(int id);
     }
 }

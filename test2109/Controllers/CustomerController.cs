@@ -24,6 +24,12 @@ namespace test2109.Controllers
         }
 
 
+        [HttpGet("{id}")]
+        public IActionResult GetOne(int id)
+        {
+            return Ok(_mapper.Map<Customers>(_customerService.GetOne(id)));
+        }
+
         [HttpPut]
         public IActionResult updateCustomer(AllCustomers customer)
         {

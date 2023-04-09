@@ -24,10 +24,15 @@ namespace BusinessAccessLayer.Services
             _services = services;
         }
 
-        public string updateCustomer(AllCustomers customer)
+        public Customers GetOne(int id)
+        {
+            return _mapper.Map<Customers>(_services.GetOne(id));
+        }
+
+        public Customers updateCustomer(AllCustomers customer)
         {
             var detail = _mapper.Map<DATA.Customer.AllCustomers>(customer);
-            return _services.updateCustomer(detail);
+            return _mapper.Map<Customers>(_services.UpdateCustomer(detail));
         }
 
         public string Delete(int id)
