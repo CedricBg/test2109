@@ -12,7 +12,7 @@ namespace DataAccess.Repository
         int? AddSite(Site site);
         int addContact(ContactPerson contact);
         string Delete(int id);
-        Customers UpdateCustomer(AllCustomers cust);
+        List<Customers> UpdateCustomer(AllCustomers cust);
         Customers GetOne(int id);
     }
 }

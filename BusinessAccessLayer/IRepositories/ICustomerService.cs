@@ -13,7 +13,7 @@ namespace BusinessAccessLayer.IRepositories
         int? AddSite(Site site);
         int addContact(ContactPerson contact);
         string Delete(int id);
-        Customers updateCustomer(AllCustomers customer);
+        List<Customers> UpdateCustomer(AllCustomers customer);
         Customers GetOne(int id);
     }
 }

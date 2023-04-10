@@ -29,6 +29,7 @@ namespace DataAccess.Services
             Customers customer =  _context.Customers.Where(e => e.CustomerId == id)
                 .Include(e=>e.Contact).ThenInclude(y=>y.Phone)
                 .Include(e=>e.Contact).ThenInclude(y=>y.Email)
+                .Include(e=>e.Site)
                 .FirstOrDefault();
             if (customer != null)
             {
@@ -40,12 +41,19 @@ namespace DataAccess.Services
             }
         }
 
-        public Customers UpdateCustomer(AllCustomers cust)
+        /// <summary>
+        /// Mise a jour du nom du client ou de la personne de contact pour le Customer pas les sites !!!
+        /// </summary>
+        /// <param name="customer">The customer.</param>
+        /// <returns>
+        /// le nom du client
+        /// </returns>
+        public List<Customers> UpdateCustomer(AllCustomers cust)
         {
             if (cust == null) throw new ArgumentNullException();
             else
             {
-                Customers dBCust = _context.Customers.Where(e => e.CustomerId == cust.Id)
+                Customers dBCust = _context.Customers.Where(e => e.CustomerId == cust.CustomerId)
                     .Include(e => e.Contact).ThenInclude(y => y.Email)
                     .Include(e => e.Contact).ThenInclude(y => y.Phone)
                     .FirstOrDefault();
@@ -54,108 +62,89 @@ namespace DataAccess.Services
                 else
                 {
                     if(dBCust.NameCustomer != cust.NameCustomer) dBCust.NameCustomer = cust.NameCustomer;
-                    var emailIdsToRemove = dBCust.Contact.Email
-                   .Where(email => !dBCust.Contact.Email.Any(e => e.EmailId == email.EmailId))
-                   .Select(email => email.EmailId)
-                   .ToList();
-
-                    foreach (var emailId in emailIdsToRemove)
+                    if (dBCust.Contact != null && dBCust.Contact.Email != null)
                     {
-                        var emailToRemove = _context.EmailAddresses.Find(emailId);
-                        _context.EmailAddresses.Remove(emailToRemove);
-                    }
-                    var phonesIdsToRemove = dBCust.Contact.Phone
-                    .Where(phone => !dBCust.Contact.Phone.Any(e => e.PhoneId == phone.PhoneId))
-                    .Select(phone => phone.PhoneId)
-                    .ToList();
+                        var emailIdsToRemove = dBCust.Contact.Email
+                       .Where(email => !cust.Contact.Email.Any(e => e.EmailId == email.EmailId))
+                       .Select(email => email.EmailId)
+                       .ToList();
 
-                    foreach (var phoneId in phonesIdsToRemove)
-                    {
-                        var phoneToRemove = _context.Phones.Find(phoneId);
-                        _context.Phones.Remove(phoneToRemove);
-                    }
-                    if (cust.Contact.FirstName != dBCust.Contact.FirstName) dBCust.Contact.FirstName = cust.Contact.FirstName;
-                    if (cust.Contact.LastName != dBCust.Contact.LastName) dBCust.Contact.LastName = cust.Contact.LastName;
-                    if (cust.Contact.Responsible != dBCust.Contact.Responsible) dBCust.Contact.Responsible = cust.Contact.Responsible;
-                    if (cust.Contact.EmergencyContact != dBCust.Contact.EmergencyContact) dBCust.Contact.EmergencyContact = cust.Contact.EmergencyContact;
-                    if (cust.Contact.NightContact != dBCust.Contact.NightContact) dBCust.Contact.NightContact = cust.Contact.NightContact;
-
-                    foreach (Phone phone in cust.Contact.Phone)
-                    {
-                        var existingPhone = _context.Phones.Find(phone.PhoneId);
-                        if (phone != null && existingPhone != null)
+                        foreach (var emailId in emailIdsToRemove)
                         {
-                            existingPhone.Number = phone.Number;
-                        }
-                        if (phone.PhoneId == null || existingPhone == null)
-                        {
-                            dBCust.Contact.Phone.Add(phone);
+                            var emailToRemove = _context.EmailAddresses.Find(emailId);
+                            _context.EmailAddresses.Remove(emailToRemove);
                         }
                     }
-                    foreach (Email email in cust.Contact.Email)
+                    if (dBCust.Contact != null && dBCust.Contact.Phone != null)
                     {
-                        var existingMail = _context.EmailAddresses.Find(email.EmailId);
-                        if (email != null && existingMail != null)
+                        var phonesIdsToRemove = dBCust.Contact.Phone
+                        .Where(phone => !cust.Contact.Phone.Any(e => e.PhoneId == phone.PhoneId))
+                        .Select(phone => phone.PhoneId)
+                        .ToList();
+
+                        foreach (var phoneId in phonesIdsToRemove)
                         {
-                            existingMail.EmailAddress = email.EmailAddress;
-                        }
-                        if (email.EmailId == null || existingMail == null)
-                        {
-                            dBCust.Contact.Email.Add(email);
+                            var phoneToRemove = _context.Phones.Find(phoneId);
+                            _context.Phones.Remove(phoneToRemove);
                         }
                     }
-                    _context.SaveChanges();
-                }
-                return dBCust;
-            }
-        }
+                    if (dBCust.Contact != null)
+                    {
+                        if (cust.Contact.FirstName != dBCust.Contact.FirstName) dBCust.Contact.FirstName = cust.Contact.FirstName;
+                        if (cust.Contact.LastName != dBCust.Contact.LastName) dBCust.Contact.LastName = cust.Contact.LastName;
+                        if (cust.Contact.Responsible != dBCust.Contact.Responsible) dBCust.Contact.Responsible = cust.Contact.Responsible;
+                        if (cust.Contact.EmergencyContact != dBCust.Contact.EmergencyContact) dBCust.Contact.EmergencyContact = cust.Contact.EmergencyContact;
+                        if (cust.Contact.NightContact != dBCust.Contact.NightContact) dBCust.Contact.NightContact = cust.Contact.NightContact;
 
-       
-
-        /// <summary>
-        /// Mise a jour du nom du client ou de la personne de contact pour le Customer pas les sites !!!
-        /// </summary>
-        /// <param name="customer">The customer.</param>
-        /// <returns>
-        /// le nom du client
-        /// </returns>
-        public string updateCustomer(AllCustomers customer)
-        {
-            if(customer == null)
-            {
-                return "pas de changements";
-            }
-            else
-            {
-                Customers dBCustomer = _context.Customers.Where(e=>e.CustomerId == customer.Id)
-                    .FirstOrDefault();
-
-                
-                if (dBCustomer != null)
-                {
-                    dBCustomer.NameCustomer = customer.NameCustomer;
-                    if (customer.Contact != null)
+                        foreach (Phone phone in cust.Contact.Phone)
+                        {
+                            var existingPhone = _context.Phones.Find(phone.PhoneId);
+                            if (phone != null && existingPhone != null)
+                            {
+                                existingPhone.Number = phone.Number;
+                            }
+                            if (phone.PhoneId == null || existingPhone == null)
+                            {
+                                dBCust.Contact.Phone.Add(phone);
+                            }
+                        }
+                        foreach (Email email in cust.Contact.Email)
+                        {
+                            var existingMail = _context.EmailAddresses.Find(email.EmailId);
+                            if (email != null && existingMail != null)
+                            {
+                                existingMail.EmailAddress = email.EmailAddress;
+                            }
+                            if (email.EmailId == null || existingMail == null)
+                            {
+                                dBCust.Contact.Email.Add(email);
+                            }
+                        }
+                    }
+                    else
                     {
                         ContactPerson contactPerson = new ContactPerson
                         {
-                            FirstName = customer.Contact.FirstName,
-                            LastName = customer.Contact.LastName,
-                            NightContact = customer.Contact.NightContact,
-                            Responsible = customer.Contact.Responsible,
-                            EmergencyContact = customer.Contact.EmergencyContact,
+                            FirstName = cust.Contact.FirstName,
+                            LastName = cust.Contact.LastName,
+                            NightContact = cust.Contact.NightContact,
+                            Responsible = cust.Contact.Responsible,
+                            EmergencyContact = cust.Contact.EmergencyContact,
                             Created = DateTime.Now,
-
+                            Email = cust.Contact.Email,
+                            Phone = cust.Contact.Phone,
+                            
                         };
-                        dBCustomer.Contact = contactPerson;
+                        dBCust.Contact = contactPerson;
                     }
-                   
                     _context.SaveChanges();
-                    return dBCustomer.NameCustomer;
                 }
-                else
-                {
-                    return "Le client n'existe pas";
-                }
+                List<Customers> customers = _context.Customers
+                    .Include(e=>e.Contact).ThenInclude(e=>e.Phone)
+                    .Include(e=>e.Contact).ThenInclude(e=>e.Email)
+                    .ToList();
+
+                return customers;
             }
         }
 
@@ -291,7 +280,7 @@ namespace DataAccess.Services
                     .Select((Client) => new AllCustomers
                     {
                         NameCustomer = Client.NameCustomer,
-                        Id = Client.CustomerId,
+                        CustomerId = Client.CustomerId,
                         Contact = Client.Contact,
                         Site = Client.Site.sites()
                     }
@@ -324,7 +313,6 @@ namespace DataAccess.Services
                 return new Site();
             }
         }
-
  
         public Site UpdateSite(Site site)
         {

@@ -28,11 +28,11 @@ namespace BusinessAccessLayer.Services
         {
             return _mapper.Map<Customers>(_services.GetOne(id));
         }
-
-        public Customers updateCustomer(AllCustomers customer)
+   
+        public List<Customers> UpdateCustomer(AllCustomers customer)
         {
             var detail = _mapper.Map<DATA.Customer.AllCustomers>(customer);
-            return _mapper.Map<Customers>(_services.UpdateCustomer(detail));
+            return _services.UpdateCustomer(detail).Select(dr => _mapper.Map<Customers>(dr)).ToList();
         }
 
         public string Delete(int id)

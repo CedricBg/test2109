@@ -31,10 +31,10 @@ namespace test2109.Controllers
         }
 
         [HttpPut]
-        public IActionResult updateCustomer(AllCustomers customer)
+        public IActionResult UpdateCustomer(AllCustomers customer)
         {
             var detail = _mapper.Map<BUSI.Customers.AllCustomers>(customer);
-            return Ok(_customerService.updateCustomer(detail));
+            return Ok(_customerService.UpdateCustomer(detail).Select(dr => _mapper.Map<Customers>(dr)).ToList());
         }
 
         /// <summary>
