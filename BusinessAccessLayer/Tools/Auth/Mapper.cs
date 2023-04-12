@@ -10,16 +10,7 @@ namespace BusinessAccessLayer.Tools.Auth
 {
     public static class Mapper
     {
-        public static DATA.AddRegisterForm MapregistEmployeeToData(this BUSI.AddRegisterForm form)
-        {
-            return new DATA.AddRegisterForm()
-            {
-                Login = form.Login,
-                Password = form.Password,
-                Id = form.Id,
-                Role = form.Role,
-            };
-        }
+
 
         public static DATA.LoginForm MapLoginForm(this BUSI.LoginForm form)
         {

@@ -6,6 +6,7 @@ using DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
 using DataAccess.Tools;
 using System.ComponentModel;
+using DataAccess.Models.Employees;
 
 
 namespace DataAccess.Services
@@ -243,7 +244,8 @@ namespace DataAccess.Services
         {
             if (customers != null && !(_context.Customers.Where(e => e.NameCustomer == customers.NameCustomer).Any()))
             {
-                customers.Role = new Role();
+                Role role = _context.Roles.FirstOrDefault(c => c.roleId == 21);
+                customers.Role = role;
                 customers.CreationDate = DateTime.Now;
                 customers.IsDeleted = false;
                 _context.Customers.Add(customers);

@@ -62,6 +62,7 @@ namespace test2109.Controllers
             try
             {
                 List<AllCustomers> list = _customerService.All().Select(d => _mapper.Map<AllCustomers>(d)).ToList();
+                Console.WriteLine(list[0].NameCustomer);
                 return Ok(list);
             }
             catch 

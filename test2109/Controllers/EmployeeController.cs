@@ -5,8 +5,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using test2109.Models.Employee;
-
-
+using System.IO;
+using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace test2109.Controllers
 {
@@ -23,7 +24,25 @@ namespace test2109.Controllers
             _employeeService = employeeService;
             _Mapper = mapper;
         }
+       
 
+        [HttpPost("UploadFile")]
+        public async Task<string> UploadFile(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("retoruné une image valide").ToString();
+            }
+
+            var filePath = Path.Combine("Images/", file.FileName);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+            
+            return JsonSerializer.Serialize("Fichier téléchargé avec succès!");
+        }
+    
 
         /// <summary>Gets this instance.</summary>
         /// <returns>
@@ -32,6 +51,7 @@ namespace test2109.Controllers
         ///   class Employee
         ///   </para>
         /// </returns>
+        [Authorize("opspolicy")]
         [HttpGet("all")]
         public IActionResult Get()
         {
@@ -49,6 +69,7 @@ namespace test2109.Controllers
         /// <summary>Création d'un utilisateur</summary>
         /// <param name="form">The form.</param>
         /// <returns>renvoi du status http ou  du message d'erreur</returns>
+        [Authorize("opspolicy")]
         [HttpPost("insert/")]
         public IActionResult Posts(DetailEmployed form)
         {
@@ -70,6 +91,7 @@ namespace test2109.Controllers
         ///   <para>Renvoi un objet DetailEmployed si trouvé </para>
         ///   <para>autrement on renvoi false qui est alors geré en angular</para>
         /// </returns>
+        [Authorize("opspolicy")]
         [HttpGet("GetOne/{id}")]
         public IActionResult GetOne(int id) 
         {
@@ -89,6 +111,7 @@ namespace test2109.Controllers
         /// <returns>
         ///   on passe la variable Isdelelted a true sur l'id passé ce qui met l'attribut Isdelelted dans la db a true
         /// </returns>
+        [Authorize("opspolicy")]
         [HttpDelete("deactiveUser/{id}")]
         public IActionResult Deactive(int id)
         {
@@ -102,6 +125,7 @@ namespace test2109.Controllers
         ///   <para>Renoi un objet detailedEmployee pour la mise a jour dans angular </para>
         ///   <para>Autrement un detailedEmployee vide</para>
         /// </returns>
+        [Authorize("opspolicy")]
         [HttpPut("update")]
         public IActionResult UpdateEmployee(DetailEmployed detailedEmployee)
         {

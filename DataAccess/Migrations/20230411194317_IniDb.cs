@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Migrations
 {
-    public partial class initDb : Migration
+    public partial class IniDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -174,6 +174,8 @@ namespace DataAccess.Migrations
                     UserId = table.Column<int>(type: "int", nullable: true),
                     roleId = table.Column<int>(type: "int", nullable: true),
                     LanguageId = table.Column<int>(type: "int", nullable: true),
+                    PhotoId = table.Column<int>(type: "int", nullable: true),
+                    PhotoName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DepartementId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -218,7 +220,7 @@ namespace DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    responsible = table.Column<bool>(type: "bit", nullable: true),
+                    Responsible = table.Column<bool>(type: "bit", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EmergencyContact = table.Column<bool>(type: "bit", nullable: true),
                     NightContact = table.Column<bool>(type: "bit", nullable: true),
@@ -340,7 +342,7 @@ namespace DataAccess.Migrations
                     LanguageId = table.Column<int>(type: "int", nullable: true),
                     AddressId = table.Column<int>(type: "int", nullable: true),
                     UsersId = table.Column<int>(type: "int", nullable: true),
-                    CustomersId = table.Column<int>(type: "int", nullable: false)
+                    CustomersId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -55,6 +55,8 @@ namespace BusinessAccessLayer.Tools
                 .ReverseMap();
             CreateMap<DATA.Language, BUSI.Language>()
                 .ReverseMap();
+            CreateMap<DATA.Auth.AddRegisterForm, BUSI.Auth.AddRegisterForm>()
+                .ReverseMap();
            
             
 

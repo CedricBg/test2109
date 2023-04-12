@@ -35,7 +35,7 @@ namespace DataAccess.Services
             {
                 if(user == form.Login)
                 {
-                    Console.WriteLine("test");
+                    return ("Login déjà utilisé");
                 }
             }
             try

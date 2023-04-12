@@ -236,6 +236,9 @@ INSERT INTO Customers (NameCustomer, RoleId,IsDeleted) Values('Test Company', 21
 INSERT INTO DetailedEmployees (IsDeleted, [firstName], [SurName], AddressId, UserId, [roleId], BirthDate, Vehicle, RegistreNational, CreationDate, LanguageId)
 Values('False', 'admin', 'admin', 1, 1, 17, '01-01-1970', 'False', 0000000, '01-01-1970', 1)
 
+INSERT INTO Address (SreetAddress,City,StateId,ZipCode) Values('Avenue du désert 33', 'Hotton', 18, 1020)
+INSERT INTO Address (SreetAddress,City,StateId,ZipCode) Values('Rue du pont 22', 'Marche en fammenne', 18, 6000)
+
 INSERT INTO Sites(VatNumber,IsDeleted, LanguageId, AddressId, [CustomersId], [Name]) Values(1154235444, 'False', 3, 1, 1, 'Dockx')
 INSERT INTO Sites(VatNumber,IsDeleted, LanguageId, AddressId, [CustomersId], [Name]) Values(455443435, 'False', 2, 2, 1, 'Danone')
 
@@ -244,9 +247,6 @@ INSERT INTO ContactPersons (FirstName, LastName, ContactSiteId, Created, Emergen
 INSERT INTO ContactPersons (FirstName, LastName, ContactSiteId, Created) Values ('Test2','Test2', 2, '01-01-1970')
 INSERT INTO ContactPersons (FirstName, LastName, Created) Values ('Test2','Test2', '01-01-1970')
 
-
-INSERT INTO Address (SreetAddress,City,StateId,ZipCode) Values('Avenue du désert 33', 'Hotton', 18, 1020)
-INSERT INTO Address (SreetAddress,City,StateId,ZipCode) Values('Rue du pont 22', 'Marche en fammenne', 18, 6000)
 
 
 INSERT INTO EmailAddresses (EmailAddress, DetailedEmployeeId) Values('admin@hotmail.com', 1)

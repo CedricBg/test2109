@@ -1,4 +1,5 @@
-﻿using BusinessAccessLayer.IRepositories;
+﻿using AutoMapper;
+using BusinessAccessLayer.IRepositories;
 using BusinessAccessLayer.Models.Auth;
 using BusinessAccessLayer.Tools.Auth;
 using DataAccess.Repository;
@@ -9,7 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using DATA = DataAccess.Models;
 
 
 namespace BusinessAccessLayer.Services
@@ -18,18 +19,21 @@ namespace BusinessAccessLayer.Services
     {
         private readonly IAuthServices _authService;
         private readonly TokenService _toTokenService;
+        private readonly IMapper _mapper;
 
-        public AuthService(IAuthServices auth, TokenService token)
+        public AuthService(IAuthServices auth, TokenService token,IMapper mapper)
         {
             _authService = auth;
             _toTokenService = token;
+            _mapper = mapper;
         }
         
         public string Post(AddRegisterForm form)
         {
             try
             {
-                return _authService.RegisterEmployee(form.MapregistEmployeeToData());
+                var detail = _mapper.Map<DATA.Auth.AddRegisterForm>(form);
+                return _authService.RegisterEmployee(detail);
             }
             catch (Exception ex)
             {

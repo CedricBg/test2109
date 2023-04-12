@@ -141,7 +141,7 @@ namespace DataAccess.Migrations
                     b.Property<bool?>("NightContact")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("responsible")
+                    b.Property<bool?>("Responsible")
                         .HasColumnType("bit");
 
                     b.HasKey("ContactId");
@@ -188,11 +188,11 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Customer.Site", b =>
                 {
-                    b.Property<int>("SiteId")
+                    b.Property<int?>("SiteId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SiteId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("SiteId"), 1L, 1);
 
                     b.Property<int?>("AddressId")
                         .HasColumnType("int");
@@ -200,7 +200,7 @@ namespace DataAccess.Migrations
                     b.Property<DateTime?>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CustomersId")
+                    b.Property<int?>("CustomersId")
                         .HasColumnType("int");
 
                     b.Property<bool?>("IsDeleted")
@@ -313,6 +313,12 @@ namespace DataAccess.Migrations
 
                     b.Property<int?>("LanguageId")
                         .HasColumnType("int");
+
+                    b.Property<int?>("PhotoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PhotoName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RegistreNational")
                         .IsRequired()
@@ -573,8 +579,7 @@ namespace DataAccess.Migrations
                     b.HasOne("DataAccess.Models.Customer.Customers", "Customer")
                         .WithMany("Site")
                         .HasForeignKey("CustomersId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DataAccess.Models.Language", "Language")
                         .WithMany()

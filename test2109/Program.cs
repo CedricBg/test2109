@@ -77,7 +77,9 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("adminpolicy", policy => policy.RequireRole("Administratif"));
     options.AddPolicy("agentpolicy", policy => policy.RequireRole("agent", "Administratif"));
+    options.AddPolicy("opspolicy", policy => policy.RequireRole("Opérations", "Administratif"));
     options.AddPolicy("authpolicy",  policy => policy.RequireAuthenticatedUser());
+    
 }
 );
 

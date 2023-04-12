@@ -43,5 +43,9 @@ namespace DataAccess.Models.Employees
 
         public Language Language { get; set; }
 
+        public int? PhotoId { get; set; }
+
+        public string PhotoName { get; set; }
+
     }
 }
