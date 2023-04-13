@@ -40,10 +40,10 @@ namespace BusinessAccessLayer.Services
             return _services.Delete(id);
         }
 
-        public int addContact(ContactPerson contact)
+        public List<Customers> addContact(ContactPerson contact)
         {
             var detail = _mapper.Map<DATA.Customer.ContactPerson>(contact);
-            return _services.addContact(detail);
+            return _services.addContact(detail).Select(dr => _mapper.Map<Customers>(dr)).ToList();
         }
 
         public int? AddSite(Site site)

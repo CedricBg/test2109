@@ -139,6 +139,7 @@ namespace DataAccess.Services
                 List<Customers> customers = _context.Customers
                     .Include(e => e.Contact).ThenInclude(e => e.Phone)
                     .Include(e => e.Contact).ThenInclude(e => e.Email)
+                    .Include(e => e.Site)
                     .ToList();
 
                 return customers;
@@ -168,10 +169,11 @@ namespace DataAccess.Services
 
         }
 
-        public int addContact(ContactPerson contact)
+        public List<Customers> addContact(ContactPerson contact)
         {
+            List<Customers> list = _context.Customers.Include(e=>e.Site).ToList();
             if (contact == null)
-                return 0;
+                return list;
             else
             {
 
@@ -196,18 +198,18 @@ namespace DataAccess.Services
                         site.ContactSite = new List<ContactPerson>();
                         site.ContactSite.Add(contactPerson);
                         _context.SaveChanges();
-                        ContactPerson contact2 = _context.ContactPersons.Where(e => e.LastName == contact.LastName && e.ContactSiteId == contact.SiteId).First();
-                        return contact2.ContactId;
+                        list = _context.Customers.Include(e => e.Site).ToList();
+                        return list;
                     }
                     else
                     {
-                        return 0;
+                        return list;
                     }
 
                 }
                 else
                 {
-                    return 0;
+                    return list;
                 }
             }
         }

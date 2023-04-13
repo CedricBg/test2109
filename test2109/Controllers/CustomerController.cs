@@ -23,18 +23,30 @@ namespace test2109.Controllers
             _mapper = mapper;
         }
 
-
+        /// <summary>
+        /// Gets a customer.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>U nCustomer</returns>
         [HttpGet("{id}")]
         public IActionResult GetOne(int id)
         {
-            return Ok(_mapper.Map<Customers>(_customerService.GetOne(id)));
+            try
+            {
+                return Ok(_mapper.Map<Customers>(_customerService.GetOne(id)));
+            }
+            catch
+            {
+                return Ok(new Customers());
+            }
+            
         }
 
         [HttpPut]
         public IActionResult UpdateCustomer(AllCustomers customer)
         {
             var detail = _mapper.Map<BUSI.Customers.AllCustomers>(customer);
-            return Ok(_customerService.UpdateCustomer(detail).Select(dr => _mapper.Map<Customers>(dr)).ToList());
+            return Ok(_customerService.UpdateCustomer(detail).Select(dr => _mapper.Map<Customers>(dr)));
         }
 
         /// <summary>
@@ -61,9 +73,7 @@ namespace test2109.Controllers
         {
             try
             {
-                List<AllCustomers> list = _customerService.All().Select(d => _mapper.Map<AllCustomers>(d)).ToList();
-                Console.WriteLine(list[0].NameCustomer);
-                return Ok(list);
+                return Ok(_customerService.All().Select(d => _mapper.Map<AllCustomers>(d)));
             }
             catch 
             { 
@@ -79,8 +89,7 @@ namespace test2109.Controllers
         {
             try
             {
-                Site site = _mapper.Map<API.Customer.Site>(_customerService.GetCustomer(id));
-                return Ok(site);
+                return Ok(_mapper.Map<API.Customer.Site>(_customerService.GetCustomer(id)));
             }
             catch (Exception)
             {
@@ -97,8 +106,7 @@ namespace test2109.Controllers
             try
             {
                 var detail = _mapper.Map<BUSI.Customers.Site>(site);
-                API.Customer.Site sites = _mapper.Map<Site>(_customerService.UpdateSite(detail));
-                return Ok(sites);
+                return Ok(_mapper.Map<Site>(_customerService.UpdateSite(detail)));
             }
             catch (Exception ex)
             {
@@ -113,8 +121,15 @@ namespace test2109.Controllers
         [HttpPost("addCustomer")] 
         public IActionResult Post([FromBody] Customers customer) 
         {
-            var detail = _mapper.Map<BUSI.Customers.Customers>(customer);
-            return Ok(_customerService.AddCustomer(detail));
+            try
+            {
+                var detail = _mapper.Map<BUSI.Customers.Customers>(customer);
+                return Ok(_customerService.AddCustomer(detail));
+            }
+            catch
+            {
+                return Ok(0);
+            }
         }
 
         /// <summary>Posts the specified site.</summary>
@@ -124,7 +139,7 @@ namespace test2109.Controllers
         public IActionResult Post([FromBody] API.Customer.Site site)
         {
             if(site == null)
-                return Ok(0);
+                return Ok(new Site());
             else
             {
                 var detail = _mapper.Map<BUSI.Customers.Site>(site);
@@ -133,15 +148,16 @@ namespace test2109.Controllers
         }
         
         [HttpPost("addContact")]
-        public IActionResult Post( ContactPerson contact)
-        {
-
-            if (contact == null)
-                return Ok(0);
-            else
+        public IActionResult Post(ContactPerson contact)
+        {  
+            try
             {
                 var detail = _mapper.Map<BUSI.Customers.ContactPerson>(contact);
-                return Ok(_customerService.addContact(detail));
+                return Ok(_customerService.addContact(detail).Select(dr => _mapper.Map<Customers>(dr)));
+            }
+            catch (Exception) { }
+            {
+                return Ok(new List<Customers>());
             }
         }
     }
