@@ -24,6 +24,11 @@ namespace BusinessAccessLayer.Services
             _services = services;
         }
 
+        public string SiteDelete(int id)
+        {
+            return _services.SiteDelete(id);
+        }
+
         public Customers GetOne(int id)
         {
             return _mapper.Map<Customers>(_services.GetOne(id));

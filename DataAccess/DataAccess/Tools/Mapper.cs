@@ -15,11 +15,14 @@ namespace DataAccess.Tools
             List<AllSites> allSites = new List<AllSites>();
             foreach (var siteItem in site)
             {
-                allSites.Add(new AllSites
+                if(siteItem.IsDeleted == false)
                 {
-                    Name = siteItem.Name,
-                    SiteId = siteItem.SiteId
-                });
+                    allSites.Add(new AllSites
+                    {
+                        Name = siteItem.Name,
+                        SiteId = siteItem.SiteId
+                    });
+                }
             }
             return allSites;
         }

@@ -23,11 +23,21 @@ namespace test2109.Controllers
             _mapper = mapper;
         }
 
+
+        [HttpDelete("deleteSite/{id}")]
+        public string SiteDelete(int id)
+        {
+            return JsonSerializer.Serialize(_customerService.SiteDelete(id)); 
+        }
+
         /// <summary>
         /// Gets a customer.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns>U nCustomer</returns>
+        /// <returns>
+        /// U nCustomer
+        /// </returns>
+
         [HttpGet("{id}")]
         public IActionResult GetOne(int id)
         {

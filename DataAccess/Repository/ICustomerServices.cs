@@ -14,5 +14,6 @@ namespace DataAccess.Repository
         string Delete(int id);
         List<Customers> UpdateCustomer(AllCustomers cust);
         Customers GetOne(int id);
+        string SiteDelete(int id);
     }
 }

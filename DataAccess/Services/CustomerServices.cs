@@ -31,7 +31,7 @@ namespace DataAccess.Services
             Customers customer = _context.Customers
                 .Include(e => e.Contact).ThenInclude(y => y.Phone)
                 .Include(e => e.Contact).ThenInclude(y => y.Email)
-                .Include(e => e.Site)
+                .Include(e => e.Site.Where(y=>y.IsDeleted == false))
                 .FirstOrDefault(e => e.CustomerId == id);
             if (customer != null)
             {
@@ -139,7 +139,7 @@ namespace DataAccess.Services
                 List<Customers> customers = _context.Customers
                     .Include(e => e.Contact).ThenInclude(e => e.Phone)
                     .Include(e => e.Contact).ThenInclude(e => e.Email)
-                    .Include(e => e.Site)
+                    .Include(e => e.Site.Where(y=>y.IsDeleted == false)).Where(e=>e.IsDeleted == false)
                     .ToList();
 
                 return customers;
@@ -169,9 +169,29 @@ namespace DataAccess.Services
 
         }
 
+        /// <summary>
+        /// On passe la veriable a isDeleted pour simuler une suppression
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        public string SiteDelete(int id)
+        {
+            try
+            {
+                Site site = _context.Sites.FirstOrDefault(e => e.SiteId == id);
+                site.IsDeleted = true;
+                _context.SaveChanges();
+                return "Deleted";
+            }
+            catch (Exception ex) 
+            { 
+                return ex.Message.ToString();
+            }
+        }
+
         public List<Customers> addContact(ContactPerson contact)
         {
-            List<Customers> list = _context.Customers.Include(e=>e.Site).ToList();
+            List<Customers> list = _context.Customers.Include(e=>e.Site.Where(y=>y.IsDeleted == false)).Where(y=>y.IsDeleted == false).ToList();
             if (contact == null)
                 return list;
             else
@@ -198,7 +218,7 @@ namespace DataAccess.Services
                         site.ContactSite = new List<ContactPerson>();
                         site.ContactSite.Add(contactPerson);
                         _context.SaveChanges();
-                        list = _context.Customers.Include(e => e.Site).ToList();
+                        list = _context.Customers.Include(e => e.Site.Where(y => y.IsDeleted == false)).Where(y=>y.IsDeleted == false).ToList();
                         return list;
                     }
                     else
@@ -272,7 +292,7 @@ namespace DataAccess.Services
                         NameCustomer = Client.NameCustomer,
                         CustomerId = Client.CustomerId,
                         Contact = Client.Contact,
-                        Site = Client.Site.sites()
+                        Site = Client.Site.sites()//extension pour passer de sites a AllSites dans le dossier mapping
                     }
                     ).ToList();
             }
@@ -281,7 +301,7 @@ namespace DataAccess.Services
 
         public Site Get(int id)
         {
-            Site site = _context.Sites.Where(e => e.SiteId == id)
+            Site site = _context.Sites.Where(e => e.SiteId == id && e.IsDeleted == false)
                 .Include(y => y.Address)
                 .Include(x => x.Language)
                 .Include(x => x.ContactSite).ThenInclude(x => x.Phone)
