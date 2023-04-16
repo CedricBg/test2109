@@ -11,5 +11,6 @@ namespace DataAccess.Models.Customer
         public int? SiteId { get; set; }
 
         public string Name { get; set; }
+
     }
 }

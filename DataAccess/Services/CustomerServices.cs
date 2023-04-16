@@ -55,10 +55,10 @@ namespace DataAccess.Services
             if (cust == null) return new List<Customers>();
             else
             {
-                Customers dBCust = _context.Customers.Where(e => e.CustomerId == cust.CustomerId)
+                Customers dBCust = _context.Customers
                     .Include(e => e.Contact).ThenInclude(y => y.Email)
                     .Include(e => e.Contact).ThenInclude(y => y.Phone)
-                    .FirstOrDefault();
+                    .FirstOrDefault(e => e.CustomerId == cust.CustomerId);
 
                 if (dBCust == null) return new List<Customers>();
                 else
@@ -196,7 +196,6 @@ namespace DataAccess.Services
                 return list;
             else
             {
-
                 if (_context.Sites.Where(e => e.SiteId == contact.SiteId).Any())
                 {
                     Site site = _context.Sites.FirstOrDefault(c => c.SiteId == contact.SiteId);
@@ -213,11 +212,13 @@ namespace DataAccess.Services
                             Created = DateTime.Now,
                             Email = contact.Email,
                             Phone = contact.Phone,
+                            IsDeleted = false
                         };
 
                         site.ContactSite = new List<ContactPerson>();
                         site.ContactSite.Add(contactPerson);
                         _context.SaveChanges();
+
                         list = _context.Customers.Include(e => e.Site.Where(y => y.IsDeleted == false)).Where(y=>y.IsDeleted == false).ToList();
                         return list;
                     }
@@ -232,6 +233,58 @@ namespace DataAccess.Services
                     return list;
                 }
             }
+        }
+
+        public Site PostContact(ContactPerson contact)
+        {
+            if (contact == null)
+                return new Site();
+            else
+            {
+
+                if(_context.Sites.Where(e => e.SiteId == contact.SiteId).Any())
+                {
+                    Site site = _context.Sites.FirstOrDefault(c => c.SiteId == contact.SiteId);
+                    ContactPerson contact1 = _context.ContactPersons.Where(e => e.LastName == contact.LastName && e.FirstName == contact.FirstName && e.ContactSiteId == contact.SiteId).FirstOrDefault();
+                    if (contact1 == null)
+                    {
+                        ContactPerson contactPerson = new ContactPerson
+                        {
+                            FirstName = contact.FirstName,
+                            LastName = contact.LastName,
+                            NightContact = contact.NightContact,
+                            Responsible = contact.Responsible,
+                            EmergencyContact = contact.EmergencyContact,
+                            Created = DateTime.Now,
+                            Email = contact.Email,
+                            Phone = contact.Phone,
+                            IsDeleted = false
+                        };
+
+                        site.ContactSite = new List<ContactPerson>();
+                        site.ContactSite.Add(contactPerson);
+                        _context.SaveChanges();
+                        Site sites = _context.Sites
+                            .Include(e => e.Address)
+                            .Include(e => e.Language)
+                            .Include(e => e.ContactSite.Where(y=>y.IsDeleted == false))          
+                            .FirstOrDefault( e=>e.SiteId == contact.SiteId && e.IsDeleted == false);
+
+                        Countrys countrys = _context.Countrys.Where(e => e.Id == site.Address.StateId).FirstOrDefault();
+                        sites.Address.State = countrys.Country;
+                        return sites;
+                    }
+                    else
+                    {
+                        return new Site();
+                    }
+                }
+                else
+                {
+                    return new Site();
+                }
+            }
+
         }
 
         public int? AddSite(Site site)
@@ -259,6 +312,37 @@ namespace DataAccess.Services
                     return site1.SiteId;
                 }
                 return 0;
+            }
+        }
+
+        public Site deleteContact(int id)
+        {
+            try
+            {
+                ContactPerson contact = _context.ContactPersons
+ 
+                    .FirstOrDefault(e => e.ContactId == id);
+                int? idsite = contact.ContactSiteId;
+                
+                contact.IsDeleted = true;
+                _context.SaveChanges();
+                Site site = _context.Sites
+                    .Include(e => e.ContactSite).ThenInclude(c => c.Phone)
+                    .Include(e => e.ContactSite).ThenInclude(c => c.Email)
+                    .Include(e=>e.Address)
+                    .Include(e=>e.Language)
+                    .FirstOrDefault(e => e.SiteId == idsite);
+
+
+                Countrys countrys = _context.Countrys.Where(e=>e.Id == site.Address.StateId).FirstOrDefault();
+                site.Address.State = countrys.Country;
+
+                site.ContactSite = site.ContactSite.Where(c => c.IsDeleted == false).ToList();
+                return site;
+            }
+            catch (Exception)
+            {
+                return new Site();
             }
         }
 
@@ -301,12 +385,13 @@ namespace DataAccess.Services
 
         public Site Get(int id)
         {
-            Site site = _context.Sites.Where(e => e.SiteId == id && e.IsDeleted == false)
+            Site site = _context.Sites
                 .Include(y => y.Address)
                 .Include(x => x.Language)
-                .Include(x => x.ContactSite).ThenInclude(x => x.Phone)
-                .Include(x => x.ContactSite).ThenInclude(x => x.Email)
-                .FirstOrDefault();
+                .Include(x => x.ContactSite.Where(e=>e.IsDeleted == false)).ThenInclude(x => x.Phone)
+                .Include(x => x.ContactSite.Where(e => e.IsDeleted == false)).ThenInclude(x => x.Email)
+                .FirstOrDefault(e => e.SiteId == id && e.IsDeleted == false);
+
 
             if (site != null)
             {
@@ -322,15 +407,16 @@ namespace DataAccess.Services
             if (_context.Sites.First().Name != null)
             {
                 Language language = _context.Languages.FirstOrDefault(c => c.Id == site.Language.Id);
-                Site dBSite = _context.Sites.Where(e => e.SiteId == site.SiteId)
+                Site dBSite = _context.Sites.Where(e => e.SiteId == site.SiteId )
                     .Include(y => y.Address)
-                    .Include(x => x.ContactSite).ThenInclude(x => x.Phone)
-                    .Include(x => x.ContactSite).ThenInclude(x => x.Email)
+                    .Include(x => x.ContactSite.Where(e => e.IsDeleted == false)).ThenInclude(x => x.Phone)
+                    .Include(x => x.ContactSite.Where(e => e.IsDeleted == false)).ThenInclude(x => x.Email)
                     .Include(x => x.Language)
                     .FirstOrDefault();
 
                 foreach (ContactPerson contact in site.ContactSite)
                 {
+
                     var dBcontact = dBSite.ContactSite.Find(e => e.ContactId == contact.ContactId);
                     dBcontact.FirstName = contact.FirstName;
                     dBcontact.LastName = contact.LastName;

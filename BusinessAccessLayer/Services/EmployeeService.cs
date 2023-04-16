@@ -6,6 +6,11 @@ using DataAccess.Repository;
 using BusinessAccessLayer.Models.Employee;
 using AutoMapper;
 using DATA = DataAccess.Models.Employees;
+using System.Text.Json;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+
+
 
 namespace BusinessAccessLayer.Services
 {
@@ -19,6 +24,22 @@ namespace BusinessAccessLayer.Services
         {
             _employeeServices = employeeServices;
             _Mapper = mapper;
+        }
+
+        public async Task<string> UploadFile(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return "retoruné une image valide";
+            }
+
+            var filePath = Path.Combine("Images/", file.FileName);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return JsonSerializer.Serialize("Fichier téléchargé avec succès!");
         }
 
         public Boolean AddEmployee(DetailedEmployee form)

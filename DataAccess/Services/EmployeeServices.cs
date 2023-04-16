@@ -70,7 +70,6 @@ namespace DataAccess.Services
            
         }
 
-
         public DetailedEmployee UpdateEmployee(DetailedEmployee employee)
         {
             if (_db.DetailedEmployees.First().Id != null)
@@ -156,6 +155,8 @@ namespace DataAccess.Services
                 if(dBemployee.SurName != employee.SurName) dBemployee.SurName = employee.SurName;
                 if (dBemployee.EmployeeCardNumber != employee.EmployeeCardNumber) dBemployee.EmployeeCardNumber = employee.EmployeeCardNumber;
                 if (dBemployee.SecurityCard != employee.SecurityCard) dBemployee.SecurityCard = employee.SecurityCard;
+                if (dBemployee.BirthDate != employee.BirthDate) dBemployee.BirthDate = employee.BirthDate;
+
 
                 _db.SaveChanges();
 
@@ -166,6 +167,7 @@ namespace DataAccess.Services
                 return null; 
             }
         }
+
         public  List<Employee> GetAll()
         {
                 if (_db.employees is not null)
@@ -191,7 +193,6 @@ namespace DataAccess.Services
                     throw new Exception();
                 }  
         }
-
 
         public DetailedEmployee GetOne(int id)
         {  
@@ -221,6 +222,7 @@ namespace DataAccess.Services
                 return new DetailedEmployee();
             }
         }
+
         public Countrys Country(int? id)
         {
             try
@@ -234,6 +236,7 @@ namespace DataAccess.Services
                 throw new Exception();
             }
         }
+
         public bool Deactive(int id)
         {
             if(_db.DetailedEmployees.First().Id != null && id != 1)

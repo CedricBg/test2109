@@ -31,9 +31,11 @@ namespace DataAccess.Models.Customer
 
         public int? SiteId { get; set; }
 
-        public int? ContactSiteId { get; }
+        public int? ContactSiteId { get; set; }
         [JsonIgnore]
-        public Site ContactSite { get; }
+        public Site ContactSite { get; set; }
+
+        public Boolean? IsDeleted { get; set; }
 
     }
 }

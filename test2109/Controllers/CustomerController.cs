@@ -23,11 +23,32 @@ namespace test2109.Controllers
             _mapper = mapper;
         }
 
+        [HttpDelete("deleteContact/{id}")]
+        public IActionResult deleteContact(int id)
+        {
+            try
+            {
+                return Ok(_mapper.Map<Site>(_customerService.deleteContact(id)));
+            }
+            catch (Exception)
+            {
+                return Ok(new Site());
+            }
+
+        }
 
         [HttpDelete("deleteSite/{id}")]
         public string SiteDelete(int id)
         {
-            return JsonSerializer.Serialize(_customerService.SiteDelete(id)); 
+            try
+            {
+                return JsonSerializer.Serialize(_customerService.SiteDelete(id));
+            }
+            catch (Exception ex)
+            {
+                return JsonSerializer.Serialize(ex.Message);
+            }
+             
         }
 
         /// <summary>
@@ -164,6 +185,20 @@ namespace test2109.Controllers
             {
                 var detail = _mapper.Map<BUSI.Customers.ContactPerson>(contact);
                 return Ok(_customerService.addContact(detail).Select(dr => _mapper.Map<Customers>(dr)));
+            }
+            catch (Exception) { }
+            {
+                return Ok(new List<Customers>());
+            }
+        }
+
+        [HttpPost("addContactsite")]
+        public IActionResult PostContact(ContactPerson contact)
+        {
+            try
+            {
+                var detail = _mapper.Map<BUSI.Customers.ContactPerson>(contact);
+                return Ok(_mapper.Map<Site>(_customerService.PostContact(detail)));
             }
             catch (Exception) { }
             {

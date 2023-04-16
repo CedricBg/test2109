@@ -24,6 +24,11 @@ namespace BusinessAccessLayer.Services
             _services = services;
         }
 
+        public Site deleteContact(int id)
+        {
+            return _mapper.Map<Site>(_services.deleteContact(id));
+        }
+
         public string SiteDelete(int id)
         {
             return _services.SiteDelete(id);
@@ -49,6 +54,12 @@ namespace BusinessAccessLayer.Services
         {
             var detail = _mapper.Map<DATA.Customer.ContactPerson>(contact);
             return _services.addContact(detail).Select(dr => _mapper.Map<Customers>(dr)).ToList();
+        }
+
+        public Site PostContact(ContactPerson contact)
+        {
+            var detail = _mapper.Map<DATA.Customer.ContactPerson>(contact);
+            return _mapper.Map<Site>(_services.PostContact(detail));
         }
 
         public int? AddSite(Site site)
@@ -80,6 +91,7 @@ namespace BusinessAccessLayer.Services
                 return new Site();
             }
         }
+
         public int AddCustomer(Customers customers)
         {
             var detail = _mapper.Map<DATA.Customer.Customers>(customers);

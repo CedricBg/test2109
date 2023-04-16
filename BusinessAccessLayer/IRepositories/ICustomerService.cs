@@ -16,5 +16,7 @@ namespace BusinessAccessLayer.IRepositories
         List<Customers> UpdateCustomer(AllCustomers customer);
         Customers GetOne(int id);
         string SiteDelete(int id);
+        Site deleteContact(int id);
+        Site PostContact(ContactPerson contact);
     }
 }

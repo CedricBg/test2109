@@ -15,5 +15,7 @@ namespace DataAccess.Repository
         List<Customers> UpdateCustomer(AllCustomers cust);
         Customers GetOne(int id);
         string SiteDelete(int id);
+        Site deleteContact(int id);
+        Site PostContact(ContactPerson contact);
     }
 }

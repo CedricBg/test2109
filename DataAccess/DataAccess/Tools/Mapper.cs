@@ -20,10 +20,11 @@ namespace DataAccess.Tools
                     allSites.Add(new AllSites
                     {
                         Name = siteItem.Name,
-                        SiteId = siteItem.SiteId
+                        SiteId = siteItem.SiteId,
                     });
                 }
             }
+
             return allSites;
         }
     }

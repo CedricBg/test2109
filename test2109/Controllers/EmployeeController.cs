@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using test2109.Models.Employee;
-using System.IO;
+using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using System.Text.Json;
 
@@ -29,17 +29,7 @@ namespace test2109.Controllers
         [HttpPost("UploadFile")]
         public async Task<string> UploadFile(IFormFile file)
         {
-            if (file == null || file.Length == 0)
-            {
-                return BadRequest("retoruné une image valide").ToString();
-            }
-
-            var filePath = Path.Combine("Images/", file.FileName);
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-            
+            await _employeeService.UploadFile(file);
             return JsonSerializer.Serialize("Fichier téléchargé avec succès!");
         }
     

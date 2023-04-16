@@ -1,4 +1,5 @@
 ﻿using BusinessAccessLayer.Models.Employee;
+using Microsoft.AspNetCore.Http;
 
 namespace BusinessAccessLayer.IRepositories
 
@@ -10,5 +11,6 @@ namespace BusinessAccessLayer.IRepositories
         public DetailedEmployee GetOne(int id);
         bool Deactive(int id);
         DetailedEmployee UpdateEmployee(DetailedEmployee detailedEmployee);
+        Task<string> UploadFile(IFormFile file);
     }
 }
