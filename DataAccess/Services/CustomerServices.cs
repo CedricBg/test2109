@@ -18,7 +18,7 @@ namespace DataAccess.Services
 
         private readonly IMapper _Mapper;
 
-
+        //constructeur
         public CustomerServices(SecurityCompanyContext context, IMapper mapper)
         {
             _context = context;
@@ -26,6 +26,11 @@ namespace DataAccess.Services
 
         }
 
+        /// <summary>
+        /// Retourne un client par rapport a son Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Un Customer</returns>
         public Customers GetOne(int id)
         {
             Customers customer = _context.Customers
@@ -173,7 +178,7 @@ namespace DataAccess.Services
         /// On passe la veriable a isDeleted pour simuler une suppression
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns></returns>
+        /// <returns>Le mot Delelted ou le message d'erreur</returns>
         public string SiteDelete(int id)
         {
             try
@@ -189,6 +194,11 @@ namespace DataAccess.Services
             }
         }
 
+        /// <summary>
+        /// Ajout d'un contact a client à la création d'un client
+        /// </summary>
+        /// <param name="contact"></param>
+        /// <returns></returns>
         public List<Customers> addContact(ContactPerson contact)
         {
             List<Customers> list = _context.Customers.Include(e=>e.Site.Where(y=>y.IsDeleted == false)).Where(y=>y.IsDeleted == false).ToList();
@@ -235,6 +245,11 @@ namespace DataAccess.Services
             }
         }
 
+        /// <summary>
+        /// Ajout d'un contact avec la mise à jour d'un site
+        /// </summary>
+        /// <param name="contact"></param>
+        /// <returns>un Site pour mise a jour de la vue</returns>
         public Site PostContact(ContactPerson contact)
         {
             if (contact == null)
@@ -267,7 +282,8 @@ namespace DataAccess.Services
                         Site sites = _context.Sites
                             .Include(e => e.Address)
                             .Include(e => e.Language)
-                            .Include(e => e.ContactSite.Where(y=>y.IsDeleted == false))          
+                            .Include(e => e.ContactSite.Where(y=>y.IsDeleted == false)).ThenInclude(y=>y.Email)          
+                            .Include(e => e.ContactSite.Where(y=>y.IsDeleted == false)).ThenInclude(y=>y.Phone)          
                             .FirstOrDefault( e=>e.SiteId == contact.SiteId && e.IsDeleted == false);
 
                         Countrys countrys = _context.Countrys.Where(e => e.Id == site.Address.StateId).FirstOrDefault();
@@ -287,6 +303,11 @@ namespace DataAccess.Services
 
         }
 
+        /// <summary>
+        /// Ajout d'un site sans contact
+        /// </summary>
+        /// <param name="site"></param>
+        /// <returns>Retorune L'id pour controle opu 0 en cas d'échec</returns>
         public int? AddSite(Site site)
         {
             if (site == null)
@@ -315,6 +336,11 @@ namespace DataAccess.Services
             }
         }
 
+        /// <summary>
+        /// Suppresion d'un contact sur une site
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Retourne un site pour mise à jour de la vue</returns>
         public Site deleteContact(int id)
         {
             try
@@ -346,6 +372,11 @@ namespace DataAccess.Services
             }
         }
 
+        /// <summary>
+        /// Ajout d'un client nom + un contact
+        /// </summary>
+        /// <param name="customers"></param>
+        /// <returns>Retourne l'id ou 0 en cas d'échec</returns>
         public int AddCustomer(Customers customers)
         {
             if (customers != null && !(_context.Customers.Where(e => e.NameCustomer == customers.NameCustomer).Any()))
@@ -364,6 +395,10 @@ namespace DataAccess.Services
             return 0;
         }
 
+        /// <summary>
+        /// retourne liste de clients pour les formulaires
+        /// </summary>
+        /// <returns>Lists de clients</returns>
         public List<AllCustomers> All()
         {
             List<AllCustomers> customers = new List<AllCustomers>();
@@ -383,6 +418,11 @@ namespace DataAccess.Services
             return customers;
         }
 
+        /// <summary>
+        /// Retoruen un site par rapport à l'id du Customer(client)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Retorune unSite</returns>
         public Site Get(int id)
         {
             Site site = _context.Sites
@@ -402,6 +442,11 @@ namespace DataAccess.Services
             return site ?? new Site();
         }
 
+        /// <summary>
+        /// Mise jour d'un Site
+        /// </summary>
+        /// <param name="site"></param>
+        /// <returns>Retorune une liste de site pour mise à jour de la vue</returns>
         public Site UpdateSite(Site site)
         {
             if (_context.Sites.First().Name != null)
@@ -493,6 +538,12 @@ namespace DataAccess.Services
             }
         }
 
+        /// <summary>
+        /// Retourne objet country pour la gestion des pays dans les formulaires
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Un Country</returns>
+        /// <exception cref="Exception"></exception>
         private Countrys Country(int? id)
         {
             try

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using test2109.Models.Auth;
+using System.Text.Json;
 
 namespace test2109.Controllers
 {
@@ -29,16 +30,16 @@ namespace test2109.Controllers
         ///   retourne un string "Created" ou le message d'erreur , creer dans le service DataAccess
         /// </returns>
         [HttpPost("AddLogin")]
-        public IActionResult Post(AddRegisterForm form)
+        public string Post(AddRegisterForm form)
         {
             try
             {
                 var detail = _Mapper.Map<BUSI.Auth.AddRegisterForm>(form);
-                return  Ok(_authService.Post(detail));
+                return JsonSerializer.Serialize(_authService.Post(detail));
             }
             catch (Exception ex)
             {
-                return Ok(ex.Message);
+                return JsonSerializer.Serialize(ex.Message);
             }
         }
 

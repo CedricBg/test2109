@@ -17,12 +17,18 @@ namespace test2109.Controllers
 
         private readonly IMapper _mapper;
 
+        //Constructeur
         public CustomerController(ICustomerService customerService, IMapper mapper)
         {
             _customerService = customerService;
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Suppresion d'un contact sur une site
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Retourne un site pour mise à jour de la vue</returns>
         [HttpDelete("deleteContact/{id}")]
         public IActionResult deleteContact(int id)
         {
@@ -37,6 +43,11 @@ namespace test2109.Controllers
 
         }
 
+        /// <summary>
+        /// On passe la veriable a isDeleted pour simuler une suppression
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>Le mot Delelted ou le message d'erreur</returns>
         [HttpDelete("deleteSite/{id}")]
         public string SiteDelete(int id)
         {
@@ -52,13 +63,10 @@ namespace test2109.Controllers
         }
 
         /// <summary>
-        /// Gets a customer.
+        /// Retourne un client par rapport a son Id
         /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns>
-        /// U nCustomer
-        /// </returns>
-
+        /// <param name="id"></param>
+        /// <returns>Un Customer</returns>
         [HttpGet("{id}")]
         public IActionResult GetOne(int id)
         {
@@ -73,6 +81,13 @@ namespace test2109.Controllers
             
         }
 
+        /// <summary>
+        /// Mise a jour du nom du client ou de la personne de contact pour le Customer pas les sites !!!
+        /// </summary>
+        /// <param name="customer">The customer.</param>
+        /// <returns>
+        /// le nom du client
+        /// </returns>
         [HttpPut]
         public IActionResult UpdateCustomer(AllCustomers customer)
         {
@@ -94,10 +109,7 @@ namespace test2109.Controllers
 
         /// <summary>Gets this instance.</summary>
         /// <returns>
-        ///   <para>Retourne list d'objet Allcustomers qui contient des infos minimaliste sur les utilisateurs</para>
-        ///   <para>
-        ///     ou une liste vide
-        ///   </para>
+        /// Retourne list d'objet Allcustomers qui contient des infos minimaliste sur les utilisateurs ou une liste vide
         /// </returns>
         [HttpGet]
         public IActionResult Get()
@@ -145,7 +157,6 @@ namespace test2109.Controllers
             }
         }
 
-
         /// <summary>Create a customer</summary>
         /// <param name="customer">The customer.</param>
         /// <returns>Creation d'un client avec juste un nom de société</returns>
@@ -177,7 +188,12 @@ namespace test2109.Controllers
                 return Ok(_customerService.AddSite(detail));
             }
         }
-        
+
+        /// <summary>
+        /// Ajout d'un contact a client à la création d'un client
+        /// </summary>
+        /// <param name="contact"></param>
+        /// <returns></returns>
         [HttpPost("addContact")]
         public IActionResult Post(ContactPerson contact)
         {  
@@ -192,13 +208,19 @@ namespace test2109.Controllers
             }
         }
 
+        /// <summary>
+        /// Ajout d'un contact avec la mise à jour d'un site
+        /// </summary>
+        /// <param name="contact"></param>
+        /// <returns>un Site pour mise a jour de la vue</returns>
         [HttpPost("addContactsite")]
         public IActionResult PostContact(ContactPerson contact)
         {
             try
             {
                 var detail = _mapper.Map<BUSI.Customers.ContactPerson>(contact);
-                return Ok(_mapper.Map<Site>(_customerService.PostContact(detail)));
+                Site site = _mapper.Map<Site>(_customerService.PostContact(detail));
+                return Ok(site);
             }
             catch (Exception) { }
             {
