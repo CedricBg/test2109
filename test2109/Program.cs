@@ -31,6 +31,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICountryService, CountryService>();
 builder.Services.AddScoped<IInformationService, InformationService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IPdfService, PdfService>();
 builder.Services.AddScoped<TokenService>();
 
 builder.Services.AddAutoMapper(profiles =>
