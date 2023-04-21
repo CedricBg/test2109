@@ -41,6 +41,8 @@ namespace test2109.Tools
                 .ReverseMap();
             CreateMap<API.Address, BUSI.Employee.Address>()
                 .ReverseMap();
+            CreateMap<API.Pdf, BUSI.Pdf>()
+                .ReverseMap();
         }
     }
 }

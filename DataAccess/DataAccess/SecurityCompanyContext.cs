@@ -29,6 +29,7 @@ namespace DataAccess.DataAccess
 
             modelBuilder.Entity<ConnectedForm>().HasNoKey();
 
+           
             modelBuilder.Entity<Users>(entity =>
             {
                 entity.HasIndex(c => c.Login).IsUnique();
