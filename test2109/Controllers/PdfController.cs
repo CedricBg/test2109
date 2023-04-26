@@ -23,10 +23,19 @@ namespace test2109.Controllers
 
 
         [HttpPost]
-        public void CreatePdf(Pdf pdf)
+        public IActionResult CreatePdf(Pdf pdf)
         {
-            var detail = _Mapper.Map<BusinessAccessLayer.Models.Pdf>(pdf);
-            this._pfService.CreatePdf(detail);
+            try
+            {
+                var detail = _Mapper.Map<BusinessAccessLayer.Models.Pdf>(pdf);
+                this._pfService.CreatePdf(detail);
+                return Ok("Created");
+            }
+            catch (Exception ex) 
+            {
+                return Ok(ex.Message);
+            }
+
         }
 
  

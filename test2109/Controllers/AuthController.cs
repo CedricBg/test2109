@@ -18,6 +18,11 @@ namespace test2109.Controllers
 
         private readonly IMapper _Mapper;
 
+        public AuthController()
+        {
+
+        }
+
         public AuthController(IAuthService authService, IMapper mapper)
         {
             _authService = authService;

@@ -20,10 +20,17 @@ namespace BusinessAccessLayer.Services
 
         private readonly IMapper _Mapper;
 
+       
+
         public EmployeeService(IEmployeeServices employeeServices, IMapper mapper)
         {
             _employeeServices = employeeServices;
             _Mapper = mapper;
+        }
+
+        public EmployeeService()
+        {
+
         }
 
         public async Task<string> UploadFile(IFormFile file)

@@ -23,6 +23,7 @@ builder.Services.AddScoped<IAuthServices, AuthServices>();
 builder.Services.AddScoped<ICountryServices, CountryServices>();
 builder.Services.AddScoped<IInformationServices, InformationServices>();
 builder.Services.AddScoped<ICustomerServices, CustomerServices>();
+builder.Services.AddScoped<ISecurityCompanyContext, SecurityCompanyContext>();
 
 
 //BLL

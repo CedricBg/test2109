@@ -25,6 +25,8 @@ namespace DataAccess.Services
 
         public string RegisterEmployee(AddRegisterForm form)
         {
+            if (form == null)
+                return "Formumaire Vide";
 
             var pLogin = new SqlParameter("Login", form.Login);
             var pPassword = new SqlParameter("Password", form.Password);

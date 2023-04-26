@@ -9,10 +9,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccess.Repository;
 
 namespace DataAccess.DataAccess
 {
-    public class SecurityCompanyContext : DbContext
+    public class SecurityCompanyContext : DbContext, ISecurityCompanyContext
     {
 
         public SecurityCompanyContext(DbContextOptions options) : base(options) { }
@@ -29,7 +30,7 @@ namespace DataAccess.DataAccess
 
             modelBuilder.Entity<ConnectedForm>().HasNoKey();
 
-           
+
             modelBuilder.Entity<Users>(entity =>
             {
                 entity.HasIndex(c => c.Login).IsUnique();
@@ -41,31 +42,31 @@ namespace DataAccess.DataAccess
             modelBuilder.Ignore<AddRegisterForm>();
             modelBuilder.Entity<AddRegisterForm>(entity =>
             {
-                entity.Property(e=>e.Login).HasMaxLength(20);
-                entity.Property(e=>e.Password).HasMaxLength(50);
+                entity.Property(e => e.Login).HasMaxLength(20);
+                entity.Property(e => e.Password).HasMaxLength(50);
             });
 
             modelBuilder.Entity<DetailedEmployee>(entity =>
             {
-                entity.HasOne(e=>e.User).WithMany().OnDelete(DeleteBehavior.Cascade);
-                entity.HasOne(e=>e.Role).WithMany().OnDelete(DeleteBehavior.Cascade);
-                entity.Property(e=>e.firstName).HasMaxLength(50).IsRequired(true);
-                entity.Property(e=>e.SurName).HasMaxLength(50).IsRequired(true);    
-                entity.Property(e=>e.BirthDate).IsRequired(true);
-                entity.Property(e=>e.Vehicle).IsRequired(true);
-                entity.Property(e=>e.SecurityCard).HasMaxLength(100);
-                entity.Property(e=>e.EmployeeCardNumber).HasMaxLength(100);
-                entity.Property(e=>e.RegistreNational).HasMaxLength(20).IsRequired(true);
-                entity.Property(e=>e.CreationDate).ValueGeneratedOnAdd();
+                entity.HasOne(e => e.User).WithMany().OnDelete(DeleteBehavior.Cascade);
+                entity.HasOne(e => e.Role).WithMany().OnDelete(DeleteBehavior.Cascade);
+                entity.Property(e => e.firstName).HasMaxLength(50).IsRequired(true);
+                entity.Property(e => e.SurName).HasMaxLength(50).IsRequired(true);
+                entity.Property(e => e.BirthDate).IsRequired(true);
+                entity.Property(e => e.Vehicle).IsRequired(true);
+                entity.Property(e => e.SecurityCard).HasMaxLength(100);
+                entity.Property(e => e.EmployeeCardNumber).HasMaxLength(100);
+                entity.Property(e => e.RegistreNational).HasMaxLength(20).IsRequired(true);
+                entity.Property(e => e.CreationDate).ValueGeneratedOnAdd();
                 entity.HasOne(e => e.Address).WithMany().OnDelete(DeleteBehavior.Cascade);
                 entity.HasOne(e => e.Language).WithMany().OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Rfid>(entity =>
             {
-                entity.HasKey(e=>e.RfidNr);
-                entity.Property(e=>e.RfidNr).HasMaxLength(80).HasMaxLength(80).IsRequired(true);
-                entity.Property(e=>e.Location).HasMaxLength(50).IsRequired(true);
+                entity.HasKey(e => e.RfidNr);
+                entity.Property(e => e.RfidNr).HasMaxLength(80).HasMaxLength(80).IsRequired(true);
+                entity.Property(e => e.Location).HasMaxLength(50).IsRequired(true);
             });
 
 
@@ -73,14 +74,14 @@ namespace DataAccess.DataAccess
             {
                 entity.HasKey(e => e.CustomerId);
                 entity.HasOne(e => e.Role).WithMany().OnDelete(DeleteBehavior.Cascade);
-                entity.Property(e=>e.NameCustomer).HasMaxLength(30).IsRequired(true);
-                entity.Property(e=>e.CreationDate).ValueGeneratedOnAdd();
+                entity.Property(e => e.NameCustomer).HasMaxLength(30).IsRequired(true);
+                entity.Property(e => e.CreationDate).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<Site>(entity =>
             {
                 entity.HasIndex(e => e.Name).IsUnique();
-                entity.HasOne(e=>e.Customer).WithMany(e=>e.Site).HasPrincipalKey(e=>e.CustomerId).OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(e => e.Customer).WithMany(e => e.Site).HasPrincipalKey(e => e.CustomerId).OnDelete(DeleteBehavior.Restrict);
                 entity.Property(e => e.Name).HasMaxLength(30).IsRequired(true);
                 entity.Ignore(e => e.CustomerIdCreate);
             });
@@ -88,27 +89,27 @@ namespace DataAccess.DataAccess
             modelBuilder.Entity<ContactPerson>(entity =>
             {
                 entity.HasKey(e => e.ContactId);
-                entity.Property(e=>e.LastName).HasMaxLength(30).IsRequired(true);
-                entity.Property(e=>e.FirstName).HasMaxLength(30).IsRequired(true);
+                entity.Property(e => e.LastName).HasMaxLength(30).IsRequired(true);
+                entity.Property(e => e.FirstName).HasMaxLength(30).IsRequired(true);
                 entity.HasOne(p => p.ContactSite).WithMany(s => s.ContactSite).HasForeignKey(p => p.ContactSiteId).OnDelete(DeleteBehavior.Restrict);
                 entity.Ignore(e => e.SiteId);
             });
 
             modelBuilder.Entity<Email>(entity =>
             {
-                entity.Property(e=>e.EmailAddress).HasMaxLength(30);
+                entity.Property(e => e.EmailAddress).HasMaxLength(30);
             });
-            
+
             modelBuilder.Entity<Phone>(entity =>
             {
-                entity.Property(e=>e.Number).HasMaxLength(30);
+                entity.Property(e => e.Number).HasMaxLength(30);
             });
 
             modelBuilder.Entity<Address>(Entity =>
             {
-                Entity.Property(e=>e.SreetAddress).HasMaxLength(50);
-                Entity.Property(e=>e.City).HasMaxLength(50);
-                Entity.Property(e=>e.ZipCode).HasMaxLength(50);
+                Entity.Property(e => e.SreetAddress).HasMaxLength(50);
+                Entity.Property(e => e.City).HasMaxLength(50);
+                Entity.Property(e => e.ZipCode).HasMaxLength(50);
                 Entity.Ignore(e => e.State);
             });
 
@@ -116,8 +117,8 @@ namespace DataAccess.DataAccess
             {
                 Entity.Property(e => e.Country).HasMaxLength(50);
             });
-            
-            
+
+
 
         }
 
@@ -128,7 +129,7 @@ namespace DataAccess.DataAccess
         public DbSet<Role> Roles { get; set; }
 
         public DbSet<ConnectedForm> ConnectedForm { get; set; }
-        
+
         public DbSet<Employee> employees { get; set; }
 
         public DbSet<DetailedEmployee> DetailedEmployees { get; set; }
@@ -147,7 +148,7 @@ namespace DataAccess.DataAccess
 
         public DbSet<Rfid> Rfids { get; set; }
 
-        public DbSet<Rounds> Rounds { get; set; }   
+        public DbSet<Rounds> Rounds { get; set; }
 
         public DbSet<ScheduledRound> ScheduledRounds { get; set; }
 

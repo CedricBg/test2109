@@ -1,6 +1,6 @@
-namespace EF_Core2109.DAL.Tests
+namespace DataAccess.UnitTests
 {
-    public class Tests
+    public class AuthServicesTests
     {
         [SetUp]
         public void Setup()
