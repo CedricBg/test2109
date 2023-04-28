@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessAccessLayer.IRepositories;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 using test2109.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -23,21 +24,18 @@ namespace test2109.Controllers
 
 
         [HttpPost]
-        public IActionResult CreatePdf(Pdf pdf)
+        public string CreatePdf(Pdf pdf)
         {
             try
             {
                 var detail = _Mapper.Map<BusinessAccessLayer.Models.Pdf>(pdf);
                 this._pfService.CreatePdf(detail);
-                return Ok("Created");
+                return JsonSerializer.Serialize("Created");
             }
             catch (Exception ex) 
             {
-                return Ok(ex.Message);
+                return JsonSerializer.Serialize(ex.Message);
             }
-
         }
-
- 
     }
 }

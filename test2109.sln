@@ -18,6 +18,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessAccessLayer", "Busi
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "EfDbFunctions", "EfDbFunctions\EfDbFunctions.sqlproj", "{804D64B6-7F49-4C47-BA4C-8751C942D95F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessAccessLayer.UnitTests", "BusinessAccessLayer.UnitTests\BusinessAccessLayer.UnitTests.csproj", "{B1E6D7A9-E596-49B2-88CA-6F93949CD4E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{804D64B6-7F49-4C47-BA4C-8751C942D95F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{804D64B6-7F49-4C47-BA4C-8751C942D95F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{804D64B6-7F49-4C47-BA4C-8751C942D95F}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{B1E6D7A9-E596-49B2-88CA-6F93949CD4E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1E6D7A9-E596-49B2-88CA-6F93949CD4E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1E6D7A9-E596-49B2-88CA-6F93949CD4E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1E6D7A9-E596-49B2-88CA-6F93949CD4E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

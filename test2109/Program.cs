@@ -13,6 +13,7 @@ using BusinessAccessLayer.Tools;
 using test2109.Tools;
 using Newtonsoft;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +24,6 @@ builder.Services.AddScoped<IAuthServices, AuthServices>();
 builder.Services.AddScoped<ICountryServices, CountryServices>();
 builder.Services.AddScoped<IInformationServices, InformationServices>();
 builder.Services.AddScoped<ICustomerServices, CustomerServices>();
-builder.Services.AddScoped<ISecurityCompanyContext, SecurityCompanyContext>();
 
 
 //BLL
@@ -84,9 +84,6 @@ builder.Services.AddAuthorization(options =>
     
 }
 );
-
-
-
 var app = builder.Build();
 
 

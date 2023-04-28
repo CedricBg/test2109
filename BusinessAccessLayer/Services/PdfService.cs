@@ -12,11 +12,19 @@ using PdfSharpCore.Drawing;
 using HtmlRendererCore.PdfSharp;
 using PdfSharpCore;
 using BusinessAccessLayer.Models;
+using Microsoft.AspNetCore.Hosting;
+using System.Security.Cryptography.X509Certificates;
 
 namespace BusinessAccessLayer.Services
 {
     public class PdfService : IPdfService
     {
+        private IWebHostEnvironment _webHostEnvironment;
+
+        public PdfService(IWebHostEnvironment webHostEnvironment)
+        {
+            _webHostEnvironment = webHostEnvironment;
+        }
         public void CreatePdf(Pdf pdf)
         {
             string texte = pdf.Content;
@@ -26,12 +34,12 @@ namespace BusinessAccessLayer.Services
             PdfPage page = document.AddPage();
             XGraphics gfx = XGraphics.FromPdfPage(page);
 
-            using (var stream = new MemoryStream())
+            using (PdfDocument pdfDocument = PdfGenerator.GeneratePdf(texte, PageSize.A4))
             {
-                PdfDocument pdfDocument = PdfGenerator.GeneratePdf(texte, PageSize.A4);
-
                 string filename = title+".pdf";
-                var filePath = Path.Combine("Pdf/", filename);
+                var filePath = Path.Combine("..","pdf", filename);
+                Console.WriteLine(filePath);
+                
                 pdfDocument.Save(filePath);
             }
         }

@@ -13,7 +13,7 @@ using DataAccess.Repository;
 
 namespace DataAccess.DataAccess
 {
-    public class SecurityCompanyContext : DbContext, ISecurityCompanyContext
+    public class SecurityCompanyContext : DbContext
     {
 
         public SecurityCompanyContext(DbContextOptions options) : base(options) { }

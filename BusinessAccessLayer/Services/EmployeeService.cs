@@ -28,11 +28,6 @@ namespace BusinessAccessLayer.Services
             _Mapper = mapper;
         }
 
-        public EmployeeService()
-        {
-
-        }
-
         public async Task<string> UploadFile(IFormFile file)
         {
             if (file == null || file.Length == 0)

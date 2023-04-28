@@ -156,12 +156,11 @@ namespace DataAccess.Services
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>string error "deleted"</returns>
-        ///
         public string Delete(int id)
         {
             try
             {
-                Customers customer = _context.Customers.Where(e => e.CustomerId == id).FirstOrDefault();
+                Customers customer = _context.Customers.Find(id);
                 customer.IsDeleted = true;
                 _context.SaveChanges();
 
