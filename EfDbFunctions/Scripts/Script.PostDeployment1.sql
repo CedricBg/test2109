@@ -16,7 +16,7 @@ INSERT INTO Roles (DiminName, Name) Values('TR'    , 'Transporteur de fonds/agen
 INSERT INTO Roles (DiminName, Name) Values('PRVA'  , 'Collaborateur vault /processing' )
 INSERT INTO Roles (DiminName, Name) Values('BI'    , 'Brigadier/instructeur' )
 INSERT INTO Roles (DiminName, Name) Values('TM'    , 'Transport de munitions' )
-INSERT INTO Roles (DiminName, Name) Values('G'     , 'Homme de métier' )
+INSERT INTO Roles (DiminName, Name) Values('GDM'     , 'Homme de métier' )
 INSERT INTO Roles (DiminName, Name) Values('DIR'   , 'Direction' )
 INSERT INTO Roles (DiminName, Name) Values('OPS'    , 'Opérations' )
 INSERT INTO Roles (DiminName, Name) Values('ADM'   , 'Administratif' )
@@ -254,4 +254,7 @@ INSERT INTO EmailAddresses (EmailAddress, SenderContactId) Values('Roger@Rabbit.
 INSERT INTO Phones (Number, DetailedEmployeeId) Values (0487345912, 1)
 INSERT INTO Phones (Number, SenderContactId) Values (022163945, 1)
 INSERT INTO Phones (Number, SenderContactId) Values (010215975, 2)
+
+INSERT INTO Working (CustomerId, EmployeeId) Values (1,1)
+INSERT INTO Working (CustomerId, EmployeeId) Values (2,1)
 

@@ -4,6 +4,7 @@ using DataAccess.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(SecurityCompanyContext))]
-    partial class SecurityCompanyContextModelSnapshot : ModelSnapshot
+    [Migration("20230429143224_InitDb")]
+    partial class InitDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,9 +148,6 @@ namespace DataAccess.Migrations
 
                     b.HasKey("ContactId");
 
-                    b.HasIndex("ContactId")
-                        .IsUnique();
-
                     b.HasIndex("ContactSiteId");
 
                     b.ToTable("ContactPersons");
@@ -183,9 +182,6 @@ namespace DataAccess.Migrations
                     b.HasKey("CustomerId");
 
                     b.HasIndex("ContactId");
-
-                    b.HasIndex("CustomerId")
-                        .IsUnique();
 
                     b.HasIndex("roleId");
 
@@ -467,28 +463,6 @@ namespace DataAccess.Migrations
                         .IsUnique();
 
                     b.ToTable("StartEndWorkTime");
-                });
-
-            modelBuilder.Entity("DataAccess.Models.Planning.Working", b =>
-                {
-                    b.Property<int>("WorkingId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WorkingId"), 1L, 1);
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("WorkingId");
-
-                    b.HasIndex("WorkingId")
-                        .IsUnique();
-
-                    b.ToTable("Working");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Rfid", b =>

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Migrations
 {
-    public partial class initDb : Migration
+    public partial class InitDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -117,6 +117,22 @@ namespace DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Rounds", x => x.RondsId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StartEndWorkTime",
+                columns: table => new
+                {
+                    StartId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ArrivingTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CustomerId = table.Column<int>(type: "int", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StartEndWorkTime", x => x.StartId);
                 });
 
             migrationBuilder.CreateTable(
@@ -502,6 +518,12 @@ namespace DataAccess.Migrations
                 column: "UsersId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_StartEndWorkTime_StartId",
+                table: "StartEndWorkTime",
+                column: "StartId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_Login",
                 table: "Users",
                 column: "Login",
@@ -543,6 +565,9 @@ namespace DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "ScheduledRounds");
+
+            migrationBuilder.DropTable(
+                name: "StartEndWorkTime");
 
             migrationBuilder.DropTable(
                 name: "Rfids");

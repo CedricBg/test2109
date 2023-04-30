@@ -57,9 +57,12 @@ namespace BusinessAccessLayer.Tools
                 .ReverseMap();
             CreateMap<DATA.Auth.AddRegisterForm, BUSI.Auth.AddRegisterForm>()
                 .ReverseMap();
+            CreateMap<DATA.Planning.StartEndWorkTime, BUSI.Planning.StartEndWorkTime>()
+               .ReverseMap();
+            CreateMap<DATA.Planning.Working, BUSI.Planning.Working>()
+               .ReverseMap();
 
-           
-            
+
 
         }         
     }

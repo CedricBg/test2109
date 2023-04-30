@@ -43,6 +43,10 @@ namespace test2109.Tools
                 .ReverseMap();
             CreateMap<API.Pdf, BUSI.Pdf>()
                 .ReverseMap();
+            CreateMap<API.Planning.StartEndTimeWork, BUSI.Planning.StartEndWorkTime>()
+                .ReverseMap();
+            CreateMap<API.Planning.Working, BUSI.Planning.Working>()
+                .ReverseMap();
         }
     }
 }

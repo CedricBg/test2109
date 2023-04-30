@@ -15,7 +15,6 @@ namespace BusinessAccessLayer.Services
     public class CustomerService : ICustomerService
     {
         private readonly IMapper _mapper;
-
         private readonly ICustomerServices _services;
 
 

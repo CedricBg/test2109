@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(SecurityCompanyContext))]
-    [Migration("20230416004006_initDb")]
-    partial class initDb
+    [Migration("20230429214848_AddWorking")]
+    partial class AddWorking
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -148,6 +148,9 @@ namespace DataAccess.Migrations
 
                     b.HasKey("ContactId");
 
+                    b.HasIndex("ContactId")
+                        .IsUnique();
+
                     b.HasIndex("ContactSiteId");
 
                     b.ToTable("ContactPersons");
@@ -182,6 +185,9 @@ namespace DataAccess.Migrations
                     b.HasKey("CustomerId");
 
                     b.HasIndex("ContactId");
+
+                    b.HasIndex("CustomerId")
+                        .IsUnique();
 
                     b.HasIndex("roleId");
 
@@ -435,6 +441,56 @@ namespace DataAccess.Migrations
                     b.HasIndex("SenderContactId");
 
                     b.ToTable("Phones");
+                });
+
+            modelBuilder.Entity("DataAccess.Models.Planning.StartEndWorkTime", b =>
+                {
+                    b.Property<int>("StartId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StartId"), 1L, 1);
+
+                    b.Property<DateTime?>("ArrivingTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("StartId");
+
+                    b.HasIndex("StartId")
+                        .IsUnique();
+
+                    b.ToTable("StartEndWorkTime");
+                });
+
+            modelBuilder.Entity("DataAccess.Models.Planning.Working", b =>
+                {
+                    b.Property<int>("WorkingId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WorkingId"), 1L, 1);
+
+                    b.Property<int>("CustomrId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("WorkingId");
+
+                    b.HasIndex("WorkingId")
+                        .IsUnique();
+
+                    b.ToTable("Working");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Rfid", b =>

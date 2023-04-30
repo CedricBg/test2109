@@ -3,13 +3,8 @@ using DataAccess.Models.Customer;
 using DataAccess.Models.Auth;
 using DataAccess.Models.Employees;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DataAccess.Repository;
+using DataAccess.Models.Planning;
 
 namespace DataAccess.DataAccess
 {
@@ -30,6 +25,17 @@ namespace DataAccess.DataAccess
 
             modelBuilder.Entity<ConnectedForm>().HasNoKey();
 
+            modelBuilder.Entity<StartEndWorkTime>(entity =>
+            {
+                entity.HasKey(c => c.StartId);
+                entity.HasIndex(c=>c.StartId).IsUnique();
+            });
+
+            modelBuilder.Entity<Working>(entity =>
+            {
+                entity.HasKey(c => c.WorkingId);
+                entity.HasIndex(c => c.WorkingId).IsUnique();
+            });
 
             modelBuilder.Entity<Users>(entity =>
             {
@@ -73,6 +79,7 @@ namespace DataAccess.DataAccess
             modelBuilder.Entity<Customers>(entity =>
             {
                 entity.HasKey(e => e.CustomerId);
+                entity.HasIndex(c => c.CustomerId).IsUnique();
                 entity.HasOne(e => e.Role).WithMany().OnDelete(DeleteBehavior.Cascade);
                 entity.Property(e => e.NameCustomer).HasMaxLength(30).IsRequired(true);
                 entity.Property(e => e.CreationDate).ValueGeneratedOnAdd();
@@ -89,6 +96,7 @@ namespace DataAccess.DataAccess
             modelBuilder.Entity<ContactPerson>(entity =>
             {
                 entity.HasKey(e => e.ContactId);
+                entity.HasIndex(c => c.ContactId).IsUnique();
                 entity.Property(e => e.LastName).HasMaxLength(30).IsRequired(true);
                 entity.Property(e => e.FirstName).HasMaxLength(30).IsRequired(true);
                 entity.HasOne(p => p.ContactSite).WithMany(s => s.ContactSite).HasForeignKey(p => p.ContactSiteId).OnDelete(DeleteBehavior.Restrict);
@@ -121,8 +129,6 @@ namespace DataAccess.DataAccess
 
 
         }
-
-
 
         public DbSet<Countrys> Countrys { get; set; }
 
@@ -162,6 +168,8 @@ namespace DataAccess.DataAccess
 
         public DbSet<Site> Sites { get; set; }
 
+        public DbSet<StartEndWorkTime> StartEndWorkTime { get; set;}
 
+        public DbSet<Working> Working { get; set; }
     }
 }
