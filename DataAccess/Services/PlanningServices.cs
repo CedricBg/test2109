@@ -29,10 +29,20 @@ namespace DataAccess.Services
         public Working IsWorking(int id)
         {
             Working working = new Working();
-            StartEndWorkTime workTime = _context.StartEndWorkTime.OrderByDescending(c => c.StartId).FirstOrDefault(c => c.EmployeeId == id);
-            working.CustomerId = workTime.CustomerId;
-            working.EmployeeId = workTime.EmployeeId;
             working.IsWorking = false;
+            StartEndWorkTime workTime = _context.StartEndWorkTime.OrderByDescending(c => c.StartId).FirstOrDefault(c => c.EmployeeId == id);
+            
+            if(workTime != null)
+            {
+                working.CustomerId = workTime.CustomerId;
+                working.EmployeeId = workTime.EmployeeId;
+                working.IsWorking = false;
+            }
+            else
+            {
+                return working;
+            }
+            
             if (id < 1) 
                 return working;
             else
