@@ -24,10 +24,10 @@ namespace BusinessAccessLayer.Services
             _Mapper = mapper;
         }
 
-        public Boolean StartWork(StartEndWorkTime form)
+        public Working StartWork(StartEndWorkTime form)
         {
             var detail = _Mapper.Map<DataAccess.Models.Planning.StartEndWorkTime>(form);
-            return _Services.StartWork(detail);
+            return _Mapper.Map<Working>(_Services.StartWork(detail));
         }
 
         public Boolean EndWork(int id)
@@ -41,9 +41,9 @@ namespace BusinessAccessLayer.Services
             return _Services.Customers(id).Select(dr => _Mapper.Map<AllCustomers>(dr)).ToList();
         }
 
-        public Boolean IsWorking(int id)
+        public Working IsWorking(int id)
         {
-           return  _Services.IsWorking(id);
+           return _Mapper.Map<Working>(_Services.IsWorking(id));
         }
     }
 }

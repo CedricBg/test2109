@@ -6,6 +6,8 @@
 
         public int CustomerId { get; set; }
 
-        public int EmployeeId { get; set; } 
+        public int EmployeeId { get; set; }
+        
+        public bool IsWorking { get; set; }
     }
 }

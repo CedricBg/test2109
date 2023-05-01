@@ -24,14 +24,14 @@ namespace test2109.Controllers
             _service = service;
         }
 
-        //
+        
         [HttpPost("startWork")]
         public IActionResult StartWork([FromBody] StartEndTimeWork form)
         {
             try
             {
                 var detail = _mapper.Map<BusinessAccessLayer.Models.Planning.StartEndWorkTime>(form);
-                Boolean result = _service.StartWork(detail);
+                Working result = _mapper.Map<Working>(_service.StartWork(detail));
                 return Ok(result);
             }
             catch (Exception)
@@ -65,7 +65,7 @@ namespace test2109.Controllers
         [HttpGet("working/{id}")]
         public IActionResult IsWorking(  int id)
         {
-            Boolean result = _service.IsWorking(id);
+            Working result = _mapper.Map<Working>(_service.IsWorking(id));
             return Ok(result);
         }
     }

@@ -5,9 +5,9 @@ namespace BusinessAccessLayer.IRepositories
 {
     public interface IPlanningService
     {
-        Boolean StartWork(StartEndWorkTime form);
+        Working StartWork(StartEndWorkTime form);
         Boolean EndWork(int id);
         List<AllCustomers> Customers(int id);
-        Boolean IsWorking(int id);
+        Working IsWorking(int id);
     }
 }

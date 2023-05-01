@@ -62,8 +62,6 @@ namespace BusinessAccessLayer.Tools
             CreateMap<DATA.Planning.Working, BUSI.Planning.Working>()
                .ReverseMap();
 
-
-
         }         
     }
 }

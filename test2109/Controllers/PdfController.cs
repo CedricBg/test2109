@@ -22,7 +22,6 @@ namespace test2109.Controllers
             _Mapper = mapper;
         }
 
-
         [HttpPost]
         public string CreatePdf(Pdf pdf)
         {

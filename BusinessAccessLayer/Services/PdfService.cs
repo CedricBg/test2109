@@ -38,8 +38,6 @@ namespace BusinessAccessLayer.Services
             {
                 string filename = title+".pdf";
                 var filePath = Path.Combine("..","pdf", filename);
-                Console.WriteLine(filePath);
-                
                 pdfDocument.Save(filePath);
             }
         }

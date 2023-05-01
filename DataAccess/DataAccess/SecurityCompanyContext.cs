@@ -33,6 +33,7 @@ namespace DataAccess.DataAccess
 
             modelBuilder.Entity<Working>(entity =>
             {
+                entity.Ignore(c => c.IsWorking);
                 entity.HasKey(c => c.WorkingId);
                 entity.HasIndex(c => c.WorkingId).IsUnique();
             });

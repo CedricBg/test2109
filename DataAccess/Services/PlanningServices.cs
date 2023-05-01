@@ -20,27 +20,36 @@ namespace DataAccess.Services
         {
             _context = context;
         }
+
         /// <summary>
         /// On controle si il l'agent est en service pour la mise à jour de la vue la fonction StartWork
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Boolean IsWorking(int id)
+        public Working IsWorking(int id)
         {
-            if (id < 1)
-                return false;
+            Working working = new Working();
+            StartEndWorkTime workTime = _context.StartEndWorkTime.OrderByDescending(c => c.StartId).FirstOrDefault(c => c.EmployeeId == id);
+            working.CustomerId = workTime.CustomerId;
+            working.EmployeeId = workTime.EmployeeId;
+            working.IsWorking = false;
+            if (id < 1) 
+                return working;
             else
-            {
-                StartEndWorkTime workTime = _context.StartEndWorkTime.OrderByDescending(c=>c.StartId).FirstOrDefault(c=>c.EmployeeId == id);
+            {   
                 //n'a jamais travailler
                 if (workTime == null)
-                    return false;
+                    return working;
 
                 //déjà en service
                 if (workTime.EndTime is null)
-                    return true;
+                {
+
+                    working.IsWorking = true;
+                    return working;
+                }
                 else 
-                    return false;
+                    return working;
             }
         }
 
@@ -49,17 +58,19 @@ namespace DataAccess.Services
         /// </summary>
         /// <param name="form">IdCustomer, IdEmplyee, tout les autres paramètres ne servent pas</param>
         /// <returns>String line of answer</returns>
-        public Boolean StartWork(StartEndWorkTime form)
+        public Working StartWork(StartEndWorkTime form)
         {
-
+            Working working = new Working();
+            working.IsWorking = false;
             if (form == null && form.EmployeeId == 0)
             {
-                return false;
+                return working;
             }
             //déjà en service
-            if(IsWorking(form.EmployeeId))
+            if(IsWorking(form.EmployeeId).IsWorking)
             {
-                return true;
+                working.IsWorking = true;
+                return working;
             }
             else
             {
@@ -74,7 +85,10 @@ namespace DataAccess.Services
 
                 _context.StartEndWorkTime.Add(forms);
                 _context.SaveChanges();
-                return true;
+                working.EmployeeId = form.EmployeeId;
+                working.CustomerId = form.CustomerId;
+                working.IsWorking = true;
+                return working;
             }
         }
 
@@ -89,7 +103,7 @@ namespace DataAccess.Services
             {
                 return false;
             }
-            if (IsWorking(id))
+            if (IsWorking(id).IsWorking)
             {
                 StartEndWorkTime end = _context.StartEndWorkTime.OrderByDescending(c => c.StartId).FirstOrDefault(c => c.EmployeeId == id);
                 end.EndTime = DateTime.UtcNow.ToLocalTime();
@@ -142,6 +156,7 @@ namespace DataAccess.Services
             }
             return customers;
         }
+
 
     }
 }
