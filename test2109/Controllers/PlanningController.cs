@@ -58,7 +58,7 @@ namespace test2109.Controllers
         [HttpGet("{id}")]
         public IActionResult GetCustomers( int id)
         {
-            List<AllCustomers> cust = _service.Customers(id).Select(dr => _mapper.Map<AllCustomers>(dr)).ToList();
+            List<Customers> cust = _service.Customers(id).Select(dr => _mapper.Map<Customers>(dr)).ToList();
             return Ok(cust);
         }
 

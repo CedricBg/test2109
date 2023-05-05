@@ -151,6 +151,20 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Working",
+                columns: table => new
+                {
+                    WorkingId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CustomerId = table.Column<int>(type: "int", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Working", x => x.WorkingId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ScheduledRounds",
                 columns: table => new
                 {
@@ -412,6 +426,12 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_ContactPersons_ContactId",
+                table: "ContactPersons",
+                column: "ContactId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ContactPersons_ContactSiteId",
                 table: "ContactPersons",
                 column: "ContactSiteId");
@@ -420,6 +440,12 @@ namespace DataAccess.Migrations
                 name: "IX_Customers_ContactId",
                 table: "Customers",
                 column: "ContactId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Customers_CustomerId",
+                table: "Customers",
+                column: "CustomerId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Customers_roleId",
@@ -530,6 +556,12 @@ namespace DataAccess.Migrations
                 unique: true,
                 filter: "[Login] IS NOT NULL");
 
+            migrationBuilder.CreateIndex(
+                name: "IX_Working_WorkingId",
+                table: "Working",
+                column: "WorkingId",
+                unique: true);
+
             migrationBuilder.AddForeignKey(
                 name: "FK_ContactPersons_Sites_ContactSiteId",
                 table: "ContactPersons",
@@ -568,6 +600,9 @@ namespace DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "StartEndWorkTime");
+
+            migrationBuilder.DropTable(
+                name: "Working");
 
             migrationBuilder.DropTable(
                 name: "Rfids");

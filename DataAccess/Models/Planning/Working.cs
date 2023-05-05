@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DataAccess.Models.Customer;
+using DataAccess.Models.Employees;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,5 +17,6 @@ namespace DataAccess.Models.Planning
         public int EmployeeId { get; set; }
 
         public bool IsWorking { get; set; }
+
     }
 }

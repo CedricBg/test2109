@@ -7,7 +7,7 @@ namespace BusinessAccessLayer.IRepositories
     {
         Working StartWork(StartEndWorkTime form);
         Boolean EndWork(int id);
-        List<AllCustomers> Customers(int id);
+        List<Customers> Customers(int id);
         Working IsWorking(int id);
     }
 }

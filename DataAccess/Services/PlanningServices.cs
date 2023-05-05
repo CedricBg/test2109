@@ -128,45 +128,18 @@ namespace DataAccess.Services
         /// </summary>
         /// <param name="id">Id de l'employée</param>
         /// <returns>list de clients</returns>
-        public List<AllCustomers> Customers(int id)
+        public List<Customers> Customers(int id)
         {
-            List<AllCustomers> customers = All().ToList();
-            List<Working> working = _context.Working.Where(c=>c.EmployeeId == id).ToList();
-            List<AllCustomers> allCustomers  = new List<AllCustomers>();
-            foreach (Working workingItem in working)
-            {
-                foreach(AllCustomers customersItem in customers)
-                {
-                    if(workingItem.CustomerId == customersItem.CustomerId)
-                    {
-                        allCustomers.Add(customersItem);
-                    }
-                }
-            }
-            return allCustomers;
+            var clients = _context.Working
+                     .Where(w => w.EmployeeId == id)
+                     .Join(
+                        _context.Customers,
+                        w => w.CustomerId,
+                        c => c.CustomerId,
+                        (w, c) => c
+                     );
+
+            return clients.ToList();
         }
-
-        /// <summary>
-        /// Retorune tout les clients mour la fonction Customers
-        /// </summary>
-        /// <returns></returns>
-        private List<AllCustomers> All()
-        {
-            List<AllCustomers> customers = new List<AllCustomers>();
-            if (_context.Customers != null)
-            {
-                customers = _context.Customers
-                    .Where(e => e.IsDeleted == false && e.Role.Name == "Client")
-                    .Select((Client) => new AllCustomers
-                    {
-                        NameCustomer = Client.NameCustomer,
-                        CustomerId = Client.CustomerId,
-                    }
-                    ).ToList();
-            }
-            return customers;
-        }
-
-
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccess.Models.Planning;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace DataAccess.Models.Customer
         public DateTime? CreationDate { get; set; }
 
         public ContactPerson? Contact { get; set; } = null!;
+
 
     }
 }

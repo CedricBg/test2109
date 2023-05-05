@@ -67,6 +67,7 @@ namespace DataAccess.DataAccess
                 entity.Property(e => e.CreationDate).ValueGeneratedOnAdd();
                 entity.HasOne(e => e.Address).WithMany().OnDelete(DeleteBehavior.Cascade);
                 entity.HasOne(e => e.Language).WithMany().OnDelete(DeleteBehavior.Cascade);
+
             });
 
             modelBuilder.Entity<Rfid>(entity =>
@@ -84,6 +85,7 @@ namespace DataAccess.DataAccess
                 entity.HasOne(e => e.Role).WithMany().OnDelete(DeleteBehavior.Cascade);
                 entity.Property(e => e.NameCustomer).HasMaxLength(30).IsRequired(true);
                 entity.Property(e => e.CreationDate).ValueGeneratedOnAdd();
+
             });
 
             modelBuilder.Entity<Site>(entity =>

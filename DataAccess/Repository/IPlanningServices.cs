@@ -7,7 +7,7 @@ namespace DataAccess.Repository
     {
 
         Boolean EndWork(int id);
-        List<AllCustomers> Customers(int id);
+        List<Customers> Customers(int id);
         Working IsWorking(int id);
         Working StartWork(StartEndWorkTime form);
     }
