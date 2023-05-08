@@ -25,6 +25,10 @@ namespace DataAccess.DataAccess
 
             modelBuilder.Entity<ConnectedForm>().HasNoKey();
 
+            modelBuilder.Entity<Pdf>(entity => {
+                entity.HasKey(e => e.IdPdf);
+            });
+
             modelBuilder.Entity<StartEndWorkTime>(entity =>
             {
                 entity.HasKey(c => c.StartId);
@@ -174,5 +178,7 @@ namespace DataAccess.DataAccess
         public DbSet<StartEndWorkTime> StartEndWorkTime { get; set;}
 
         public DbSet<Working> Working { get; set; }
+
+        public DbSet<Pdf> Pdf { get; set; }
     }
 }

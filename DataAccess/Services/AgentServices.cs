@@ -1,4 +1,5 @@
 ﻿using DataAccess.DataAccess;
+using DataAccess.Models;
 using DataAccess.Models.Customer;
 using DataAccess.Models.Employees;
 using DataAccess.Repository;
@@ -32,6 +33,11 @@ namespace DataAccess.Services
 
             return clients.ToList();
 
+        }
+
+        public Pdf PdfAdd(Pdf pdf)
+        {
+            Pdf pdf1 = _context.Pdf.FirstOrDefault(e=>e.IdPdf == pdf.IdPdf);
         }
 
     }

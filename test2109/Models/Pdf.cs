@@ -2,7 +2,7 @@
 {
     public class Pdf
     {
-        public int IntPdf { get; set; }
+        public int IdPdf { get; set; }
 
         public string Title { get; set; }
 
