@@ -27,6 +27,8 @@ namespace DataAccess.DataAccess
 
             modelBuilder.Entity<Pdf>(entity => {
                 entity.HasKey(e => e.IdPdf);
+                entity.HasIndex(c => c.IdPdf).IsUnique();
+                entity.Property(c => c.Title).HasMaxLength(30);
             });
 
             modelBuilder.Entity<StartEndWorkTime>(entity =>

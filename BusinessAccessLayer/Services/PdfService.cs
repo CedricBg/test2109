@@ -27,6 +27,8 @@ namespace BusinessAccessLayer.Services
         }
         public void CreatePdf(Pdf pdf)
         {
+
+
             string texte = pdf.Content;
             string title = pdf.Title;
             PdfDocument document = new PdfDocument();
