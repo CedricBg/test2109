@@ -4,6 +4,6 @@ namespace BusinessAccessLayer.IRepositories
 {
     public interface IPdfService
     {
-        void CreatePdf(Pdf pdf);
+        Pdf CreatePdf(Pdf pdf);
     }
 }

@@ -23,17 +23,16 @@ namespace test2109.Controllers
         }
 
         [HttpPost]
-        public string CreatePdf(Pdf pdf)
+        public IActionResult CreatePdf(Pdf pdf)
         {
             try
             {
                 var detail = _Mapper.Map<BusinessAccessLayer.Models.Pdf>(pdf);
-                this._pfService.CreatePdf(detail);
-                return JsonSerializer.Serialize("Created");
+                return Ok(_Mapper.Map<Pdf>(this._pfService.CreatePdf(detail)));
             }
-            catch (Exception ex) 
+            catch (Exception) 
             {
-                return JsonSerializer.Serialize(ex.Message);
+                return Ok(new Pdf());
             }
         }
     }
