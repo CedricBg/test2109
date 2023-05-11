@@ -6,7 +6,6 @@ namespace DataAccess.Repository
     public interface IAgentServices
     {
         List<Customers> assignedClients(int id);
-
-        Pdf PdfAdd(Pdf pdf);
+ 
     }
 }

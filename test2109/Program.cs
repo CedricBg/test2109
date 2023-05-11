@@ -25,7 +25,11 @@ builder.Services.AddScoped<ICountryServices, CountryServices>();
 builder.Services.AddScoped<IInformationServices, InformationServices>();
 builder.Services.AddScoped<ICustomerServices, CustomerServices>();
 builder.Services.AddScoped<IPlanningServices, PlanningServices>();
+builder.Services.AddScoped<IRapportServices, RapportServices>();
 builder.Services.AddScoped<IAgentServices, AgentServices>();
+
+
+
 
 
 //BLL
@@ -105,7 +109,6 @@ app.UseAuthentication();
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
-
 
 app.UseAuthorization();
 

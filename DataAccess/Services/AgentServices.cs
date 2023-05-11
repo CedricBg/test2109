@@ -35,32 +35,5 @@ namespace DataAccess.Services
 
         }
 
-        public Pdf PdfAdd(Pdf pdf)
-        {
-            Pdf pdf1 = _context.Pdf.FirstOrDefault(e=>e.IdPdf == pdf.IdPdf);
-            
-            if(pdf1 == null)
-            {
-                Pdf pdf2 = new Pdf
-                {
-                    IdPdf = pdf.IdPdf,
-                    Content = pdf.Content,
-                    FilePath = pdf.FilePath,
-                    Customer = pdf.Customer,
-                    IdEmployee = pdf.IdEmployee,
-                    Title = pdf.Title,
-                };
-                _context.Pdf.Add(pdf2);
-                _context.SaveChanges();
-                return pdf2;
-            }
-            else
-            {
-                pdf1.Content = pdf.Content;
-                _context.SaveChanges();
-                return pdf1;
-            }
-        }
-
     }
 }

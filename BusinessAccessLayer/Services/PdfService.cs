@@ -17,6 +17,7 @@ using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
 using DataAccess.Repository;
 using DATA = DataAccess.Models;
+using DataAccess.Services;
 
 
 namespace BusinessAccessLayer.Services
@@ -25,20 +26,20 @@ namespace BusinessAccessLayer.Services
     {
         private IWebHostEnvironment _webHostEnvironment;
         private readonly IMapper _Mapper;
-        private readonly IAgentServices _AgentServices;
+        private readonly IRapportServices _RapportServices;
 
-        public PdfService(IWebHostEnvironment webHostEnvironment, IMapper mapper, IAgentServices agentServices)
+        public PdfService(IWebHostEnvironment webHostEnvironment, IMapper mapper, IRapportServices rapportServices)
         {
             _webHostEnvironment = webHostEnvironment;
             _Mapper = mapper;
-            _AgentServices = agentServices;
+            _RapportServices = rapportServices;
         }
+
         public Pdf CreatePdf(Pdf pdf)
         {
             if(pdf == null)
-            {
                 return new Pdf();
-            }
+
             string folderPath = "..\\pdf\\"+pdf.Customer;
             if (!Directory.Exists(folderPath))
             {
@@ -59,8 +60,29 @@ namespace BusinessAccessLayer.Services
                 pdfDocument.Save(filePath);
                 pdf.FilePath = filePath;
                 var pdfSend = _Mapper.Map<DATA.Pdf>(pdf);
-                return _Mapper.Map<Pdf>(_AgentServices.PdfAdd(pdfSend));
+                return _Mapper.Map<Pdf>(_RapportServices.PdfAdd(pdfSend));
             }
+        }
+
+        public Pdf SaveRapport(Pdf pdf)
+        {
+            if (pdf == null)
+                return new Pdf();
+
+            string folderPath = "..\\pdf\\" + pdf.Customer;
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+            var pdfSend = _Mapper.Map<DATA.Pdf>(pdf);
+            return _Mapper.Map<Pdf>(_RapportServices.PdfAdd(pdfSend));
+
+        }
+
+        public Pdf checkRapport(int id)
+        {
+            Pdf pdf =  _Mapper.Map<Pdf>(_RapportServices.checkRapport(id));
+            return pdf;
         }
     }
 }

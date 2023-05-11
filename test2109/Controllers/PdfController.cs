@@ -35,5 +35,26 @@ namespace test2109.Controllers
                 return Ok(new Pdf());
             }
         }
+
+        [HttpPost("saveRapport")]
+        public IActionResult SaveRapportPdf(Pdf pdf)
+        {
+            try
+            {
+                var detail = _Mapper.Map<BusinessAccessLayer.Models.Pdf>(pdf);
+                return Ok(_Mapper.Map<Pdf>(this._pfService.SaveRapport(detail)));
+            }
+            catch (Exception)
+            {
+                return Ok(new Pdf());
+            }
+        }
+
+        //controle si un rapport est en cours
+        [HttpGet("checkRapport/{id}")]
+        public IActionResult checkRapport(int id) 
+        {
+            return Ok(_Mapper.Map<Pdf>(_pfService.checkRapport(id)));
+        }
     }
 }
