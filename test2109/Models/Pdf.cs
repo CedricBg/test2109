@@ -12,6 +12,8 @@
 
         public string FilePath { get; set; }
 
-        public string Customer { get; set; }
+        public int SiteId { get; set; }
+
+        public DateTime DateCreate { get; set; }
     }
 }

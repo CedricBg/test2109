@@ -5,7 +5,7 @@ namespace DataAccess.Repository
 {
     public interface IAgentServices
     {
-        List<Customers> assignedClients(int id);
+        List<Site> assignedClients(int id);
  
     }
 }

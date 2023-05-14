@@ -4,7 +4,7 @@
     {
         public int WorkingId { get; set; }
 
-        public int CustomerId { get; set; }
+        public int SiteId { get; set; }
 
         public int EmployeeId { get; set; }
         

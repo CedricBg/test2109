@@ -29,6 +29,8 @@ namespace DataAccess.DataAccess
                 entity.HasKey(e => e.IdPdf);
                 entity.HasIndex(c => c.IdPdf).IsUnique();
                 entity.Property(c => c.Title).HasMaxLength(30);
+                entity.Property(c => c.FilePath).HasMaxLength(50);
+                entity.Property(e => e.DateCreate).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<StartEndWorkTime>(entity =>
@@ -65,6 +67,7 @@ namespace DataAccess.DataAccess
                 entity.HasOne(e => e.Role).WithMany().OnDelete(DeleteBehavior.Cascade);
                 entity.Property(e => e.firstName).HasMaxLength(50).IsRequired(true);
                 entity.Property(e => e.SurName).HasMaxLength(50).IsRequired(true);
+                entity.Property(e => e.PhotoName).HasMaxLength(50);
                 entity.Property(e => e.BirthDate).IsRequired(true);
                 entity.Property(e => e.Vehicle).IsRequired(true);
                 entity.Property(e => e.SecurityCard).HasMaxLength(100);
@@ -73,16 +76,14 @@ namespace DataAccess.DataAccess
                 entity.Property(e => e.CreationDate).ValueGeneratedOnAdd();
                 entity.HasOne(e => e.Address).WithMany().OnDelete(DeleteBehavior.Cascade);
                 entity.HasOne(e => e.Language).WithMany().OnDelete(DeleteBehavior.Cascade);
-
             });
 
             modelBuilder.Entity<Rfid>(entity =>
             {
                 entity.HasKey(e => e.RfidNr);
-                entity.Property(e => e.RfidNr).HasMaxLength(80).HasMaxLength(80).IsRequired(true);
+                entity.Property(e => e.RfidNr).HasMaxLength(80).IsRequired(true);
                 entity.Property(e => e.Location).HasMaxLength(50).IsRequired(true);
             });
-
 
             modelBuilder.Entity<Customers>(entity =>
             {
@@ -91,7 +92,6 @@ namespace DataAccess.DataAccess
                 entity.HasOne(e => e.Role).WithMany().OnDelete(DeleteBehavior.Cascade);
                 entity.Property(e => e.NameCustomer).HasMaxLength(30).IsRequired(true);
                 entity.Property(e => e.CreationDate).ValueGeneratedOnAdd();
-
             });
 
             modelBuilder.Entity<Site>(entity =>
@@ -99,6 +99,7 @@ namespace DataAccess.DataAccess
                 entity.HasIndex(e => e.Name).IsUnique();
                 entity.HasOne(e => e.Customer).WithMany(e => e.Site).HasPrincipalKey(e => e.CustomerId).OnDelete(DeleteBehavior.Restrict);
                 entity.Property(e => e.Name).HasMaxLength(30).IsRequired(true);
+                entity.Property(e => e.VatNumber).HasMaxLength(30).IsRequired(true);
                 entity.Ignore(e => e.CustomerIdCreate);
             });
 
@@ -135,15 +136,21 @@ namespace DataAccess.DataAccess
                 Entity.Property(e => e.Country).HasMaxLength(50);
             });
 
+            modelBuilder.Entity<Language>(Entity =>
+            {
+                Entity.Property(e => e.Name).HasMaxLength(20);
+            });
 
-
+            modelBuilder.Entity<Role>(Entity =>
+            {
+                Entity.Property(e => e.Name).HasMaxLength(40);
+                Entity.Property(e => e.DiminName).HasMaxLength(5);
+            });
         }
 
         public DbSet<Countrys> Countrys { get; set; }
 
         public DbSet<Role> Roles { get; set; }
-
-        public DbSet<ConnectedForm> ConnectedForm { get; set; }
 
         public DbSet<Employee> employees { get; set; }
 

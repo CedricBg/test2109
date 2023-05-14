@@ -12,11 +12,11 @@ namespace DataAccess.Models.Planning
     {
         public int WorkingId { get; set; }
 
-        public int CustomerId { get; set; }
-
-        public int EmployeeId { get; set; }
+        public int SiteId { get; set; }
 
         public bool IsWorking { get; set; }
+
+        public int EmployeeId { get; set; }
 
     }
 }

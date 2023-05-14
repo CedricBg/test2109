@@ -255,6 +255,6 @@ INSERT INTO Phones (Number, DetailedEmployeeId) Values (0487345912, 1)
 INSERT INTO Phones (Number, SenderContactId) Values (022163945, 1)
 INSERT INTO Phones (Number, SenderContactId) Values (010215975, 2)
 
-INSERT INTO Working (CustomerId, EmployeeId) Values (1,1)
-INSERT INTO Working (CustomerId, EmployeeId) Values (2,1)
+INSERT INTO Working (SiteId, EmployeeId) Values (1,1)
+INSERT INTO Working (SiteId, EmployeeId) Values (2,1)
 

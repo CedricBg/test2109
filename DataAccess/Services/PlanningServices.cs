@@ -4,6 +4,7 @@ using DataAccess.Models.Employees;
 using DataAccess.Models.Planning;
 using DataAccess.Repository;
 using DataAccess.Tools;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace DataAccess.Services
             
             if(workTime != null)
             {
-                working.CustomerId = workTime.CustomerId;
+                working.SiteId = workTime.SiteId;
                 working.EmployeeId = workTime.EmployeeId;
                 working.IsWorking = false;
             }
@@ -90,13 +91,13 @@ namespace DataAccess.Services
                     ArrivingTime = DateTime.UtcNow.ToLocalTime(),
                     EndTime = null,
                     EmployeeId = form.EmployeeId,
-                    CustomerId = form.CustomerId
+                    SiteId = form.SiteId
                 };
 
                 _context.StartEndWorkTime.Add(forms);
                 _context.SaveChanges();
                 working.EmployeeId = form.EmployeeId;
-                working.CustomerId = form.CustomerId;
+                working.SiteId = form.SiteId;
                 working.IsWorking = true;
                 return working;
             }
@@ -128,14 +129,15 @@ namespace DataAccess.Services
         /// </summary>
         /// <param name="id">Id de l'employée</param>
         /// <returns>list de clients</returns>
-        public List<Customers> Customers(int id)
+        public List<Site> Sites(int id)
         {
             var clients = _context.Working
                      .Where(w => w.EmployeeId == id)
                      .Join(
-                        _context.Customers,
-                        w => w.CustomerId,
-                        c => c.CustomerId,
+                        _context.Sites,
+                        w => w.SiteId,
+                        c => c.SiteId,
+                        
                         (w, c) => c
                      );
 

@@ -36,9 +36,9 @@ namespace BusinessAccessLayer.Services
             return _Services.EndWork(id);
         }
 
-        public List<Customers> Customers(int id)
+        public List<Site> Sites(int id)
         {
-            return _Services.Customers(id).Select(dr => _Mapper.Map<Customers>(dr)).ToList();
+            return _Services.Sites(id).Select(dr => _Mapper.Map<Site>(dr)).ToList();
         }
 
         public Working IsWorking(int id)

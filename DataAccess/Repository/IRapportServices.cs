@@ -4,7 +4,10 @@ namespace DataAccess.Repository
 {
     public interface IRapportServices
     {
-        Pdf PdfAdd(Pdf pdf);
+        Pdf CreatePdf(Pdf pdf);
         Pdf checkRapport(int id);
+        List<Pdf> listRapport(int id);
+        byte[] loadRapport(int id);
+        Pdf SaveRapport(Pdf pdf);
     }
 }

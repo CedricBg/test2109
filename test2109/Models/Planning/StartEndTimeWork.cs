@@ -1,5 +1,4 @@
-﻿using DataAccess.Models.Employees;
-using test2109.Models.Customer;
+﻿
 
 namespace test2109.Models.Planning
 {
@@ -11,7 +10,7 @@ namespace test2109.Models.Planning
 
         public DateTime? EndTime { get; set; } = null;
 
-        public int CustomerId { get; set; }
+        public int SiteId { get; set; }
 
         public int EmployeeId { get; set; }
     }

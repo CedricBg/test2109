@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Migrations
 {
-    public partial class InitDb : Migration
+    public partial class initdb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -85,11 +85,29 @@ namespace DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Languages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pdf",
+                columns: table => new
+                {
+                    IdPdf = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdEmployee = table.Column<int>(type: "int", nullable: false),
+                    FilePath = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    SiteId = table.Column<int>(type: "int", nullable: false),
+                    DateCreate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pdf", x => x.IdPdf);
                 });
 
             migrationBuilder.CreateTable(
@@ -98,8 +116,8 @@ namespace DataAccess.Migrations
                 {
                     roleId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DiminName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    DiminName = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -127,7 +145,7 @@ namespace DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ArrivingTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CustomerId = table.Column<int>(type: "int", nullable: false),
+                    SiteId = table.Column<int>(type: "int", nullable: false),
                     EmployeeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -156,7 +174,7 @@ namespace DataAccess.Migrations
                 {
                     WorkingId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CustomerId = table.Column<int>(type: "int", nullable: false),
+                    SiteId = table.Column<int>(type: "int", nullable: false),
                     EmployeeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -204,7 +222,7 @@ namespace DataAccess.Migrations
                     roleId = table.Column<int>(type: "int", nullable: true),
                     LanguageId = table.Column<int>(type: "int", nullable: true),
                     PhotoId = table.Column<int>(type: "int", nullable: true),
-                    PhotoName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhotoName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     DepartementId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -366,7 +384,7 @@ namespace DataAccess.Migrations
                     SiteId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    VatNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    VatNumber = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     LanguageId = table.Column<int>(type: "int", nullable: true),
@@ -498,6 +516,12 @@ namespace DataAccess.Migrations
                 column: "RoundsRondsId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Pdf_IdPdf",
+                table: "Pdf",
+                column: "IdPdf",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Phones_DetailedEmployeeId",
                 table: "Phones",
                 column: "DetailedEmployeeId");
@@ -591,6 +615,9 @@ namespace DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "PassagesRounds");
+
+            migrationBuilder.DropTable(
+                name: "Pdf");
 
             migrationBuilder.DropTable(
                 name: "Phones");

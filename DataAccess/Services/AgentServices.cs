@@ -20,14 +20,14 @@ namespace DataAccess.Services
             _context = context;
         }
 
-        public List<Customers> assignedClients(int id)
+        public List<Site> assignedClients(int id)
         {
             var clients = _context.Working
                      .Where(w => w.EmployeeId == id)
                      .Join(
-                        _context.Customers,
-                        w => w.CustomerId,
-                        c => c.CustomerId,
+                        _context.Sites,
+                        w => w.SiteId,
+                        c => c.SiteId,
                         (w, c) => c
                      );
 

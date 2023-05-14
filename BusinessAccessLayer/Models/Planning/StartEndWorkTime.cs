@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BUSI = BusinessAccessLayer.Models.Customers;
 
 namespace BusinessAccessLayer.Models.Planning
 {
@@ -16,7 +15,7 @@ namespace BusinessAccessLayer.Models.Planning
 
         public DateTime? EndTime { get; set; }
 
-        public int CustomerId { get; set; }
+        public int SiteId { get; set; }
 
         public int EmployeeId { get; set; }
     }

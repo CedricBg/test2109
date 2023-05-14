@@ -58,12 +58,12 @@ namespace test2109.Controllers
         [HttpGet("{id}")]
         public IActionResult GetCustomers( int id)
         {
-            List<Customers> cust = _service.Customers(id).Select(dr => _mapper.Map<Customers>(dr)).ToList();
+            List<Site> cust = _service.Sites(id).Select(dr => _mapper.Map<Site>(dr)).ToList();
             return Ok(cust);
         }
 
         [HttpGet("working/{id}")]
-        public IActionResult IsWorking(  int id)
+        public IActionResult IsWorking(int id)
         {
             Working result = _mapper.Map<Working>(_service.IsWorking(id));
             return Ok(result);

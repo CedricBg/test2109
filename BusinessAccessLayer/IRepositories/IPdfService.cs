@@ -7,5 +7,7 @@ namespace BusinessAccessLayer.IRepositories
         Pdf CreatePdf(Pdf pdf);
         Pdf SaveRapport(Pdf pdf);
         Pdf checkRapport(int id);
+        List<Pdf> listRapport(int id);
+        byte[] loadRapport(int id);
     }
 }
