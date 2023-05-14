@@ -26,6 +26,7 @@ namespace DataAccess.Services
         {
             _context = context;
         }
+
         /// <summary>
         /// On créé le pdf et on sauvegarde la route dans la table pdf
         /// </summary>
@@ -87,7 +88,7 @@ namespace DataAccess.Services
                 else
                 {
                     pdf1.Content = pdf.Content;
-                    pdf.FilePath = pdf1.FilePath;
+                    pdf1.FilePath = pdf.FilePath;
                     _context.SaveChanges();
                     return pdf1;
                 }
