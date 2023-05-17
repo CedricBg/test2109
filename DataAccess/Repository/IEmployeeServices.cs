@@ -12,5 +12,6 @@ namespace DataAccess.Repository
         bool Deactive(int id);
         DetailedEmployee UpdateEmployee(DetailedEmployee employee);
         Countrys Country(int? id);
+        Task<string> UploadFile(SendFoto file);
     }
 }

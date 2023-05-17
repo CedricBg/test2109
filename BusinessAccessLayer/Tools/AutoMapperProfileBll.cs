@@ -11,6 +11,7 @@ namespace BusinessAccessLayer.Tools
         {
             CreateMap<DATA.Countrys, BUSI.Employee.Countrys>().ReverseMap();
             CreateMap<DATA.Employees.Employee, BUSI.Employee.Employee>().ReverseMap();
+            CreateMap<DATA.Employees.SendFoto, BUSI.Employee.SendFoto>().ReverseMap();
             
             CreateMap<BUSI.Employee.DetailedEmployee, DATA.Employees.DetailedEmployee>()
                 .ForMember(e => e.Phone, x => x.MapFrom(y => y.Phone))
@@ -32,7 +33,6 @@ namespace BusinessAccessLayer.Tools
             CreateMap<DATA.Customer.Site, BUSI.Customers.Site>()
                 .ForMember(e => e.ContactSite, x => x.MapFrom(y => y.ContactSite))
                 .ReverseMap();
-
 
             CreateMap<DATA.Customer.ContactPerson, BUSI.Customers.ContactPerson>()
                 .ForMember(e => e.Phone, x => x.MapFrom(y => y.Phone))

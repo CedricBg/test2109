@@ -11,6 +11,6 @@ namespace BusinessAccessLayer.IRepositories
         public DetailedEmployee GetOne(int id);
         bool Deactive(int id);
         DetailedEmployee UpdateEmployee(DetailedEmployee detailedEmployee);
-        Task<string> UploadFile(IFormFile file);
+        Task<string> UploadFile(SendFoto file);
     }
 }

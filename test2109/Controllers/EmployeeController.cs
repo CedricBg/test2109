@@ -8,6 +8,7 @@ using test2109.Models.Employee;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using System.Text.Json;
+using System.Net.WebSockets;
 
 namespace test2109.Controllers
 {
@@ -24,15 +25,20 @@ namespace test2109.Controllers
             _employeeService = employeeService;
             _Mapper = mapper;
         }
-       
 
-        [HttpPost("UploadFile")]
-        public async Task<string> UploadFile(IFormFile file)
+        /// <summary>
+        /// Téléchargement d'une foto de profil pour l'employée
+        /// </summary>
+        /// <param name="form"></param>
+        /// <returns>string</returns>
+
+        [HttpPost("uploadFile")]
+        public async Task<string> UploadFile([FromForm] SendFoto form)
         {
-            await _employeeService.UploadFile(file);
-            return JsonSerializer.Serialize("Fichier téléchargé avec succès!");
+
+            var detail = _Mapper.Map<BUSI.Employee.SendFoto>(form);
+            return JsonSerializer.Serialize(await _employeeService.UploadFile(detail));
         }
-    
 
         /// <summary>Gets this instance.</summary>
         /// <returns>
@@ -131,5 +137,6 @@ namespace test2109.Controllers
             }
            
         }
+
     }
 }

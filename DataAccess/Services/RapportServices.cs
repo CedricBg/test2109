@@ -37,7 +37,9 @@ namespace DataAccess.Services
                 if (pdf == null)
                     return new Pdf();
                 string site = _context.Sites.Where(c=>c.SiteId == pdf.SiteId).Select(e=>e.Name).First();
+
                 string folderPath = CreateFolder("..\\pdf\\" + site);
+
                 string texte = pdf.Content;
                 string title = pdf.Title;
                 PdfDocument document = new PdfDocument();
@@ -134,6 +136,8 @@ namespace DataAccess.Services
             byte[] pdfData = File.ReadAllBytes(pdfFilePath);
             return pdfData;
         }
+
+        
 
         private string GetFilePath(int id)
         {

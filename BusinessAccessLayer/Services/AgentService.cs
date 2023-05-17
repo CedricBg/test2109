@@ -23,10 +23,10 @@ namespace BusinessAccessLayer.Services
             _Mapper = mapper;
         }
 
-        public List<Customers> assignedClients(int id)
+        public List<Site> assignedClients(int id)
         {
-            var customers = _AgentServices.assignedClients(id).Select(e => _Mapper.Map<Customers>(e)).ToList();
-            return customers;
+            var sites = _AgentServices.assignedClients(id).Select(e => _Mapper.Map<Site>(e)).ToList();
+            return sites;
         }
     }
 }

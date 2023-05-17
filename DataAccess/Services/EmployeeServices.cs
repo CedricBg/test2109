@@ -2,14 +2,18 @@
 using AutoMapper.Internal;
 using DataAccess.DataAccess;
 using DataAccess.Models;
+using DataAccess.Models.Customer;
 using DataAccess.Models.Employees;
 using DataAccess.Repository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection.Metadata.Ecma335;
+using System.Text.Json;
+using SendFoto = DataAccess.Models.Employees.SendFoto;
 
 namespace DataAccess.Services
 {
@@ -258,5 +262,76 @@ namespace DataAccess.Services
             }
 
         }
+
+        public async Task<string> UploadFile(SendFoto file)
+        {
+            if (file == null || file.Foto.Length == 0)
+            {
+                return "fichier non valide";
+            }
+            string folderPath = CreateFolder("..\\images\\" + file.IdEmployee);
+
+            var filePath = Path.Combine(folderPath, file.Foto.FileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.Foto.CopyToAsync(stream);
+            }
+            FotoDb fotodb = new FotoDb
+            {
+                NameFoto = file.Foto.FileName,
+                idEmployee = file.IdEmployee,
+            };
+            Boolean response =  SaveInformationFoto(fotodb);
+            if (response == true)
+                return "Fichier téléchargé avec succès!";
+            else
+                return "Erreur lors de l'enregistrement veuillez changer le nom du fichier";
+        }
+
+        private bool SaveInformationFoto(FotoDb fotoDb)
+        {
+            if (fotoDb == null)
+            {
+                return false;
+            }
+            FotoDb fotoDb1 = _db.Foto.FirstOrDefault(e =>e.idEmployee == fotoDb.idEmployee);
+            if (fotoDb1 != null)
+                fotoDb1.NameFoto = fotoDb.NameFoto;
+            else
+            {
+                FotoDb fotoDb3 = new FotoDb
+                {
+                    NameFoto = fotoDb.NameFoto,
+                    idEmployee = fotoDb.idEmployee
+                    
+                };
+                _db.Foto.Add(fotoDb3);
+            }
+            _db.SaveChanges();
+            return true;
+        }
+
+        private string CreateFolder(string folderPath)
+        {
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+            return folderPath;
+        }
+
+
+        //public byte[] LoadFoto(int id)
+        //{
+        //    string GetFototPath = GetFilePath(id);
+        //}
+
+        //private string GetFototPath(int id)
+        //{
+        //    string FilePath = _context.Pdf
+        //        .Where(e => e.IdPdf == id).Select(c => c.FilePath).FirstOrDefault();
+        //    return FilePath;
+        //}
     }
 }

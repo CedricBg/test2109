@@ -4,6 +4,6 @@ namespace BusinessAccessLayer.IRepositories
 {
     public interface IAgentService
     {
-        List<Customers> assignedClients(int id);
+        List<Site> assignedClients(int id);
     }
 }

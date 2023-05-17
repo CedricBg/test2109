@@ -28,20 +28,12 @@ namespace BusinessAccessLayer.Services
             _Mapper = mapper;
         }
 
-        public async Task<string> UploadFile(IFormFile file)
+        public async Task<string> UploadFile(SendFoto file)
         {
-            if (file == null || file.Length == 0)
-            {
-                return "retoruné une image valide";
-            }
 
-            var filePath = Path.Combine("Images/", file.FileName);
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-
-            return JsonSerializer.Serialize("Fichier téléchargé avec succès!");
+            var detail = _Mapper.Map<DATA.SendFoto>(file);
+            string task = await _employeeServices.UploadFile(detail);
+            return task;
         }
 
         public Boolean AddEmployee(DetailedEmployee form)

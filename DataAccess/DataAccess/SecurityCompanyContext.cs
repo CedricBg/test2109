@@ -146,6 +146,11 @@ namespace DataAccess.DataAccess
                 Entity.Property(e => e.Name).HasMaxLength(40);
                 Entity.Property(e => e.DiminName).HasMaxLength(5);
             });
+
+            modelBuilder.Entity<FotoDb>(Entity =>
+            {
+                Entity.Property(e => e.NameFoto).HasMaxLength(70);
+            });
         }
 
         public DbSet<Countrys> Countrys { get; set; }
@@ -189,5 +194,7 @@ namespace DataAccess.DataAccess
         public DbSet<Working> Working { get; set; }
 
         public DbSet<Pdf> Pdf { get; set; }
+
+        public DbSet<FotoDb> Foto { get; set; }   
     }
 }

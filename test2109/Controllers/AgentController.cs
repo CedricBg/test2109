@@ -26,8 +26,8 @@ namespace test2109.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var customer = _agentService.assignedClients(id).Select(e => _mapper.Map<Customers>(e)).ToList();
-            return Ok(customer);
+            List<Site> sites = _agentService.assignedClients(id).Select(e => _mapper.Map<Site>(e)).ToList();
+            return Ok(sites);
         }
     }
 }
