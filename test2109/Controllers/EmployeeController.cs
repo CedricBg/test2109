@@ -34,7 +34,6 @@ namespace test2109.Controllers
         [HttpGet("loadFile/{id}")]
         public async Task<IActionResult> LoadFoto(int id)
         {
-
             byte[] imageBytes =  await _employeeService.LoadFoto(id);
             if(imageBytes != null)
                 return File(imageBytes, "image/png");

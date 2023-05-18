@@ -342,9 +342,13 @@ namespace DataAccess.Services
 
         private string GetFotoPath(int id)
         {
-            string FilePath = _db.Foto
+            string filePath = _db.Foto
                 .Where(e => e.idEmployee == id).Select(c => c.NameFoto).FirstOrDefault();
-            return FilePath;
+            if (filePath == null)
+            {
+                filePath = "..\\images\\default\\avatar.png";
+            }
+            return filePath;
         }
     }
 }
