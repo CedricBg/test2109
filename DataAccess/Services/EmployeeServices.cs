@@ -279,7 +279,7 @@ namespace DataAccess.Services
             }
             FotoDb fotodb = new FotoDb
             {
-                NameFoto = file.Foto.FileName,
+                NameFoto = folderPath+"\\"+ file.Foto.FileName,
                 idEmployee = file.IdEmployee,
             };
             Boolean response =  SaveInformationFoto(fotodb);
@@ -321,17 +321,30 @@ namespace DataAccess.Services
             return folderPath;
         }
 
+        public async Task<byte[]> LoadFoto(int id)
+        {
+            string GetFototPath = GetFotoPath(id);
+            if (GetFototPath == null)
+                return null;
 
-        //public byte[] LoadFoto(int id)
-        //{
-        //    string GetFototPath = GetFilePath(id);
-        //}
+            byte[] photoBytes;
+            using (FileStream SourceStream = File.Open(GetFototPath, FileMode.Open))
+            {
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    await SourceStream.CopyToAsync(memoryStream);
+                    photoBytes =  memoryStream.ToArray();
+                }
+            }
+            return photoBytes;
 
-        //private string GetFototPath(int id)
-        //{
-        //    string FilePath = _context.Pdf
-        //        .Where(e => e.IdPdf == id).Select(c => c.FilePath).FirstOrDefault();
-        //    return FilePath;
-        //}
+        }
+
+        private string GetFotoPath(int id)
+        {
+            string FilePath = _db.Foto
+                .Where(e => e.idEmployee == id).Select(c => c.NameFoto).FirstOrDefault();
+            return FilePath;
+        }
     }
 }

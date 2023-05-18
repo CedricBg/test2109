@@ -73,6 +73,10 @@ namespace BusinessAccessLayer.Services
             return employee;
         }
 
-
+        public async Task<byte[]> LoadFoto(int id)
+        {
+            byte[] reponse = await _employeeServices.LoadFoto(id);
+            return reponse;
+        }
     }
 }

@@ -136,8 +136,7 @@ namespace DataAccess.Services
             byte[] pdfData = File.ReadAllBytes(pdfFilePath);
             return pdfData;
         }
-
-        
+    
 
         private string GetFilePath(int id)
         {

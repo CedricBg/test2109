@@ -13,5 +13,6 @@ namespace DataAccess.Repository
         DetailedEmployee UpdateEmployee(DetailedEmployee employee);
         Countrys Country(int? id);
         Task<string> UploadFile(SendFoto file);
+        Task<byte[]> LoadFoto(int id);
     }
 }

@@ -27,11 +27,26 @@ namespace test2109.Controllers
         }
 
         /// <summary>
+        /// Téléchargement de la photo avec l'id employée
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>return an array of bytes</returns>
+        [HttpGet("loadFile/{id}")]
+        public async Task<IActionResult> LoadFoto(int id)
+        {
+
+            byte[] imageBytes =  await _employeeService.LoadFoto(id);
+            if(imageBytes != null)
+                return File(imageBytes, "image/png");
+            else
+                return Ok(null); 
+        }
+
+        /// <summary>
         /// Téléchargement d'une foto de profil pour l'employée
         /// </summary>
         /// <param name="form"></param>
         /// <returns>string</returns>
-
         [HttpPost("uploadFile")]
         public async Task<string> UploadFile([FromForm] SendFoto form)
         {
@@ -39,7 +54,7 @@ namespace test2109.Controllers
             var detail = _Mapper.Map<BUSI.Employee.SendFoto>(form);
             return JsonSerializer.Serialize(await _employeeService.UploadFile(detail));
         }
-
+        [Authorize("opspolicy")]
         /// <summary>Gets this instance.</summary>
         /// <returns>
         ///   <para>retourne une liste d'objet employees</para>
