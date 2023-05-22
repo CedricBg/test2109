@@ -118,7 +118,7 @@ namespace DataAccess.Services
                     {
                         Title = p.Title,
                         IdPdf = p.IdPdf,
-                    })
+                    }).Take(10).OrderByDescending(c=>c.IdPdf)
                     .ToList();
                  return list;
             }

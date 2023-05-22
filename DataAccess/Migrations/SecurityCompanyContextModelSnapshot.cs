@@ -59,10 +59,12 @@ namespace DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Login")
+                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -261,6 +263,32 @@ namespace DataAccess.Migrations
                     b.ToTable("Departements");
                 });
 
+            modelBuilder.Entity("DataAccess.Models.Discussion.Message", b =>
+                {
+                    b.Property<int>("MessageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MessageId"), 1L, 1);
+
+                    b.Property<int?>("SiteId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("MessageId")
+                        .IsUnique();
+
+                    b.HasIndex("SiteId");
+
+                    b.ToTable("Message");
+                });
+
             modelBuilder.Entity("DataAccess.Models.Email", b =>
                 {
                     b.Property<int?>("EmailId")
@@ -409,32 +437,6 @@ namespace DataAccess.Migrations
                     b.ToTable("Languages");
                 });
 
-            modelBuilder.Entity("DataAccess.Models.PassageRound", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("OrderPAssage")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RfidNr")
-                        .HasColumnType("nvarchar(80)");
-
-                    b.Property<int?>("RoundsRondsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RfidNr");
-
-                    b.HasIndex("RoundsRondsId");
-
-                    b.ToTable("PassagesRounds");
-                });
-
             modelBuilder.Entity("DataAccess.Models.Pdf", b =>
                 {
                     b.Property<int>("IdPdf")
@@ -552,27 +554,6 @@ namespace DataAccess.Migrations
                     b.ToTable("Working");
                 });
 
-            modelBuilder.Entity("DataAccess.Models.Rfid", b =>
-                {
-                    b.Property<string>("RfidNr")
-                        .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
-
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("RfidNr");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("Rfids");
-                });
-
             modelBuilder.Entity("DataAccess.Models.Role", b =>
                 {
                     b.Property<int>("roleId")
@@ -594,44 +575,82 @@ namespace DataAccess.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("DataAccess.Models.Rounds", b =>
+            modelBuilder.Entity("DataAccess.Models.Rondes.Control", b =>
                 {
-                    b.Property<int>("RondsId")
+                    b.Property<int>("ControlId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RondsId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ControlId"), 1L, 1);
 
-                    b.Property<int>("Name")
+                    b.Property<int?>("PatrolId")
                         .HasColumnType("int");
 
-                    b.HasKey("RondsId");
+                    b.Property<int?>("RoundsId")
+                        .HasColumnType("int");
 
-                    b.ToTable("Rounds");
+                    b.HasKey("ControlId");
+
+                    b.HasIndex("ControlId")
+                        .IsUnique();
+
+                    b.HasIndex("PatrolId");
+
+                    b.HasIndex("RoundsId");
+
+                    b.ToTable("Control");
                 });
 
-            modelBuilder.Entity("DataAccess.Models.ScheduledRound", b =>
+            modelBuilder.Entity("DataAccess.Models.Rondes.RfidPatrol", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("PatrolId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PatrolId"), 1L, 1);
 
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("RoundsRondsId")
+                    b.Property<string>("RfidNr")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.HasKey("PatrolId");
+
+                    b.HasIndex("PatrolId")
+                        .IsUnique();
+
+                    b.ToTable("RfidPatrol");
+                });
+
+            modelBuilder.Entity("DataAccess.Models.Rondes.Rounds", b =>
+                {
+                    b.Property<int>("RoundsId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoundsId"), 1L, 1);
 
-                    b.HasKey("Id");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasIndex("RoundsRondsId");
+                    b.Property<int?>("SiteId")
+                        .HasColumnType("int");
 
-                    b.ToTable("ScheduledRounds");
+                    b.HasKey("RoundsId");
+
+                    b.HasIndex("RoundsId")
+                        .IsUnique();
+
+                    b.HasIndex("SiteId");
+
+                    b.ToTable("Rounds");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Users", b =>
@@ -717,6 +736,15 @@ namespace DataAccess.Migrations
                     b.Navigation("Users");
                 });
 
+            modelBuilder.Entity("DataAccess.Models.Discussion.Message", b =>
+                {
+                    b.HasOne("DataAccess.Models.Customer.Site", "Site")
+                        .WithMany()
+                        .HasForeignKey("SiteId");
+
+                    b.Navigation("Site");
+                });
+
             modelBuilder.Entity("DataAccess.Models.Email", b =>
                 {
                     b.HasOne("DataAccess.Models.Employees.DetailedEmployee", "employee")
@@ -767,21 +795,6 @@ namespace DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DataAccess.Models.PassageRound", b =>
-                {
-                    b.HasOne("DataAccess.Models.Rfid", "Rfid")
-                        .WithMany()
-                        .HasForeignKey("RfidNr");
-
-                    b.HasOne("DataAccess.Models.Rounds", "Rounds")
-                        .WithMany()
-                        .HasForeignKey("RoundsRondsId");
-
-                    b.Navigation("Rfid");
-
-                    b.Navigation("Rounds");
-                });
-
             modelBuilder.Entity("DataAccess.Models.Phone", b =>
                 {
                     b.HasOne("DataAccess.Models.Employees.DetailedEmployee", "employee")
@@ -797,22 +810,28 @@ namespace DataAccess.Migrations
                     b.Navigation("employee");
                 });
 
-            modelBuilder.Entity("DataAccess.Models.Rfid", b =>
+            modelBuilder.Entity("DataAccess.Models.Rondes.Control", b =>
                 {
-                    b.HasOne("DataAccess.Models.Customer.Customers", "Customer")
+                    b.HasOne("DataAccess.Models.Rondes.RfidPatrol", "Patrol")
                         .WithMany()
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("PatrolId");
 
-                    b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("DataAccess.Models.ScheduledRound", b =>
-                {
-                    b.HasOne("DataAccess.Models.Rounds", "Rounds")
+                    b.HasOne("DataAccess.Models.Rondes.Rounds", "Rounds")
                         .WithMany()
-                        .HasForeignKey("RoundsRondsId");
+                        .HasForeignKey("RoundsId");
+
+                    b.Navigation("Patrol");
 
                     b.Navigation("Rounds");
+                });
+
+            modelBuilder.Entity("DataAccess.Models.Rondes.Rounds", b =>
+                {
+                    b.HasOne("DataAccess.Models.Customer.Site", "Site")
+                        .WithMany()
+                        .HasForeignKey("SiteId");
+
+                    b.Navigation("Site");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Customer.ContactPerson", b =>

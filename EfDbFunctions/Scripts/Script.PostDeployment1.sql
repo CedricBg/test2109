@@ -258,3 +258,13 @@ INSERT INTO Phones (Number, SenderContactId) Values (010215975, 2)
 INSERT INTO Working (SiteId, EmployeeId) Values (1,1)
 INSERT INTO Working (SiteId, EmployeeId) Values (2,1)
 
+INSERT INTO Rounds([Name],SiteId ) values('Ouverture',1)
+INSERT INTO Rounds([Name],SiteId ) values('Fermeture',1)
+
+INSERT INTO RfidPatrol (RfidNr, [Location]) values('1153zsd4ds5ds5', 'Porte d''entrée')
+INSERT INTO RfidPatrol (RfidNr, [Location]) values('1d5d4f35re4765dfr', 'Garage')
+INSERT INTO RfidPatrol (RfidNr, [Location]) values('15df54f54d85g74d', 'Cuisine')
+
+INSERT INTO Control (RoundsId, PatrolId) values(1,1)
+INSERT INTO Control (RoundsId, PatrolId) values(1,2)
+INSERT INTO Control (RoundsId, PatrolId) values(1,3)

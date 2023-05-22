@@ -5,6 +5,8 @@ using DataAccess.Models.Employees;
 using Microsoft.EntityFrameworkCore;
 using DataAccess.Repository;
 using DataAccess.Models.Planning;
+using DataAccess.Models.Rondes;
+using DataAccess.Models.Discussion;
 
 namespace DataAccess.DataAccess
 {
@@ -25,7 +27,21 @@ namespace DataAccess.DataAccess
 
             modelBuilder.Entity<ConnectedForm>().HasNoKey();
 
-            modelBuilder.Entity<Pdf>(entity => {
+            modelBuilder.Entity<Message>(entity =>
+            {
+                entity.HasKey(e => e.MessageId);
+                entity.HasIndex(e => e.MessageId).IsUnique();
+                entity.Property(e=>e.Text).HasMaxLength(100).IsRequired(true);
+            });
+
+                modelBuilder.Entity<Rounds>(entity =>
+            {
+                entity.HasKey(e =>e.RoundsId);
+                entity.HasIndex(c => c.RoundsId).IsUnique();
+                entity.Property(e=>e.Name).HasMaxLength(50).IsRequired(true);
+            });
+
+                modelBuilder.Entity<Pdf>(entity => {
                 entity.HasKey(e => e.IdPdf);
                 entity.HasIndex(c => c.IdPdf).IsUnique();
                 entity.Property(c => c.Title).HasMaxLength(30);
@@ -55,10 +71,11 @@ namespace DataAccess.DataAccess
 
             });
             modelBuilder.Ignore<AddRegisterForm>();
+
             modelBuilder.Entity<AddRegisterForm>(entity =>
             {
-                entity.Property(e => e.Login).HasMaxLength(20);
-                entity.Property(e => e.Password).HasMaxLength(50);
+                entity.Property(e => e.Login).HasMaxLength(20).IsRequired(true);
+                entity.Property(e => e.Password).HasMaxLength(50).IsRequired(true);
             });
 
             modelBuilder.Entity<DetailedEmployee>(entity =>
@@ -78,9 +95,22 @@ namespace DataAccess.DataAccess
                 entity.HasOne(e => e.Language).WithMany().OnDelete(DeleteBehavior.Cascade);
             });
 
-            modelBuilder.Entity<Rfid>(entity =>
+            modelBuilder.Entity<Rounds>(entity =>
             {
-                entity.HasKey(e => e.RfidNr);
+                entity.HasKey(e => e.RoundsId);
+                entity.HasIndex(e => e.RoundsId).IsUnique();
+            });
+
+            modelBuilder.Entity<Control>(entity =>
+            {
+                entity.HasKey(e => e.ControlId);
+                entity.HasIndex(e => e.ControlId).IsUnique();
+            });
+
+            modelBuilder.Entity<RfidPatrol>(entity =>
+            {
+                entity.HasKey(e => e.PatrolId);
+                entity.HasIndex(e => e.PatrolId).IsUnique();
                 entity.Property(e => e.RfidNr).HasMaxLength(80).IsRequired(true);
                 entity.Property(e => e.Location).HasMaxLength(50).IsRequired(true);
             });
@@ -109,7 +139,7 @@ namespace DataAccess.DataAccess
                 entity.HasIndex(c => c.ContactId).IsUnique();
                 entity.Property(e => e.LastName).HasMaxLength(30).IsRequired(true);
                 entity.Property(e => e.FirstName).HasMaxLength(30).IsRequired(true);
-                entity.HasOne(p => p.ContactSite).WithMany(s => s.ContactSite).HasForeignKey(p => p.ContactSiteId).OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(e => e.ContactSite).WithMany(s => s.ContactSite).HasForeignKey(p => p.ContactSiteId).OnDelete(DeleteBehavior.Restrict);
                 entity.Ignore(e => e.SiteId);
             });
 
@@ -155,6 +185,8 @@ namespace DataAccess.DataAccess
 
         public DbSet<Countrys> Countrys { get; set; }
 
+        public DbSet<Message> Message { get; set; }
+
         public DbSet<Role> Roles { get; set; }
 
         public DbSet<Employee> employees { get; set; }
@@ -171,13 +203,11 @@ namespace DataAccess.DataAccess
 
         public DbSet<Language> Languages { get; set; }
 
-        public DbSet<PassageRound> PassagesRounds { get; set; }
-
-        public DbSet<Rfid> Rfids { get; set; }
+        public DbSet<RfidPatrol> RfidPatrol { get; set; }
 
         public DbSet<Rounds> Rounds { get; set; }
-
-        public DbSet<ScheduledRound> ScheduledRounds { get; set; }
+        
+        public DbSet<Control> Control { get; set; }
 
         public DbSet<Users> Users { get; set; }
 

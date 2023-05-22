@@ -27,6 +27,7 @@ builder.Services.AddScoped<ICustomerServices, CustomerServices>();
 builder.Services.AddScoped<IPlanningServices, PlanningServices>();
 builder.Services.AddScoped<IRapportServices, RapportServices>();
 builder.Services.AddScoped<IAgentServices, AgentServices>();
+builder.Services.AddScoped<IMessagesServices, MessagesServices>();
 
 
 
@@ -41,6 +42,7 @@ builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IPdfService, PdfService>();
 builder.Services.AddScoped<IPlanningService, PlanningService>();
 builder.Services.AddScoped<IAgentService, AgentService>();
+builder.Services.AddScoped<IMessagesService, MessagesService>();
 builder.Services.AddScoped<TokenService>();
 
 builder.Services.AddAutoMapper(profiles =>
