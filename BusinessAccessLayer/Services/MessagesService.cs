@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using BusinessAccessLayer.IRepositories;
+using BusinessAccessLayer.Models.Discussion;
+using DataAccess.Migrations;
 using DataAccess.Repository;
 using System;
 using System.Collections.Generic;
@@ -24,6 +26,13 @@ namespace BusinessAccessLayer.Services
         public List<string> GetMessages(int id)
         {
             List<string> list = _messagesServices.GetMessages(id).Select(dr => _Mapper.Map<string>(dr)).Take(5).ToList();
+            return list;
+        }
+
+         public List<string> AddMessage(Messages message)
+        {
+            var detail = _Mapper.Map<DataAccess.Models.Discussion.Message>(message);
+            List<string> list = _messagesServices.AddMessage(detail);
             return list;
         }
     }

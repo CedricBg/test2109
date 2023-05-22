@@ -1,13 +1,13 @@
-﻿using DataAccess.Models.Customer;
+﻿using BusinessAccessLayer.Models.Customers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.Models.Discussion
+namespace BusinessAccessLayer.Models.Discussion
 {
-    public class Message
+    public class Messages
     {
         public int MessageId { get; set; }
 

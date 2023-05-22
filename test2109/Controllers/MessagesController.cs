@@ -3,6 +3,7 @@ using BusinessAccessLayer.IRepositories;
 using BusinessAccessLayer.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using test2109.Models.Discussion;
 
 namespace test2109.Controllers
 {
@@ -33,6 +34,20 @@ namespace test2109.Controllers
                 return BadRequest(ex.Message);
             }
             
+        }
+        [HttpPost]
+        public IActionResult AddMessage(Message message)
+        {
+            try
+            {
+                var detail = _mapper.Map<BusinessAccessLayer.Models.Discussion.Messages>(message);
+                return Ok(_messagesService.AddMessage(detail));
+            }
+            catch (Exception ex)
+            {
+                DateTime dateTime = DateTime.Now;
+                return BadRequest(ex.Message);
+            }
         }
 
     }

@@ -63,6 +63,8 @@ namespace BusinessAccessLayer.Tools
                .ReverseMap();
             CreateMap<DATA.Pdf, BUSI.Pdf>()
                .ReverseMap();
+            CreateMap<DATA.Discussion.Message, BUSI.Discussion.Messages>()
+               .ReverseMap();
 
         }         
     }
