@@ -3,6 +3,7 @@ using BusinessAccessLayer.IRepositories;
 using BusinessAccessLayer.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using test2109.Models.Discussion;
 
 namespace test2109.Controllers
@@ -40,8 +41,19 @@ namespace test2109.Controllers
         {
             try
             {
-                var detail = _mapper.Map<BusinessAccessLayer.Models.Discussion.Messages>(message);
-                return Ok(_messagesService.AddMessage(detail));
+                if(message == null)
+                {
+                    throw new ArgumentNullException("Objet model est a null");
+                }
+                if(message.Text == "")
+                {
+                    throw new InvalidOperationException("Argument text du model message est vide");
+                }
+                else
+                {
+                    var detail = _mapper.Map<BusinessAccessLayer.Models.Discussion.Messages>(message);
+                    return Ok(_messagesService.AddMessage(detail));
+                }
             }
             catch (Exception ex)
             {

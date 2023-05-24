@@ -31,7 +31,7 @@ namespace DataAccess.DataAccess
             {
                 entity.HasKey(e => e.MessageId);
                 entity.HasIndex(e => e.MessageId).IsUnique();
-                entity.Property(e=>e.Text).HasMaxLength(100).IsRequired(true);
+                entity.Property(e=>e.Text).IsRequired(true);
             });
 
                 modelBuilder.Entity<Rounds>(entity =>
