@@ -37,5 +37,7 @@ namespace DataAccess.Models.Customer
 
         public Boolean? IsDeleted { get; set; }
 
+        public Boolean? DayContact { get; set; }
+
     }
 }

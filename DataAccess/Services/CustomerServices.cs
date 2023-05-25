@@ -467,6 +467,7 @@ namespace DataAccess.Services
                     dBcontact.Responsible = contact.Responsible;
                     dBcontact.EmergencyContact = contact.EmergencyContact;
                     dBcontact.NightContact = contact.NightContact;
+                    dBcontact.DayContact = contact.DayContact;
 
                     var emailIdsToRemove = dBcontact.Email
                    .Where(email => !contact.Email.Any(e => e.EmailId == email.EmailId))

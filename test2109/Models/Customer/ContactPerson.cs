@@ -37,5 +37,10 @@ namespace test2109.Models.Customer
         /// </summary>
         public int? SiteId { get; set; }
 
+        /// <summary>
+        /// Pour savoir si contact durant la journée
+        /// </summary>
+        public Boolean? DayContact { get; set; }
+
     }
 }

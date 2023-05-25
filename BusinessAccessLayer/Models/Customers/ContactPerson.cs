@@ -28,6 +28,8 @@ namespace BusinessAccessLayer.Models.Customers
 
         public Boolean? NightContact { get; set; }
 
+        public Boolean? DayContact { get; set; }
+
         public int? SiteId { get; set; }
     }
 }
