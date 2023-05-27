@@ -11,5 +11,7 @@
         public string Name { get; set; }
 
         public string DiminName { get; set; }
+
+        public int Numero { get; set; }
     }
 }

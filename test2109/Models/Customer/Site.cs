@@ -25,5 +25,6 @@ namespace test2109.Models.Customer
         public Address Address { get; set; }
 
         public int? CustomerIdCreate { get; set; }
+
     }
 }

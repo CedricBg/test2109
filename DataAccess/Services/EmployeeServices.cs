@@ -32,7 +32,7 @@ namespace DataAccess.Services
             _country = country;
         }
 
-        public Boolean PostData(DetailedEmployee employee)
+        public Boolean AddEmployee(DetailedEmployee employee)
         {
             if (_db.DetailedEmployees is not null)
             {

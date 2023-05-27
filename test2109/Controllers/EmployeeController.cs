@@ -32,6 +32,7 @@ namespace test2109.Controllers
         /// <param name="id"></param>
         /// <returns>return an array of bytes</returns>
         [HttpGet("loadFile/{id}")]
+        [Authorize("opspolicy")]
         public async Task<IActionResult> LoadFoto(int id)
         {
             byte[] imageBytes =  await _employeeService.LoadFoto(id);
@@ -42,17 +43,19 @@ namespace test2109.Controllers
         }
 
         /// <summary>
-        /// Téléchargement d'une foto de profil pour l'employée
+        /// envoi d'une foto de profil pour l'employée
         /// </summary>
         /// <param name="form"></param>
         /// <returns>string</returns>
         [HttpPost("uploadFile")]
+        [Authorize("opspolicy")]
         public async Task<string> UploadFile([FromForm] SendFoto form)
         {
 
             var detail = _Mapper.Map<BUSI.Employee.SendFoto>(form);
             return JsonSerializer.Serialize(await _employeeService.UploadFile(detail));
         }
+
         [Authorize("opspolicy")]
         /// <summary>Gets this instance.</summary>
         /// <returns>
@@ -75,13 +78,12 @@ namespace test2109.Controllers
             }
         }
 
-
         /// <summary>Création d'un utilisateur</summary>
         /// <param name="form">The form.</param>
         /// <returns>renvoi du status http ou  du message d'erreur</returns>
         [Authorize("opspolicy")]
         [HttpPost("insert/")]
-        public IActionResult Posts(DetailEmployed form)
+        public IActionResult Post(DetailEmployed form)
         {
             try
             {

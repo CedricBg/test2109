@@ -12,7 +12,7 @@ namespace DataAccess.Models.Planning
     {
         public int WorkingId { get; set; }
 
-        public int SiteId { get; set; }
+        public int? SiteId { get; set; }
 
         public bool IsWorking { get; set; }
 

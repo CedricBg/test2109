@@ -6,6 +6,7 @@ using API = test2109.Models;
 using test2109.Models.Employee;
 using test2109.Models.Customer;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace test2109.Controllers
 {
@@ -17,7 +18,6 @@ namespace test2109.Controllers
 
         private readonly IMapper _mapper;
 
-        //Constructeur
         public CustomerController(ICustomerService customerService, IMapper mapper)
         {
             _customerService = customerService;
@@ -29,6 +29,7 @@ namespace test2109.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Retourne un site pour mise à jour de la vue</returns>
+        [Authorize("opspolicy")]
         [HttpDelete("deleteContact/{id}")]
         public IActionResult deleteContact(int id)
         {
@@ -44,10 +45,11 @@ namespace test2109.Controllers
         }
 
         /// <summary>
-        /// On passe la veriable a isDeleted pour simuler une suppression
+        /// On passe la variable a isDeleted pour simuler une suppression
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>Le mot Delelted ou le message d'erreur</returns>
+        [Authorize("opspolicy")]
         [HttpDelete("deleteSite/{id}")]
         public string SiteDelete(int id)
         {
@@ -67,6 +69,7 @@ namespace test2109.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Un Customer</returns>
+        [Authorize("opspolicy")]
         [HttpGet("{id}")]
         public IActionResult GetOne(int id)
         {
@@ -74,7 +77,7 @@ namespace test2109.Controllers
             {
                 return Ok(_mapper.Map<Customers>(_customerService.GetOne(id)));
             }
-            catch
+            catch(Exception ex)
             {
                 return Ok(new Customers());
             }
@@ -88,6 +91,7 @@ namespace test2109.Controllers
         /// <returns>
         /// le nom du client
         /// </returns>
+        [Authorize("opspolicy")]
         [HttpPut]
         public IActionResult UpdateCustomer(AllCustomers customer)
         {
@@ -100,6 +104,7 @@ namespace test2109.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
+        [Authorize("opspolicy")]
         [HttpPut("delete/{id}")]
         public string Delete(int id)
         {
@@ -107,10 +112,11 @@ namespace test2109.Controllers
             return JsonSerializer.Serialize(response);
         }
 
-        /// <summary>Gets this instance.</summary>
+        /// <summary></summary>
         /// <returns>
         /// Retourne list d'objet Allcustomers qui contient des infos minimaliste sur les utilisateurs ou une liste vide
         /// </returns>
+        [Authorize("opspolicy")]
         [HttpGet]
         public IActionResult Get()
         {
@@ -124,7 +130,7 @@ namespace test2109.Controllers
             }  
         }
 
-        /// <summary>Gets the specified identifier.</summary>
+        /// <summary>Retourne un site par son id</summary>
         /// <param name="id">The identifier.</param>
         /// <returns>Retourne un site par son id</returns>
         [HttpGet("site/{id}")]
@@ -143,6 +149,7 @@ namespace test2109.Controllers
         /// <summary>Puts the specified site.</summary>
         /// <param name="site">The site.</param>
         /// <returns>Mise a jour d'un site</returns>
+        [Authorize("opspolicy")]
         [HttpPut("site")]
         public IActionResult Put(API.Customer.Site site)
         {
@@ -160,6 +167,7 @@ namespace test2109.Controllers
         /// <summary>Create a customer</summary>
         /// <param name="customer">The customer.</param>
         /// <returns>Creation d'un client avec juste un nom de société</returns>
+        [Authorize("opspolicy")]
         [HttpPost("addCustomer")] 
         public IActionResult Post([FromBody] Customers customer) 
         {
@@ -177,6 +185,7 @@ namespace test2109.Controllers
         /// <summary>Posts the specified site.</summary>
         /// <param name="site">The site.</param>
         /// <returns>Creation d'un site si le retour == 0 , on estime que le site n'est pas créé et on gere avec le 0 dans angular</returns>
+        [Authorize("opspolicy")]
         [HttpPost("AddSite")]
         public IActionResult Post([FromBody] API.Customer.Site site)
         {
@@ -194,6 +203,7 @@ namespace test2109.Controllers
         /// </summary>
         /// <param name="contact"></param>
         /// <returns></returns>
+        [Authorize("opspolicy")]
         [HttpPost("addContact")]
         public IActionResult Post(ContactPerson contact)
         {  
@@ -213,6 +223,7 @@ namespace test2109.Controllers
         /// </summary>
         /// <param name="contact"></param>
         /// <returns>un Site pour mise a jour de la vue</returns>
+        [Authorize("opspolicy")]
         [HttpPost("addContactsite")]
         public IActionResult PostContact(ContactPerson contact)
         {

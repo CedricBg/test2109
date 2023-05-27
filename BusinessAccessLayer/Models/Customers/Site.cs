@@ -28,5 +28,6 @@ namespace BusinessAccessLayer.Models.Customers
         public Address Address { get; set; }
 
         public int? CustomerIdCreate { get; set; }
+
     }
 }

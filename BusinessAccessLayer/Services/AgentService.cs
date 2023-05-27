@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessAccessLayer.IRepositories;
 using BusinessAccessLayer.Models.Customers;
+using BusinessAccessLayer.Models.Employee;
 using DataAccess.Repository;
 using DataAccess.Services;
 using System;
@@ -28,5 +29,23 @@ namespace BusinessAccessLayer.Services
             var sites = _AgentServices.assignedClients(id).Select(e => _Mapper.Map<Site>(e)).ToList();
             return sites;
         }
+
+        public List<Employee> assignedEmployees()
+        {
+            return _AgentServices.assignedEmployees().Select(dr => _Mapper.Map<Employee>(dr)).ToList();
+        }
+
+        public Employee GetAGuard(int id)
+        {
+            return _Mapper.Map<Employee>(_AgentServices.GetAGuard(id));
+        }
+
+        public List<Customers> assignedCustomers(int id)
+        {
+             return _AgentServices.assignedCustomers(id).Select(dr => _Mapper.Map<Customers>(dr)).ToList();
+
+        }
+
+
     }
 }

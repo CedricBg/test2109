@@ -33,9 +33,5 @@ namespace DataAccess.Models.Customer
         [JsonIgnore]
         public Customers Customer { get; set; }
 
-        
-
-
-
     }
 }

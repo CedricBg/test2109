@@ -89,8 +89,15 @@ namespace DataAccess.Services
                 }
                 else
                 {
-                    pdf1.Content = pdf.Content;
-                    pdf1.FilePath = pdf.FilePath;
+                    
+                    
+                    if(!(pdf.FilePath == null))
+                    {
+                        pdf1.FilePath = pdf.FilePath;
+                        pdf1.Content = null;
+                    }  
+                    else
+                        pdf1.Content = pdf.Content;
                     _context.SaveChanges();
                     return pdf1;
                 }

@@ -55,6 +55,11 @@ namespace test2109.Controllers
             }
         }
 
+        /// <summary>
+        /// Retorune les site par attribué a l'agent
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public IActionResult GetCustomers( int id)
         {
