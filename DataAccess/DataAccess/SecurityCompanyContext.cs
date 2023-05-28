@@ -45,7 +45,7 @@ namespace DataAccess.DataAccess
                 entity.HasKey(e => e.IdPdf);
                 entity.HasIndex(c => c.IdPdf).IsUnique();
                 entity.Property(c => c.Title).HasMaxLength(30);
-                entity.Property(c => c.FilePath).HasMaxLength(50);
+                entity.Property(c => c.FilePath).HasMaxLength(100);
                 entity.Property(e => e.DateCreate).ValueGeneratedOnAdd();
             });
 

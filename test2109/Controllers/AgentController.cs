@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using BusinessAccessLayer.IRepositories;
+using BUSI = BusinessAccessLayer.Models.Agents;
 using BusinessAccessLayer.Services;
 using DataAccess.Models.Employees;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using test2109.Models.Customer;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using test2109.Models.Agents;
 
 namespace test2109.Controllers
 {
@@ -71,6 +71,21 @@ namespace test2109.Controllers
         public IActionResult assignedCustomers(int id)
         {
             return Ok(_agentService.assignedCustomers(id).Select(e => _mapper.Map<Customers>(e)).ToList());
+        }
+
+        [Authorize]
+        [HttpPost("AddSites")]
+        public IActionResult AddSiteToGuard(AddSites sites)
+        {
+            try
+            {
+                var detail = _mapper.Map<BUSI.AddSites>(sites);
+                return Ok(_agentService.AddSiteToGuard(detail).Select(e=> _mapper.Map<Site>(e)).ToList());
+            }
+            catch (Exception ex)
+            {
+                return Ok(false);
+            }
         }
     }
 }

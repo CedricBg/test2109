@@ -1,7 +1,9 @@
 ﻿using DataAccess.DataAccess;
 using DataAccess.Models;
+using DataAccess.Models.Agents;
 using DataAccess.Models.Customer;
 using DataAccess.Models.Employees;
+using DataAccess.Models.Planning;
 using DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -107,6 +109,45 @@ namespace DataAccess.Services
                 
             }
             return listCustomer;
+        }
+
+        /// <summary>
+        /// Ajout des site a un agent 
+        /// </summary>
+        /// <param name="sites">List site and id employee</param>
+        /// <returns>true or False</returns>
+        public List<Site> AddSiteToGuard(AddSites sites)
+        {
+            if(sites.Sites.Count <= 0) 
+            {
+                return assignedClients(sites.IdEmployee);
+            }
+            else if(sites.Sites.Count == 1)
+            {
+                Working working = new Working
+                {
+                    EmployeeId = sites.IdEmployee,
+                    SiteId = sites.Sites[0].SiteId,
+                    
+                };
+                _context.Working.Add(working);
+                _context.SaveChanges();
+                return assignedClients(sites.IdEmployee);
+            }
+            else
+            {
+                foreach (var site in sites.Sites)
+                {
+                    Working working = new Working
+                    {
+                        EmployeeId = sites.IdEmployee,
+                        SiteId = site.SiteId
+                    };
+                    _context.Working.Add(working);
+                }
+                _context.SaveChanges();
+                return assignedClients(sites.IdEmployee);
+            }
         }
     }
 }

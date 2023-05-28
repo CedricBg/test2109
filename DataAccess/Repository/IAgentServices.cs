@@ -1,4 +1,5 @@
 ﻿using DataAccess.Models;
+using DataAccess.Models.Agents;
 using DataAccess.Models.Customer;
 using DataAccess.Models.Employees;
 
@@ -10,5 +11,6 @@ namespace DataAccess.Repository
         List<Employee> assignedEmployees();
         Employee GetAGuard(int id);
         List<Customers> assignedCustomers(int id);
+        List<Site> AddSiteToGuard(AddSites sites);
     }
 }

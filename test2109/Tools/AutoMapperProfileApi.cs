@@ -49,7 +49,9 @@ namespace test2109.Tools
                 .ReverseMap();
             CreateMap<API.Planning.Working, BUSI.Planning.Working>()
                 .ReverseMap();
-            
+            CreateMap<API.Agents.AddSites, BUSI.Agents.AddSites>()
+               .ReverseMap();
+
         }
     }
 }

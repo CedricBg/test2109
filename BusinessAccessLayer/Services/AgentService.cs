@@ -2,6 +2,7 @@
 using BusinessAccessLayer.IRepositories;
 using BusinessAccessLayer.Models.Customers;
 using BusinessAccessLayer.Models.Employee;
+using DATA = DataAccess.Models.Agents;
 using DataAccess.Repository;
 using DataAccess.Services;
 using System;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BusinessAccessLayer.Models.Agents;
 
 namespace BusinessAccessLayer.Services
 {
@@ -46,6 +48,11 @@ namespace BusinessAccessLayer.Services
 
         }
 
+        public List<Site> AddSiteToGuard(AddSites sites)
+        {
+            var detail = _Mapper.Map<DATA.AddSites>(sites);
+            return _AgentServices.AddSiteToGuard(detail).Select(e=> _Mapper.Map<Site>(e)).ToList();
+        }
 
     }
 }

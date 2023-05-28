@@ -66,6 +66,8 @@ namespace BusinessAccessLayer.Tools
             CreateMap<DATA.Discussion.Message, BUSI.Discussion.Messages>()
                .ReverseMap();
 
+            CreateMap<DATA.Agents.AddSites, BUSI.Agents.AddSites>()
+               .ReverseMap();
         }         
     }
 }
