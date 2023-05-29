@@ -54,5 +54,11 @@ namespace BusinessAccessLayer.Services
             return _AgentServices.AddSiteToGuard(detail).Select(e=> _Mapper.Map<Site>(e)).ToList();
         }
 
+        public List<Site> RemoveSiteToGuard(AddSites sites)
+        {
+            var detail = _Mapper.Map<DATA.AddSites>(sites);
+            return _AgentServices.RemoveSiteToGuard(detail).Select(e=> _Mapper.Map<Site>(e)).ToList();
+        }
+
     }
 }

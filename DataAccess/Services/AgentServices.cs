@@ -149,5 +149,35 @@ namespace DataAccess.Services
                 return assignedClients(sites.IdEmployee);
             }
         }
+
+        /// <summary>
+        /// suppression des sites envoyer de working pour l'agent séléctionné
+        /// </summary>
+        /// <param name="sites"></param>
+        /// <returns></returns>
+        public List<Site> RemoveSiteToGuard(AddSites sites)
+        {
+            if (sites.Sites.Count <= 0)
+            {
+                return assignedClients(sites.IdEmployee);
+            }
+            else if (sites.Sites.Count == 1)
+            {
+                Working working = _context.Working.FirstOrDefault(x => x.SiteId == sites.Sites[0].SiteId);
+                _context.Working.Remove(working);
+                _context.SaveChanges();
+                return assignedClients(sites.IdEmployee);
+            }
+            else
+            {
+                foreach (var site in sites.Sites)
+                {
+                    Working working = _context.Working.FirstOrDefault(x => x.SiteId == site.SiteId);
+                    _context.Working.Remove(working);
+                }
+                _context.SaveChanges();
+                return assignedClients(sites.IdEmployee);
+            }
+        }
     }
 }
