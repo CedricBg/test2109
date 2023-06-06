@@ -13,5 +13,7 @@ namespace DataAccess.Repository
         List<Customers> assignedCustomers(int id);
         List<Site> AddSiteToGuard(AddSites sites);
         List<Site> RemoveSiteToGuard(AddSites sites);
+
+        List<Site> DeleteSiteFromGuard(AddSites sites);
     }
 }

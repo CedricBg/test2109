@@ -179,5 +179,28 @@ namespace DataAccess.Services
                 return assignedClients(sites.IdEmployee);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sites"></param>
+        /// <returns></returns>
+        public List<Site> DeleteSiteFromGuard(AddSites sites)
+        {
+            List<Working> assignedClients = _context.Working.Where(elt => elt.EmployeeId == sites.IdEmployee).ToList();
+            var addSites =
+                _context.Sites
+                    .Join(assignedClients,
+                        user => user.SiteId,
+                        site => site.SiteId,
+                        (user, site) => new Site
+                        {
+                            Name = user.Name,
+                            SiteId = user.SiteId
+ 
+                        }).ToList();
+
+
+            return addSites;
+        }
     }
 }

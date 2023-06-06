@@ -4,6 +4,7 @@ using DataAccess.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(SecurityCompanyContext))]
-    partial class SecurityCompanyContextModelSnapshot : ModelSnapshot
+    [Migration("20230605143249_addIdSite")]
+    partial class addIdSite
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -628,9 +630,6 @@ namespace DataAccess.Migrations
                     b.HasKey("PatrolId");
 
                     b.HasIndex("PatrolId")
-                        .IsUnique();
-
-                    b.HasIndex("RfidNr")
                         .IsUnique();
 
                     b.ToTable("RfidPatrol");

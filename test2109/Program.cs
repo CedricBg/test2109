@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Configuration;
-using DATA = DataAccess.Models.Employees;
 using BusinessAccessLayer.Tools;
 using test2109.Tools;
 using Newtonsoft;
@@ -28,8 +27,7 @@ builder.Services.AddScoped<IPlanningServices, PlanningServices>();
 builder.Services.AddScoped<IRapportServices, RapportServices>();
 builder.Services.AddScoped<IAgentServices, AgentServices>();
 builder.Services.AddScoped<IMessagesServices, MessagesServices>();
-
-
+builder.Services.AddScoped<IRondesServices, RondesServices>();
 
 
 
@@ -43,6 +41,7 @@ builder.Services.AddScoped<IPdfService, PdfService>();
 builder.Services.AddScoped<IPlanningService, PlanningService>();
 builder.Services.AddScoped<IAgentService, AgentService>();
 builder.Services.AddScoped<IMessagesService, MessagesService>();
+builder.Services.AddScoped<IRondesService, RondesService>();
 builder.Services.AddScoped<TokenService>();
 
 builder.Services.AddAutoMapper(profiles =>

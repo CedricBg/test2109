@@ -68,6 +68,8 @@ namespace BusinessAccessLayer.Tools
 
             CreateMap<DATA.Agents.AddSites, BUSI.Agents.AddSites>()
                .ReverseMap();
+            CreateMap<DATA.Rondes.RfidPatrol, BUSI.Rondes.RfidPatrol>()
+              .ReverseMap();
         }         
     }
 }

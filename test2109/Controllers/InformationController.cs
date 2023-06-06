@@ -1,8 +1,6 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using BusinessAccessLayer.IRepositories;
 using BUSI = BusinessAccessLayer.Models;
-
 using Microsoft.AspNetCore.Mvc;
 using test2109.Models.Employee;
 using test2109.Models;
@@ -39,6 +37,7 @@ namespace test2109.Controllers
                 return Ok(new List<Role>());
             }
         }
+
         /// <summary>Languages this instance.</summary>
         /// <returns>Retourne une liste d'objet langue pour les differents formulaires</returns>
         [HttpGet("Language")]

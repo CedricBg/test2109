@@ -34,13 +34,6 @@ namespace DataAccess.DataAccess
                 entity.Property(e=>e.Text).IsRequired(true);
             });
 
-                modelBuilder.Entity<Rounds>(entity =>
-            {
-                entity.HasKey(e =>e.RoundsId);
-                entity.HasIndex(c => c.RoundsId).IsUnique();
-                entity.Property(e=>e.Name).HasMaxLength(50).IsRequired(true);
-            });
-
                 modelBuilder.Entity<Pdf>(entity => {
                 entity.HasKey(e => e.IdPdf);
                 entity.HasIndex(c => c.IdPdf).IsUnique();
@@ -98,7 +91,8 @@ namespace DataAccess.DataAccess
             modelBuilder.Entity<Rounds>(entity =>
             {
                 entity.HasKey(e => e.RoundsId);
-                entity.HasIndex(e => e.RoundsId).IsUnique();
+                entity.HasIndex(c => c.RoundsId).IsUnique();
+                entity.Property(e => e.Name).HasMaxLength(50).IsRequired(true);
             });
 
             modelBuilder.Entity<Control>(entity =>
@@ -111,7 +105,8 @@ namespace DataAccess.DataAccess
             {
                 entity.HasKey(e => e.PatrolId);
                 entity.HasIndex(e => e.PatrolId).IsUnique();
-                entity.Property(e => e.RfidNr).HasMaxLength(80).IsRequired(true);
+                entity.Property(e => e.RfidNr).HasMaxLength(150).IsRequired(true);
+                entity.HasIndex(e => e.RfidNr).IsUnique();
                 entity.Property(e => e.Location).HasMaxLength(50).IsRequired(true);
             });
 

@@ -104,5 +104,13 @@ namespace test2109.Controllers
                 return Ok(false);
             }
         }
+
+        [HttpPost("UpdateSite")]
+        [Authorize("opspolicy")]
+        public IActionResult DeleteSiteFromGuard(AddSites sites)
+        {
+            var detail = _mapper.Map<BUSI.AddSites>(sites);
+            return Ok(_agentService.DeleteSiteFromGuard(detail).Select(dr => _mapper.Map<Site>(dr)).ToList());
+        }
     }
 }
