@@ -8,11 +8,9 @@ namespace BusinessAccessLayer.Tools
     public class AutoMapperProfileBll : Profile
     {
         public AutoMapperProfileBll()
-        {
-            CreateMap<DATA.Countrys, BUSI.Employee.Countrys>().ReverseMap();
+        { 
             CreateMap<DATA.Employees.Employee, BUSI.Employee.Employee>().ReverseMap();
-            CreateMap<DATA.Employees.SendFoto, BUSI.Employee.SendFoto>().ReverseMap();
-            
+            CreateMap<DATA.Employees.SendFoto, BUSI.Employee.SendFoto>().ReverseMap();          
             CreateMap<BUSI.Employee.DetailedEmployee, DATA.Employees.DetailedEmployee>()
                 .ForMember(e => e.Phone, x => x.MapFrom(y => y.Phone))
                 .ForMember(e => e.Email, x => x.MapFrom(y => y.Email))
@@ -29,47 +27,35 @@ namespace BusinessAccessLayer.Tools
                 .ForMember(e => e.NameCustomer, x => x.MapFrom(y => y.NameCustomer))
                 .ForMember(e => e.Contact, x => x.MapFrom(y => y.Contact))
                 .ReverseMap();
-
             CreateMap<DATA.Customer.Site, BUSI.Customers.Site>()
                 .ForMember(e => e.ContactSite, x => x.MapFrom(y => y.ContactSite))
                 .ReverseMap();
-
             CreateMap<DATA.Customer.ContactPerson, BUSI.Customers.ContactPerson>()
                 .ForMember(e => e.Phone, x => x.MapFrom(y => y.Phone))
                 .ForMember(e => e.Email, x => x.MapFrom(y => y.Email))
                 .ReverseMap();
+            CreateMap<DATA.Customer.AllSites, BUSI.Customers.AllSites>().ReverseMap();
+            CreateMap<DATA.Customer.AllCustomers, BUSI.Customers.AllCustomers>().ReverseMap();
 
-            CreateMap<DATA.Customer.AllSites, BUSI.Customers.AllSites>()
-                .ReverseMap();
-            CreateMap<DATA.Customer.AllCustomers, BUSI.Customers.AllCustomers>()
-                .ReverseMap();
-            CreateMap<DATA.Phone, BUSI.Employee.Phone>()
-                .ReverseMap();
-            CreateMap<DATA.Email, BUSI.Employee.Email>()
-                .ReverseMap();
-            CreateMap<DATA.Address, BUSI.Employee.Address>()
-                .ReverseMap();
-            CreateMap<DATA.Countrys, BUSI.Employee.Countrys>()
-                .ReverseMap();
-            CreateMap<DATA.Role, BUSI.Role>()
-                .ReverseMap();
-            CreateMap<DATA.Language, BUSI.Language>()
-                .ReverseMap();
-            CreateMap<DATA.Auth.AddRegisterForm, BUSI.Auth.AddRegisterForm>()
-                .ReverseMap();
-            CreateMap<DATA.Planning.StartEndWorkTime, BUSI.Planning.StartEndWorkTime>()
-               .ReverseMap();
-            CreateMap<DATA.Planning.Working, BUSI.Planning.Working>()
-               .ReverseMap();
-            CreateMap<DATA.Pdf, BUSI.Pdf>()
-               .ReverseMap();
-            CreateMap<DATA.Discussion.Message, BUSI.Discussion.Messages>()
-               .ReverseMap();
+            CreateMap<DATA.Phone, BUSI.Employee.Phone>().ReverseMap();
+            CreateMap<DATA.Email, BUSI.Employee.Email>().ReverseMap();
+            CreateMap<DATA.Address, BUSI.Employee.Address>().ReverseMap();
+            CreateMap<DATA.Countrys, BUSI.Employee.Countrys>().ReverseMap();
+            CreateMap<DATA.Role, BUSI.Role>().ReverseMap();
+            CreateMap<DATA.Language, BUSI.Language>().ReverseMap();
+            CreateMap<DATA.Countrys, BUSI.Employee.Countrys>().ReverseMap();
+            CreateMap<DATA.Auth.AddRegisterForm, BUSI.Auth.AddRegisterForm>().ReverseMap();
+            CreateMap<DATA.Agents.AddSites, BUSI.Agents.AddSites>().ReverseMap();
+            CreateMap<DATA.Pdf, BUSI.Pdf>().ReverseMap();
+            CreateMap<DATA.Discussion.Message, BUSI.Discussion.Messages>().ReverseMap();
 
-            CreateMap<DATA.Agents.AddSites, BUSI.Agents.AddSites>()
-               .ReverseMap();
-            CreateMap<DATA.Rondes.RfidPatrol, BUSI.Rondes.RfidPatrol>()
-              .ReverseMap();
+           
+            CreateMap<DATA.Rondes.RfidPatrol, BUSI.Rondes.RfidPatrol>().ReverseMap();
+            CreateMap<DATA.Rondes.RfidRound, BUSI.Rondes.RfidRound>().ReverseMap();
+            CreateMap<DATA.Rondes.Rounds, BUSI.Rondes.Rounds>().ReverseMap();
+
+            CreateMap<DATA.Planning.StartEndWorkTime, BUSI.Planning.StartEndWorkTime>().ReverseMap();
+            CreateMap<DATA.Planning.Working, BUSI.Planning.Working>().ReverseMap();
         }         
     }
 }

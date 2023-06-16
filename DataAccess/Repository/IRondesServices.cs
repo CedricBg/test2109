@@ -6,5 +6,12 @@ namespace DataAccess.Repository
     {
         Boolean AddRfid(List<RfidPatrol> rfidPatrol);
         List<RfidPatrol> GetRfidPatrols(int id);
+        List<RfidPatrol> UpdateRfid(RfidPatrol rfid);
+        Boolean CheckRoundexist(Rounds round);
+        List<RfidPatrol> DeleteRfid(RfidPatrol rfid);
+        List<RfidPatrol> GetRfidRounds(Rounds round);
+
+        List<Rounds> GetRounds(int id);
+
     }
 }

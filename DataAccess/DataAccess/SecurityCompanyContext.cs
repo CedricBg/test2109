@@ -95,19 +95,15 @@ namespace DataAccess.DataAccess
                 entity.Property(e => e.Name).HasMaxLength(50).IsRequired(true);
             });
 
-            modelBuilder.Entity<Control>(entity =>
-            {
-                entity.HasKey(e => e.ControlId);
-                entity.HasIndex(e => e.ControlId).IsUnique();
-            });
+            
 
             modelBuilder.Entity<RfidPatrol>(entity =>
             {
                 entity.HasKey(e => e.PatrolId);
                 entity.HasIndex(e => e.PatrolId).IsUnique();
-                entity.Property(e => e.RfidNr).HasMaxLength(150).IsRequired(true);
-                entity.HasIndex(e => e.RfidNr).IsUnique();
+                entity.Property(e => e.RfidNr).HasMaxLength(200).IsRequired(true);
                 entity.Property(e => e.Location).HasMaxLength(50).IsRequired(true);
+                entity.HasIndex(e=> new { e.Location, e.RfidNr }).IsUnique();
             });
 
             modelBuilder.Entity<Customers>(entity =>
@@ -176,50 +172,40 @@ namespace DataAccess.DataAccess
             {
                 Entity.Property(e => e.NameFoto).HasMaxLength(70);
             });
+
+
+            modelBuilder.Entity<RfidRound>(entity =>
+            {
+                entity.ToTable("RfidRound");
+                entity.HasKey(e => e.RfidRoundId);
+                entity.HasIndex(e => e.RfidRoundId).IsUnique();
+                entity.Property(e=>e.RfidId).IsRequired(true);
+                entity.Property(e => e.RfidRoundId).IsRequired(true);
+            });
         }
 
         public DbSet<Countrys> Countrys { get; set; }
-
         public DbSet<Message> Message { get; set; }
-
         public DbSet<Role> Roles { get; set; }
-
         public DbSet<Employee> employees { get; set; }
-
         public DbSet<DetailedEmployee> DetailedEmployees { get; set; }
-
         public DbSet<Address> Address { get; set; }
-
         public DbSet<Email> EmailAddresses { get; set; }
-
         public DbSet<Customers> Customers { get; set; }
-
         public DbSet<Departement> Departements { get; set; }
-
         public DbSet<Language> Languages { get; set; }
-
         public DbSet<RfidPatrol> RfidPatrol { get; set; }
-
-        public DbSet<Rounds> Rounds { get; set; }
-        
-        public DbSet<Control> Control { get; set; }
-
+        public DbSet<Rounds> Rounds { get; set; }    
+        public DbSet<RfidRound> Control { get; set; }
         public DbSet<Users> Users { get; set; }
-
         public DbSet<Phone> Phones { get; set; }
-
         public DbSet<ContactPerson> ContactPersons { get; set; }
-
         public DbSet<Address> addressCustomers { get; set; }
-
         public DbSet<Site> Sites { get; set; }
-
         public DbSet<StartEndWorkTime> StartEndWorkTime { get; set;}
-
         public DbSet<Working> Working { get; set; }
-
         public DbSet<Pdf> Pdf { get; set; }
-
         public DbSet<FotoDb> Foto { get; set; }   
+        public DbSet<RfidRound> RfidRound { get; set; }   
     }
 }

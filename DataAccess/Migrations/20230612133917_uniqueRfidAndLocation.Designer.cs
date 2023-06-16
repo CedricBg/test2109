@@ -4,6 +4,7 @@ using DataAccess.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(SecurityCompanyContext))]
-    partial class SecurityCompanyContextModelSnapshot : ModelSnapshot
+    [Migration("20230612133917_uniqueRfidAndLocation")]
+    partial class uniqueRfidAndLocation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -578,6 +580,32 @@ namespace DataAccess.Migrations
                     b.ToTable("Roles");
                 });
 
+            modelBuilder.Entity("DataAccess.Models.Rondes.Control", b =>
+                {
+                    b.Property<int>("ControlId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ControlId"), 1L, 1);
+
+                    b.Property<int?>("PatrolId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RoundsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ControlId");
+
+                    b.HasIndex("ControlId")
+                        .IsUnique();
+
+                    b.HasIndex("PatrolId");
+
+                    b.HasIndex("RoundsId");
+
+                    b.ToTable("Control");
+                });
+
             modelBuilder.Entity("DataAccess.Models.Rondes.RfidPatrol", b =>
                 {
                     b.Property<int>("PatrolId")
@@ -610,31 +638,6 @@ namespace DataAccess.Migrations
                     b.ToTable("RfidPatrol");
                 });
 
-            modelBuilder.Entity("DataAccess.Models.Rondes.RfidRound", b =>
-                {
-                    b.Property<int>("RfidRoundId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RfidRoundId"), 1L, 1);
-
-                    b.Property<int>("Position")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RfidId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoundId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RfidRoundId");
-
-                    b.HasIndex("RfidRoundId")
-                        .IsUnique();
-
-                    b.ToTable("RfidRound", (string)null);
-                });
-
             modelBuilder.Entity("DataAccess.Models.Rondes.Rounds", b =>
                 {
                     b.Property<int>("RoundsId")
@@ -648,13 +651,15 @@ namespace DataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("SiteId")
+                    b.Property<int?>("SiteId")
                         .HasColumnType("int");
 
                     b.HasKey("RoundsId");
 
                     b.HasIndex("RoundsId")
                         .IsUnique();
+
+                    b.HasIndex("SiteId");
 
                     b.ToTable("Rounds");
                 });
@@ -805,6 +810,30 @@ namespace DataAccess.Migrations
                     b.Navigation("Sender");
 
                     b.Navigation("employee");
+                });
+
+            modelBuilder.Entity("DataAccess.Models.Rondes.Control", b =>
+                {
+                    b.HasOne("DataAccess.Models.Rondes.RfidPatrol", "Patrol")
+                        .WithMany()
+                        .HasForeignKey("PatrolId");
+
+                    b.HasOne("DataAccess.Models.Rondes.Rounds", "Rounds")
+                        .WithMany()
+                        .HasForeignKey("RoundsId");
+
+                    b.Navigation("Patrol");
+
+                    b.Navigation("Rounds");
+                });
+
+            modelBuilder.Entity("DataAccess.Models.Rondes.Rounds", b =>
+                {
+                    b.HasOne("DataAccess.Models.Customer.Site", "Site")
+                        .WithMany()
+                        .HasForeignKey("SiteId");
+
+                    b.Navigation("Site");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Customer.ContactPerson", b =>

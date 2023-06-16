@@ -23,7 +23,6 @@ namespace test2109.Controllers
             _Mapper = mapper;
         }
 
-
         [HttpPost("addRfid")]
         [Authorize("opspolicy")]
         public IActionResult AddRfid(List<RfidPatrol> rfidPatrol)
@@ -46,6 +45,7 @@ namespace test2109.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("GetRfid/{id}")]
+        [Authorize("opspolicy")]
         public IActionResult GetRfidPatrols(int id)
         {
             try
@@ -55,6 +55,82 @@ namespace test2109.Controllers
             catch (Exception)
             {
                 return Ok(new List<RfidPatrol>());
+            }
+        }
+
+        [HttpPut("updateRfid")]
+        [Authorize("opspolicy")]
+        public IActionResult UpdateRfid(RfidPatrol rfid)
+        {
+            try
+            {
+                var detail = _Mapper.Map<BUSI.RfidPatrol>(rfid);
+                return Ok(_RondesService.UpdateRfid(detail).Select(dr => _Mapper.Map<RfidPatrol>(dr)).ToList());
+            }
+              catch(Exception)
+            {
+                return Ok(new List<RfidPatrol>());
+            }
+
+        }
+
+        /// <summary>
+        /// Suppression définitive d'une pastille sur base de l'id du site et de la pastille
+        /// </summary>
+        /// <param name="rfid"></param>
+        /// <returns></returns>
+        [HttpPut("deleteRfid")]
+        [Authorize("opspolicy")]
+        public IActionResult DeleteRfid(RfidPatrol rfid)
+        {
+            try
+            {
+                var detail = _Mapper.Map<BUSI.RfidPatrol>(rfid);
+                return Ok(_RondesService.DeleteRfid(detail).Select(dr => _Mapper.Map<RfidPatrol>(dr)).ToList());
+            }
+            catch
+            {
+                return Ok(new List<RfidPatrol>());
+            }
+
+        }
+
+        /// <summary>
+        /// On controle si la ronde éxiste si oui on renvoi les pastilles correspondante
+        /// </summary>
+        /// <param name="round"></param>
+        /// <returns></returns>
+        [HttpPut("CheckRound")]
+        [Authorize("opspolicy")]
+        public IActionResult CheckRoundexist(Rounds round)
+        {
+            try
+            {
+                var detail = _Mapper.Map<BUSI.Rounds>(round);
+                return Ok(_RondesService.CheckRoundexist(detail));
+            }
+            catch(Exception)
+            {
+                return Ok(false);
+            }
+        }
+
+        /// <summary>
+        /// Reourne une liste de ronde sur base de l'id du site
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("GetRounds/{id}")]
+        [Authorize("opspolicy")]
+        public IActionResult GetRounds(int id)
+        {
+            try
+            {
+                return Ok(_RondesService.GetRounds(id).Select(e=> _Mapper.Map<Rounds>(e)).ToList());
+            }
+            catch (Exception)
+            {
+                return NoContent();
             }
         }
     }

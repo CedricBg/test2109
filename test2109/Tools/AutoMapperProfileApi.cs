@@ -20,6 +20,8 @@ namespace test2109.Tools
             CreateMap<BUSI.Discussion.Messages, API.Discussion.Message>().ReverseMap();
 
             CreateMap<BUSI.Rondes.RfidPatrol, API.Ronde.RfidPatrol>().ReverseMap();
+            CreateMap<BUSI.Rondes.RfidRound, API.Ronde.RfidRound>().ReverseMap();
+            CreateMap<BUSI.Rondes.Rounds, API.Ronde.Rounds>().ReverseMap();
 
 
             CreateMap<BUSI.Auth.ConnectedForm, API.Auth.ConnectedForm>().ReverseMap();

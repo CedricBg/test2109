@@ -2,11 +2,6 @@
 using BusinessAccessLayer.IRepositories;
 using BusinessAccessLayer.Models.Rondes;
 using DataAccess.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DATA = DataAccess.Models.Rondes;
 
 namespace BusinessAccessLayer.Services
@@ -33,5 +28,29 @@ namespace BusinessAccessLayer.Services
         {
             return _service.GetRfidPatrols(id).Select(dr => _Mapper.Map<RfidPatrol>(dr)).ToList();
         }
+
+        public List<RfidPatrol> UpdateRfid(RfidPatrol rfid)
+        {
+            var detail = _Mapper.Map<DATA.RfidPatrol>(rfid);
+            return _service.UpdateRfid(detail).Select(dr => _Mapper.Map<RfidPatrol>(dr)).ToList();
+        }
+
+        public List<RfidPatrol> DeleteRfid(RfidPatrol rfid)
+        {
+            var detail = _Mapper.Map<DATA.RfidPatrol>(rfid);
+            return _service.DeleteRfid(detail).Select(dr => _Mapper.Map<RfidPatrol>(dr)).ToList();
+        }
+
+        public Boolean CheckRoundexist(Rounds round)
+        {
+            var detail = _Mapper.Map<DATA.Rounds>(round);
+            return _service.CheckRoundexist(detail);
+        }
+
+        public List<Rounds> GetRounds(int id)
+        {
+            return _service.GetRounds(id).Select(e => _Mapper.Map<Rounds>(e)).ToList();
+        }
+
     }
 }

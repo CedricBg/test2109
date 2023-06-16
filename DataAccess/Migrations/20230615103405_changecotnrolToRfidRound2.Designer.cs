@@ -4,6 +4,7 @@ using DataAccess.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(SecurityCompanyContext))]
-    partial class SecurityCompanyContextModelSnapshot : ModelSnapshot
+    [Migration("20230615103405_changecotnrolToRfidRound2")]
+    partial class changecotnrolToRfidRound2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -618,19 +620,20 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RfidRoundId"), 1L, 1);
 
-                    b.Property<int>("Position")
+                    b.Property<int?>("PatrolId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RfidId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoundId")
+                    b.Property<int?>("RoundsId")
                         .HasColumnType("int");
 
                     b.HasKey("RfidRoundId");
 
+                    b.HasIndex("PatrolId");
+
                     b.HasIndex("RfidRoundId")
                         .IsUnique();
+
+                    b.HasIndex("RoundsId");
 
                     b.ToTable("RfidRound", (string)null);
                 });
@@ -805,6 +808,21 @@ namespace DataAccess.Migrations
                     b.Navigation("Sender");
 
                     b.Navigation("employee");
+                });
+
+            modelBuilder.Entity("DataAccess.Models.Rondes.RfidRound", b =>
+                {
+                    b.HasOne("DataAccess.Models.Rondes.RfidPatrol", "Patrol")
+                        .WithMany()
+                        .HasForeignKey("PatrolId");
+
+                    b.HasOne("DataAccess.Models.Rondes.Rounds", "Rounds")
+                        .WithMany()
+                        .HasForeignKey("RoundsId");
+
+                    b.Navigation("Patrol");
+
+                    b.Navigation("Rounds");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Customer.ContactPerson", b =>
