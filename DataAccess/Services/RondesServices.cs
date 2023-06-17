@@ -135,7 +135,7 @@ namespace DataAccess.Services
         }
 
         /// <summary>
-        /// Onrécupere toutes les pastilles par ronde
+        /// On récupere toutes les pastilles pour une ronde précise
         /// </summary>
         /// <param name="round"></param>
         /// <returns></returns>
@@ -182,5 +182,7 @@ namespace DataAccess.Services
                 return new List<Rounds>();
             }   
         }
+
+
     }
 }

@@ -52,5 +52,11 @@ namespace BusinessAccessLayer.Services
             return _service.GetRounds(id).Select(e => _Mapper.Map<Rounds>(e)).ToList();
         }
 
+        public List<RfidPatrol> GetRfidRounds(Rounds round)
+        {
+            var detail = _Mapper.Map<DATA.Rounds>(round);
+            return _service.GetRfidRounds(detail).Select(e=>_Mapper.Map<RfidPatrol>(e)).ToList();
+        }
+
     }
 }

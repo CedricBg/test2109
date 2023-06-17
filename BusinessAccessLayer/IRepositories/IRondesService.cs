@@ -9,7 +9,7 @@ namespace BusinessAccessLayer.IRepositories
         List<RfidPatrol> UpdateRfid(RfidPatrol rfid);
         List<RfidPatrol> DeleteRfid(RfidPatrol rfid);
         Boolean CheckRoundexist(Rounds round);
-
         List<Rounds> GetRounds(int id);
+        List<RfidPatrol> GetRfidRounds(Rounds round);
     }
 }

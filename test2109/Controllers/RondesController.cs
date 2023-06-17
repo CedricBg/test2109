@@ -133,5 +133,20 @@ namespace test2109.Controllers
                 return NoContent();
             }
         }
+
+        [HttpPost("GetRfidRounds")]
+        [Authorize("opspolicy")]
+        public IActionResult GetRfidRounds(Rounds round)
+        {
+            try
+            {
+                var detail =_Mapper.Map<BUSI.Rounds>(round);
+                return Ok(_RondesService.GetRfidRounds(detail).Select(e => _Mapper.Map<RfidPatrol>(e)).ToList());
+            }
+            catch(Exception)
+            {
+                return NoContent();
+            }
+        }
     }
 }
