@@ -9,5 +9,7 @@
         public string Location { get; set; } = null!;
 
         public int IdSite { get; set; }
+
+        public int Position { get; set; }
     }
 }

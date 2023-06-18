@@ -24,6 +24,7 @@ namespace DataAccess.DataAccess
         {
             modelBuilder.Ignore<Employee>();
             modelBuilder.Ignore<ConnectedForm>();
+            modelBuilder.Ignore<AddRegisterForm>();
 
             modelBuilder.Entity<ConnectedForm>().HasNoKey();
 
@@ -34,7 +35,7 @@ namespace DataAccess.DataAccess
                 entity.Property(e=>e.Text).IsRequired(true);
             });
 
-                modelBuilder.Entity<Pdf>(entity => {
+            modelBuilder.Entity<Pdf>(entity => {
                 entity.HasKey(e => e.IdPdf);
                 entity.HasIndex(c => c.IdPdf).IsUnique();
                 entity.Property(c => c.Title).HasMaxLength(30);
@@ -63,7 +64,6 @@ namespace DataAccess.DataAccess
                 entity.Property(e => e.Password_hash).HasColumnType("varbinary").HasMaxLength(64);
 
             });
-            modelBuilder.Ignore<AddRegisterForm>();
 
             modelBuilder.Entity<AddRegisterForm>(entity =>
             {
@@ -95,8 +95,6 @@ namespace DataAccess.DataAccess
                 entity.Property(e => e.Name).HasMaxLength(50).IsRequired(true);
             });
 
-            
-
             modelBuilder.Entity<RfidPatrol>(entity =>
             {
                 entity.HasKey(e => e.PatrolId);
@@ -104,6 +102,7 @@ namespace DataAccess.DataAccess
                 entity.Property(e => e.RfidNr).HasMaxLength(200).IsRequired(true);
                 entity.Property(e => e.Location).HasMaxLength(50).IsRequired(true);
                 entity.HasIndex(e=> new { e.Location, e.RfidNr }).IsUnique();
+                entity.Ignore(e => e.Position);
             });
 
             modelBuilder.Entity<Customers>(entity =>
@@ -172,7 +171,6 @@ namespace DataAccess.DataAccess
             {
                 Entity.Property(e => e.NameFoto).HasMaxLength(70);
             });
-
 
             modelBuilder.Entity<RfidRound>(entity =>
             {
