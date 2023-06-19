@@ -10,7 +10,7 @@ namespace DataAccess.Repository
         Boolean CheckRoundexist(Rounds round);
         List<RfidPatrol> DeleteRfid(RfidPatrol rfid);
         List<RfidPatrol> GetRfidRounds(Rounds round);
-
+        List<RfidPatrol> PutRound(PutRfidRounds putRfid);
         List<Rounds> GetRounds(int id);
 
     }

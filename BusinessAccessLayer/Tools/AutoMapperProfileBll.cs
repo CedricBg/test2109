@@ -53,6 +53,7 @@ namespace BusinessAccessLayer.Tools
             CreateMap<DATA.Rondes.RfidPatrol, BUSI.Rondes.RfidPatrol>().ReverseMap();
             CreateMap<DATA.Rondes.RfidRound, BUSI.Rondes.RfidRound>().ReverseMap();
             CreateMap<DATA.Rondes.Rounds, BUSI.Rondes.Rounds>().ReverseMap();
+            CreateMap<DATA.Rondes.PutRfidRounds, BUSI.Rondes.PutRfidRounds>().ReverseMap();
 
             CreateMap<DATA.Planning.StartEndWorkTime, BUSI.Planning.StartEndWorkTime>().ReverseMap();
             CreateMap<DATA.Planning.Working, BUSI.Planning.Working>().ReverseMap();

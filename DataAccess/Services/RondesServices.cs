@@ -3,8 +3,10 @@ using DataAccess.Migrations;
 using DataAccess.Models.Rondes;
 using DataAccess.Repository;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
@@ -183,6 +185,34 @@ namespace DataAccess.Services
             }   
         }
 
+        ///Modification des pastilles pour une ronde des pastilles 
+        public List<RfidPatrol> PutRound(PutRfidRounds putRfid)
+        {
+            try
+            {
+                List<RfidRound> rfidRounds2 = putRfid.ListRfid.Select(e => new RfidRound
+                {
+                    RfidId = e.PatrolId,
+                    Position = e.Position,
+                    RoundId = putRfid.IdRound
+                }).ToList();
+                var list = _context.RfidRound.Where(e => e.RoundId == putRfid.IdRound);
+                _context.RfidRound.RemoveRange(list);
+                _context.RfidRound.AddRange(rfidRounds2);
+                _context.SaveChanges();
+                Rounds round = new Rounds {
+                    Name = "",
+                    RoundsId = putRfid.IdRound,
+                    SiteId = putRfid.ListRfid[0].IdSite
+                };
+                
+                return GetRfidRounds(round);
+            }
+            catch(Exception)
+            {
+                return new List<RfidPatrol>();
+            }
+        }
 
     }
 }

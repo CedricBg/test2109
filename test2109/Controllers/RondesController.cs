@@ -148,5 +148,22 @@ namespace test2109.Controllers
                 return NoContent();
             }
         }
+
+
+        //On met a jour les pastilles pour une ronde donnée
+        [HttpPut("PutRfidRounds")]
+        public IActionResult PutRound(PutRfidRounds putRfid)
+        {
+            
+            try
+            {
+                var detail = _Mapper.Map<BUSI.PutRfidRounds>(putRfid);
+                return Ok(_RondesService.PutRound(detail).Select(e=>_Mapper.Map<RfidPatrol>(e)).ToList());
+            }
+            catch
+            {
+                return Ok(new List<RfidPatrol>());
+            }
+        }
     }
 }

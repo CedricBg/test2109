@@ -22,6 +22,7 @@ namespace test2109.Tools
             CreateMap<BUSI.Rondes.RfidPatrol, API.Ronde.RfidPatrol>().ReverseMap();
             CreateMap<BUSI.Rondes.RfidRound, API.Ronde.RfidRound>().ReverseMap();
             CreateMap<BUSI.Rondes.Rounds, API.Ronde.Rounds>().ReverseMap();
+            CreateMap<BUSI.Rondes.PutRfidRounds, API.Ronde.PutRfidRounds>().ReverseMap();
 
 
             CreateMap<BUSI.Auth.ConnectedForm, API.Auth.ConnectedForm>().ReverseMap();
@@ -39,22 +40,14 @@ namespace test2109.Tools
 
 
             CreateMap<BUSI.Customers.ContactPerson, API.Customer.ContactPerson>().ReverseMap();
-            CreateMap<BUSI.Customers.AllCustomers, API.Customer.AllCustomers>()
-               .ReverseMap();
-            CreateMap<BUSI.Customers.AllSites, API.Customer.AllSites>()
-               .ReverseMap();
-            CreateMap<BUSI.Customers.Site, API.Customer.Site>()
-                .ReverseMap();
-            CreateMap<API.Address, BUSI.Employee.Address>()
-                .ReverseMap();
-            CreateMap<API.Pdf, BUSI.Pdf>()
-                .ReverseMap();
-            CreateMap<API.Planning.StartEndTimeWork, BUSI.Planning.StartEndWorkTime>()
-                .ReverseMap();
-            CreateMap<API.Planning.Working, BUSI.Planning.Working>()
-                .ReverseMap();
-            CreateMap<API.Agents.AddSites, BUSI.Agents.AddSites>()
-               .ReverseMap();
+            CreateMap<BUSI.Customers.AllCustomers, API.Customer.AllCustomers>().ReverseMap();
+            CreateMap<BUSI.Customers.AllSites, API.Customer.AllSites>().ReverseMap();
+            CreateMap<BUSI.Customers.Site, API.Customer.Site>().ReverseMap();
+            CreateMap<API.Address, BUSI.Employee.Address>() .ReverseMap();
+            CreateMap<API.Pdf, BUSI.Pdf>().ReverseMap();
+            CreateMap<API.Planning.StartEndTimeWork, BUSI.Planning.StartEndWorkTime>().ReverseMap();
+            CreateMap<API.Planning.Working, BUSI.Planning.Working>().ReverseMap();
+            CreateMap<API.Agents.AddSites, BUSI.Agents.AddSites>().ReverseMap();
 
         }
     }

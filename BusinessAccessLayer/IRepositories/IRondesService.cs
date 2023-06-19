@@ -11,5 +11,6 @@ namespace BusinessAccessLayer.IRepositories
         Boolean CheckRoundexist(Rounds round);
         List<Rounds> GetRounds(int id);
         List<RfidPatrol> GetRfidRounds(Rounds round);
+        List<RfidPatrol> PutRound(PutRfidRounds putRfid);
     }
 }
