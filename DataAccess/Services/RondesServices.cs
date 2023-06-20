@@ -147,8 +147,18 @@ namespace DataAccess.Services
             {
                 List<RfidRound> rounds = _context.RfidRound.Where(e => e.RoundId == round.RoundsId).ToList();
 
-                List<RfidPatrol> rfids = _context.RfidPatrol.Where(e=>rounds.Select(e=>e.RfidId).Contains(e.PatrolId))
+                List<RfidPatrol> rfids = _context.RfidPatrol
+                    .Where(e=>rounds.Select(e=>e.RfidId).Contains(e.PatrolId))
                     .ToList();
+
+                foreach (var rfid in rfids)
+                {
+                    var matchingRound = rounds.FirstOrDefault(roun => roun.RfidId == rfid.PatrolId);
+                    if (matchingRound != null)
+                    {
+                        rfid.Position = matchingRound.Position;
+                    }
+                }
                 rfids = rfids.OrderBy(r=> rounds.Find(e=>e.RfidId == r.PatrolId).Position).ToList();
 
                 return rfids;
@@ -197,6 +207,7 @@ namespace DataAccess.Services
                     RoundId = putRfid.IdRound
                 }).ToList();
                 var list = _context.RfidRound.Where(e => e.RoundId == putRfid.IdRound);
+
                 _context.RfidRound.RemoveRange(list);
                 _context.RfidRound.AddRange(rfidRounds2);
                 _context.SaveChanges();
@@ -213,6 +224,5 @@ namespace DataAccess.Services
                 return new List<RfidPatrol>();
             }
         }
-
     }
 }
