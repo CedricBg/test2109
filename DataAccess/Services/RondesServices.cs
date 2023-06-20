@@ -195,7 +195,11 @@ namespace DataAccess.Services
             }   
         }
 
-        ///Modification des pastilles pour une ronde des pastilles 
+        /// <summary>
+        /// Modification des pastilles pour une ronde des pastilles 
+        /// </summary>
+        /// <param name="putRfid"></param>
+        /// <returns></returns>
         public List<RfidPatrol> PutRound(PutRfidRounds putRfid)
         {
             try
@@ -222,6 +226,34 @@ namespace DataAccess.Services
             catch(Exception)
             {
                 return new List<RfidPatrol>();
+            }
+        }
+
+        /// <summary>
+        /// On change le nom de la ronde
+        /// On retorune la la liste des ronde pour le site
+        /// </summary>
+        public List<Rounds> UpdateRoundName(Rounds rounds)
+        {
+            try
+            {
+                Rounds roundTest = _context.Rounds.FirstOrDefault(e => e.Name == rounds.Name);
+                if(roundTest != null)
+                {
+                    return _context.Rounds.Where(e => e.SiteId == rounds.SiteId).ToList();
+                }
+                Rounds round = _context.Rounds.FirstOrDefault(e => e.RoundsId == rounds.RoundsId);
+                
+                if (round != null)
+                {
+                    round.Name = round.Name;
+                }
+                _context.SaveChanges();
+                return _context.Rounds.Where(e => e.SiteId == rounds.SiteId).ToList();
+            }
+            catch(Exception)
+            {
+                return _context.Rounds.Where(e => e.SiteId == rounds.SiteId).ToList();
             }
         }
     }

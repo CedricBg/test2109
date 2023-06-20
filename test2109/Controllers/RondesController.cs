@@ -152,6 +152,7 @@ namespace test2109.Controllers
 
         //On met a jour les pastilles pour une ronde donnée
         [HttpPut("PutRfidRounds")]
+        [Authorize("opspolicy")]
         public IActionResult PutRound(PutRfidRounds putRfid)
         {
             
@@ -163,6 +164,26 @@ namespace test2109.Controllers
             catch
             {
                 return Ok(new List<RfidPatrol>());
+            }
+        }
+
+        /// <summary>
+        /// on change le nom d'une ronde
+        /// </summary>
+        /// <param name="rounds"></param>
+        /// <returns></returns>
+        [HttpPut("ChangeName")]
+        [Authorize("opspolicy")]
+        public IActionResult  updateRoundName(Rounds rounds)
+        {
+            try
+            {
+                var detail = _Mapper.Map<BUSI.Rounds>(rounds);
+                return Ok(_RondesService.updateRoundName(detail).Select(e => _Mapper.Map<Rounds>(e)).ToList());
+            }
+            catch
+            {
+                return NoContent();
             }
         }
     }

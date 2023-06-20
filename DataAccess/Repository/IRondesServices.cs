@@ -12,6 +12,7 @@ namespace DataAccess.Repository
         List<RfidPatrol> GetRfidRounds(Rounds round);
         List<RfidPatrol> PutRound(PutRfidRounds putRfid);
         List<Rounds> GetRounds(int id);
+        List<Rounds> UpdateRoundName(Rounds rounds);
 
     }
 }

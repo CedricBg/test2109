@@ -12,5 +12,6 @@ namespace BusinessAccessLayer.IRepositories
         List<Rounds> GetRounds(int id);
         List<RfidPatrol> GetRfidRounds(Rounds round);
         List<RfidPatrol> PutRound(PutRfidRounds putRfid);
+        List<Rounds> updateRoundName(Rounds rounds);
     }
 }
