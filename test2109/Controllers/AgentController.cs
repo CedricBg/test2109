@@ -29,6 +29,7 @@ namespace test2109.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
+        [Authorize("opspolicy")]
         public IActionResult Get(int id)
         {
             List<Site> sites = _agentService.assignedClients(id).Select(e => _mapper.Map<Site>(e)).ToList();
