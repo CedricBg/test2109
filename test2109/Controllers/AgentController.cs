@@ -29,7 +29,7 @@ namespace test2109.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        [Authorize("opspolicy")]
+        [Authorize("agentpolicy")]
         public IActionResult Get(int id)
         {
             List<Site> sites = _agentService.assignedClients(id).Select(e => _mapper.Map<Site>(e)).ToList();
@@ -38,7 +38,7 @@ namespace test2109.Controllers
 
         /// <summary>
         /// Retourne une list d'agent par rapport au numero de role qui lui à été attribué et pas par l'id !!, 
-        /// pour ajouter de nouveau role pour les agents il suffira de monter le numéro du nouveau role, à la création de l'api on est de 1 a 15 (Max 49)
+        /// pour ajouter de nouveau role pour les agents il suffira de monter le numéro du nouveau role, a la création de l'api on est de 1 a 15 (Max 49)
         /// </summary>
         /// <returns>List of guards</returns>
         [HttpGet]

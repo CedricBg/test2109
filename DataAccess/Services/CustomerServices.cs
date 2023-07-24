@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using DataAccess.Tools;
 using System.ComponentModel;
 using DataAccess.Models.Employees;
+using System.Linq;
 
 
 namespace DataAccess.Services
@@ -316,9 +317,10 @@ namespace DataAccess.Services
                 if (!(_context.Sites.Where(e => e.Name == site.Name).Any()))
                 {
                     Language language = _context.Languages.FirstOrDefault(c => c.Id == site.Language.Id);
+                    string name = char.ToUpper(site.Name[0]) + site.Name.Substring(1);
                     _context.Sites.Add(new Site
                     {
-                        Name = site.Name,
+                        Name = name,
                         Address = site.Address,
                         IsDeleted = false,
                         Language = language,
@@ -489,7 +491,6 @@ namespace DataAccess.Services
                         var phoneToRemove = _context.Phones.Find(phoneId);
                         _context.Phones.Remove(phoneToRemove);
                     }
-
                     foreach (Phone phone in contact.Phone)
                     {
                         var existingPhone = _context.Phones.Find(phone.PhoneId);
@@ -524,10 +525,11 @@ namespace DataAccess.Services
                 existingAdrress.City = site.Address.City;
                 existingAdrress.ZipCode = site.Address.ZipCode;
 
-                var siteSearch = _context.Sites.Where(s => s.Name == site.Name).FirstOrDefault();
+                Site siteSearch = _context.Sites.Where(s => s.Name == site.Name).FirstOrDefault();
                 if (siteSearch == null)
                 {
-                    dBSite.Name = site.Name;
+                    string name = char.ToUpper(site.Name[0]) + site.Name.Substring(1);
+                    dBSite.Name = name;
                 }
                 _context.SaveChanges();
                 return dBSite;

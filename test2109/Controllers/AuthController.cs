@@ -59,7 +59,7 @@ namespace test2109.Controllers
                 {  
                     return Ok(user);
                 }
-                return Ok(null);
+                return StatusCode(StatusCodes.Status404NotFound);
             }
             catch (Exception ex)
             {

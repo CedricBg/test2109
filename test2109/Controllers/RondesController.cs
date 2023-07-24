@@ -121,7 +121,7 @@ namespace test2109.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("GetRounds/{id}")]
-        [Authorize("opspolicy")]
+        [Authorize("agentpolicy")]
         public IActionResult GetRounds(int id)
         {
             try
@@ -135,7 +135,7 @@ namespace test2109.Controllers
         }
 
         [HttpPost("GetRfidRounds")]
-        [Authorize("opspolicy")]
+        [Authorize("agentpolicy")]
         public IActionResult GetRfidRounds(Rounds round)
         {
             try

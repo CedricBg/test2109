@@ -87,7 +87,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("adminpolicy", policy => policy.RequireRole("Administratif"));
-    options.AddPolicy("agentpolicy", policy => policy.RequireRole("agent", "Administratif"));
+    options.AddPolicy("agentpolicy", policy => policy.RequireRole("Agent statique", "Opérations", "Administratif"));
     options.AddPolicy("opspolicy", policy => policy.RequireRole("Opérations", "Administratif"));
     options.AddPolicy("authpolicy",  policy => policy.RequireAuthenticatedUser());
     
