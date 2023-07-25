@@ -93,10 +93,18 @@ builder.Services.AddAuthorization(options =>
     
 }
 );
+
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+});
+
+
 var app = builder.Build();
 
+app.UseResponseCompression();
 
-// Configure the HTTP request pipeline.
+//// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

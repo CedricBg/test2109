@@ -38,7 +38,7 @@ namespace DataAccess.Services
                     return new Pdf();
                 string site = _context.Sites.Where(c=>c.SiteId == pdf.SiteId).Select(e=>e.Name).First();
 
-                string folderPath = CreateFolder("..\\pdf\\" + site);
+                string folderPath = CreateFolder("pdf\\" + site);
 
                 string texte = pdf.Content;
                 string title = pdf.Title;

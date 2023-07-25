@@ -269,7 +269,7 @@ namespace DataAccess.Services
             {
                 return "fichier non valide";
             }
-            string folderPath = CreateFolder("..\\images\\" + file.IdEmployee);
+            string folderPath = CreateFolder("images\\" + file.IdEmployee);
 
             var filePath = Path.Combine(folderPath, file.Foto.FileName);
 
@@ -346,7 +346,7 @@ namespace DataAccess.Services
                 .Where(e => e.idEmployee == id).Select(c => c.NameFoto).FirstOrDefault();
             if (filePath == null)
             {
-                filePath = "..\\images\\default\\avatar.png";
+                filePath = "images\\default\\avatar.png";
             }
             return filePath;
         }
