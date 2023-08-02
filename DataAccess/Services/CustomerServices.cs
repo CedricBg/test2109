@@ -268,6 +268,7 @@ namespace DataAccess.Services
                             FirstName = contact.FirstName,
                             LastName = contact.LastName,
                             NightContact = contact.NightContact,
+                            DayContact = contact.DayContact,
                             Responsible = contact.Responsible,
                             EmergencyContact = contact.EmergencyContact,
                             Created = DateTime.Now,

@@ -2,6 +2,7 @@
 using BusinessAccessLayer.IRepositories;
 using BusinessAccessLayer.Models.Customers;
 using BusinessAccessLayer.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using test2109.Models.Planning;
@@ -24,7 +25,7 @@ namespace test2109.Controllers
             _service = service;
         }
 
-        
+        [Authorize("agentpolicy")]
         [HttpPost("startWork")]
         public IActionResult StartWork([FromBody] StartEndTimeWork form)
         {
@@ -40,6 +41,7 @@ namespace test2109.Controllers
             }
         }
 
+        [Authorize("agentpolicy")]
         [HttpGet("endWork/{id}")]
         public IActionResult EndWork( int id)
         {
@@ -60,6 +62,7 @@ namespace test2109.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Authorize("agentpolicy")]
         [HttpGet("{id}")]
         public IActionResult GetCustomers( int id)
         {
@@ -67,6 +70,7 @@ namespace test2109.Controllers
             return Ok(cust);
         }
 
+        [Authorize("agentpolicy")]
         [HttpGet("working/{id}")]
         public IActionResult IsWorking(int id)
         {

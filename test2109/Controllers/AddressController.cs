@@ -21,6 +21,7 @@ namespace test2109.Controllers
         /// Retourne une liste de pays pour les formulaires
         /// </summary>
         /// <returns> List<Countrys> </Countrys></returns>
+        [Authorize("agentpolicy")]
         [HttpGet("allCountrys")]
         public IEnumerable<Countrys> Get()
         {

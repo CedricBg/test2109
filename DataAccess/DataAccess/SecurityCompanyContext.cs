@@ -180,6 +180,7 @@ namespace DataAccess.DataAccess
                 entity.Property(e=>e.RfidId).IsRequired(true);
                 entity.Property(e => e.RfidRoundId).IsRequired(true);
             });
+
         }
 
         public DbSet<Countrys> Countrys { get; set; }
@@ -194,7 +195,6 @@ namespace DataAccess.DataAccess
         public DbSet<Language> Languages { get; set; }
         public DbSet<RfidPatrol> RfidPatrol { get; set; }
         public DbSet<Rounds> Rounds { get; set; }    
-        public DbSet<RfidRound> Control { get; set; }
         public DbSet<Users> Users { get; set; }
         public DbSet<Phone> Phones { get; set; }
         public DbSet<ContactPerson> ContactPersons { get; set; }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessAccessLayer.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using test2109.Models;
@@ -21,6 +22,7 @@ namespace test2109.Controllers
             _Mapper = mapper;
         }
 
+        [Authorize("agentpolicy")]
         [HttpPost]
         public IActionResult CreatePdf(Pdf pdf)
         {
@@ -35,6 +37,7 @@ namespace test2109.Controllers
             }
         }
 
+        [Authorize("agentpolicy")]
         [HttpPost("saveRapport")]
         public IActionResult SaveRapportPdf(Pdf pdf)
         {
@@ -55,6 +58,7 @@ namespace test2109.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>One Pdf if exist</returns>
+        [Authorize("agentpolicy")]
         [HttpGet("checkRapport/{id}")]
         public IActionResult checkRapport(int id) 
         {
@@ -66,6 +70,7 @@ namespace test2109.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>List of Pdf</returns>
+        [Authorize("agentpolicy")]
         [HttpGet("listRapport/{id}")]
         public IActionResult listRapport(int id)
         {
@@ -77,6 +82,7 @@ namespace test2109.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Authorize("agentpolicy")]
         [HttpGet("loadRapport/{id}")]
         public IActionResult loadRapport(int id)
         {

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Migrations
 {
-    public partial class initdb : Migration
+    public partial class initDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,8 +15,8 @@ namespace DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Login = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
+                    Login = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -80,6 +80,20 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Foto",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    idEmployee = table.Column<int>(type: "int", nullable: false),
+                    NameFoto = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Foto", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Languages",
                 columns: table => new
                 {
@@ -93,6 +107,20 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Message",
+                columns: table => new
+                {
+                    MessageId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SiteId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Message", x => x.MessageId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Pdf",
                 columns: table => new
                 {
@@ -101,7 +129,7 @@ namespace DataAccess.Migrations
                     Title = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IdEmployee = table.Column<int>(type: "int", nullable: false),
-                    FilePath = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    FilePath = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     SiteId = table.Column<int>(type: "int", nullable: false),
                     DateCreate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -111,13 +139,44 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RfidPatrol",
+                columns: table => new
+                {
+                    PatrolId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RfidNr = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    IdSite = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RfidPatrol", x => x.PatrolId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RfidRound",
+                columns: table => new
+                {
+                    RfidRoundId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoundId = table.Column<int>(type: "int", nullable: false),
+                    RfidId = table.Column<int>(type: "int", nullable: false),
+                    Position = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RfidRound", x => x.RfidRoundId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
                     roleId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
-                    DiminName = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true)
+                    DiminName = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true),
+                    Numero = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -128,13 +187,14 @@ namespace DataAccess.Migrations
                 name: "Rounds",
                 columns: table => new
                 {
-                    RondsId = table.Column<int>(type: "int", nullable: false)
+                    RoundsId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    SiteId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rounds", x => x.RondsId);
+                    table.PrimaryKey("PK_Rounds", x => x.RoundsId);
                 });
 
             migrationBuilder.CreateTable(
@@ -174,32 +234,12 @@ namespace DataAccess.Migrations
                 {
                     WorkingId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SiteId = table.Column<int>(type: "int", nullable: false),
+                    SiteId = table.Column<int>(type: "int", nullable: true),
                     EmployeeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Working", x => x.WorkingId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ScheduledRounds",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RoundsRondsId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ScheduledRounds", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ScheduledRounds_Rounds_RoundsRondsId",
-                        column: x => x.RoundsRondsId,
-                        principalTable: "Rounds",
-                        principalColumn: "RondsId");
                 });
 
             migrationBuilder.CreateTable(
@@ -272,7 +312,8 @@ namespace DataAccess.Migrations
                     EmergencyContact = table.Column<bool>(type: "bit", nullable: true),
                     NightContact = table.Column<bool>(type: "bit", nullable: true),
                     ContactSiteId = table.Column<int>(type: "int", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: true),
+                    DayContact = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -360,24 +401,6 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rfids",
-                columns: table => new
-                {
-                    RfidNr = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
-                    Location = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Rfids", x => x.RfidNr);
-                    table.ForeignKey(
-                        name: "FK_Rfids_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "CustomerId");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Sites",
                 columns: table => new
                 {
@@ -416,31 +439,6 @@ namespace DataAccess.Migrations
                         column: x => x.UsersId,
                         principalTable: "Users",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PassagesRounds",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RfidNr = table.Column<string>(type: "nvarchar(80)", nullable: true),
-                    RoundsRondsId = table.Column<int>(type: "int", nullable: true),
-                    OrderPAssage = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PassagesRounds", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PassagesRounds_Rfids_RfidNr",
-                        column: x => x.RfidNr,
-                        principalTable: "Rfids",
-                        principalColumn: "RfidNr");
-                    table.ForeignKey(
-                        name: "FK_PassagesRounds_Rounds_RoundsRondsId",
-                        column: x => x.RoundsRondsId,
-                        principalTable: "Rounds",
-                        principalColumn: "RondsId");
                 });
 
             migrationBuilder.CreateIndex(
@@ -506,14 +504,10 @@ namespace DataAccess.Migrations
                 column: "SenderContactId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PassagesRounds_RfidNr",
-                table: "PassagesRounds",
-                column: "RfidNr");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PassagesRounds_RoundsRondsId",
-                table: "PassagesRounds",
-                column: "RoundsRondsId");
+                name: "IX_Message_MessageId",
+                table: "Message",
+                column: "MessageId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pdf_IdPdf",
@@ -532,14 +526,28 @@ namespace DataAccess.Migrations
                 column: "SenderContactId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rfids_CustomerId",
-                table: "Rfids",
-                column: "CustomerId");
+                name: "IX_RfidPatrol_Location_RfidNr",
+                table: "RfidPatrol",
+                columns: new[] { "Location", "RfidNr" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ScheduledRounds_RoundsRondsId",
-                table: "ScheduledRounds",
-                column: "RoundsRondsId");
+                name: "IX_RfidPatrol_PatrolId",
+                table: "RfidPatrol",
+                column: "PatrolId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RfidRound_RfidRoundId",
+                table: "RfidRound",
+                column: "RfidRoundId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rounds_RoundsId",
+                table: "Rounds",
+                column: "RoundsId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Sites_AddressId",
@@ -614,7 +622,10 @@ namespace DataAccess.Migrations
                 name: "EmailAddresses");
 
             migrationBuilder.DropTable(
-                name: "PassagesRounds");
+                name: "Foto");
+
+            migrationBuilder.DropTable(
+                name: "Message");
 
             migrationBuilder.DropTable(
                 name: "Pdf");
@@ -623,7 +634,13 @@ namespace DataAccess.Migrations
                 name: "Phones");
 
             migrationBuilder.DropTable(
-                name: "ScheduledRounds");
+                name: "RfidPatrol");
+
+            migrationBuilder.DropTable(
+                name: "RfidRound");
+
+            migrationBuilder.DropTable(
+                name: "Rounds");
 
             migrationBuilder.DropTable(
                 name: "StartEndWorkTime");
@@ -632,13 +649,7 @@ namespace DataAccess.Migrations
                 name: "Working");
 
             migrationBuilder.DropTable(
-                name: "Rfids");
-
-            migrationBuilder.DropTable(
                 name: "DetailedEmployees");
-
-            migrationBuilder.DropTable(
-                name: "Rounds");
 
             migrationBuilder.DropTable(
                 name: "Departements");

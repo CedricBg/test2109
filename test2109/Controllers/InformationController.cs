@@ -24,6 +24,7 @@ namespace test2109.Controllers
 
         /// <summary>Roles this instance.</summary>
         /// <returns>List d'objet role pour les formulaires de mise a jour des accès</returns>
+        [Authorize("opspolicy")]
         [HttpGet("Role")]
         public IActionResult Role()
         {

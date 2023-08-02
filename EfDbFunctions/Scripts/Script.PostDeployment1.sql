@@ -231,7 +231,7 @@ INSERT INTO Users ([Login],Password_hash ,Salt) Values('ced', 0x9E149878EC373240
 
 INSERT INTO Address (SreetAddress,City,StateId,ZipCode) Values('Rue du centre 53', 'Bruxelles', 18, 1000)
 
-INSERT INTO Customers (NameCustomer, RoleId,IsDeleted) Values('Test Company', 21, 'False')
+
 
 INSERT INTO DetailedEmployees (IsDeleted, [firstName], [SurName], AddressId, UserId, [roleId], BirthDate, Vehicle, RegistreNational, CreationDate, LanguageId)
 Values('False', 'admin', 'admin', 1, 1, 17, '01-01-1970', 'False', 0000000, '01-01-1970', 1)
@@ -239,13 +239,19 @@ Values('False', 'admin', 'admin', 1, 1, 17, '01-01-1970', 'False', 0000000, '01-
 INSERT INTO Address (SreetAddress,City,StateId,ZipCode) Values('Avenue du désert 33', 'Hotton', 18, 1020)
 INSERT INTO Address (SreetAddress,City,StateId,ZipCode) Values('Rue du pont 22', 'Marche en fammenne', 18, 6000)
 
+
+
+
+INSERT INTO ContactPersons (FirstName, LastName, ContactSiteId,Created ,NightContact,IsDeleted) Values ('Cedric','Bogaert', NULL, '01-01-1970','True','False')
+
+
+INSERT INTO Customers (NameCustomer, RoleId,IsDeleted,ContactId) Values('Test Company', 21, 'False',1)
+
 INSERT INTO Sites(VatNumber,IsDeleted, LanguageId, AddressId, [CustomersId], [Name]) Values(1154235444, 'False', 3, 1, 1, 'Dockx')
 INSERT INTO Sites(VatNumber,IsDeleted, LanguageId, AddressId, [CustomersId], [Name]) Values(455443435, 'False', 2, 2, 1, 'Danone')
 
-INSERT INTO ContactPersons (FirstName, LastName, ContactSiteId,Created ,NightContact,IsDeleted) Values ('Cedric','Bogaert', 1, '01-01-1970','True','False')
 INSERT INTO ContactPersons (FirstName, LastName, ContactSiteId, Created, EmergencyContact,IsDeleted) Values ('Test1','Test1', 2, '01-01-1970', 'True','False')
 INSERT INTO ContactPersons (FirstName, LastName, ContactSiteId, Created,IsDeleted) Values ('Test2','Test2', 2, '01-01-1970','False')
-
 
 
 INSERT INTO EmailAddresses (EmailAddress, DetailedEmployeeId) Values('admin@hotmail.com', 1)
@@ -255,16 +261,16 @@ INSERT INTO Phones (Number, DetailedEmployeeId) Values (0487345912, 1)
 INSERT INTO Phones (Number, SenderContactId) Values (022163945, 1)
 INSERT INTO Phones (Number, SenderContactId) Values (010215975, 2)
 
+
+
+
 INSERT INTO Working (SiteId, EmployeeId) Values (1,1)
 INSERT INTO Working (SiteId, EmployeeId) Values (2,1)
 
 INSERT INTO Rounds([Name],SiteId ) values('Ouverture',1)
 INSERT INTO Rounds([Name],SiteId ) values('Fermeture',1)
 
-INSERT INTO RfidPatrol (RfidNr, [Location]) values('1153zsd4ds5ds5', 'Porte d''entrée')
-INSERT INTO RfidPatrol (RfidNr, [Location]) values('1d5d4f35re4765dfr', 'Garage')
-INSERT INTO RfidPatrol (RfidNr, [Location]) values('15df54f54d85g74d', 'Cuisine')
+INSERT INTO RfidPatrol (RfidNr, [Location],IdSite) values('1153zsd4ds5ds5', 'Porte d''entrée',1)
+INSERT INTO RfidPatrol (RfidNr, [Location],IdSite) values('1d5d4f35re4765dfr', 'Garage',1)
+INSERT INTO RfidPatrol (RfidNr, [Location],IdSite) values('15df54f54d85g74d', 'Cuisine',1)
 
-INSERT INTO Control (RoundsId, PatrolId) values(1,1)
-INSERT INTO Control (RoundsId, PatrolId) values(1,2)
-INSERT INTO Control (RoundsId, PatrolId) values(1,3)

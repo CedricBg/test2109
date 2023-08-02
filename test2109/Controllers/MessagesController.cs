@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessAccessLayer.IRepositories;
 using BusinessAccessLayer.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
@@ -21,7 +22,7 @@ namespace test2109.Controllers
             _mapper = mapper;
             _messagesService = messagesService;
         }
-
+        [Authorize("agentpolicy")]
         [HttpGet("{id}")]
         public IActionResult GetMessages(int id)
         {
@@ -36,6 +37,8 @@ namespace test2109.Controllers
             }
             
         }
+
+        [Authorize("agentpolicy")]
         [HttpPost]
         public IActionResult AddMessage(Message message)
         {

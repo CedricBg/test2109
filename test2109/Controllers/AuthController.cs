@@ -29,6 +29,7 @@ namespace test2109.Controllers
         /// <returns>
         ///   retourne un string "Created" ou le message d'erreur , creer dans le service DataAccess
         /// </returns>
+        [Authorize("opspolicy")]
         [HttpPost("AddLogin")]
         public string Post(AddRegisterForm form)
         {

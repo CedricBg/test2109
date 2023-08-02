@@ -1,13 +1,8 @@
 ﻿using AutoMapper;
 using BusinessAccessLayer.IRepositories;
 using BusinessAccessLayer.Models.Discussion;
-using DataAccess.Migrations;
+
 using DataAccess.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessAccessLayer.Services
 {

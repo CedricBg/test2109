@@ -133,6 +133,7 @@ namespace test2109.Controllers
         /// <summary>Retourne un site par son id</summary>
         /// <param name="id">The identifier.</param>
         /// <returns>Retourne un site par son id</returns>
+        [Authorize("agentpolicy")]
         [HttpGet("site/{id}")]
         public IActionResult Get(int id)
         {
