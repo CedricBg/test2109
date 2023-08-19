@@ -91,7 +91,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("opspolicy", policy => policy.RequireRole("Opérations", "Administratif"));
     options.AddPolicy("authpolicy",  policy => policy.RequireAuthenticatedUser());
     
-}
+} 
 );
 
 builder.Services.AddResponseCompression(options =>
