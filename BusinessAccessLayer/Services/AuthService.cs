@@ -18,13 +18,11 @@ namespace BusinessAccessLayer.Services
     public class AuthService : IAuthService
     {
         private readonly IAuthServices _authService;
-        private readonly TokenService _toTokenService;
         private readonly IMapper _mapper;
 
         public AuthService(IAuthServices auth, TokenService token,IMapper mapper)
         {
-            _authService = auth;
-            _toTokenService = token;
+            _authService = auth;     
             _mapper = mapper;
         }
         
@@ -46,11 +44,6 @@ namespace BusinessAccessLayer.Services
             try
             {
                 ConnectedForm user = _authService.Login(form.MapLoginForm()).MapConnectedForm();
-                
-                if (user.SurName != null)
-                {
-                    user.Token = _toTokenService.GenerateJwt(user);
-                }
                 return user;
             }
             catch (Exception)

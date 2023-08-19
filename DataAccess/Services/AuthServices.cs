@@ -17,10 +17,13 @@ namespace DataAccess.Services
     public class AuthServices : IAuthServices
     {
         private readonly SecurityCompanyContext _db;
+        private readonly TokenService _toTokenService;
 
-        public AuthServices(SecurityCompanyContext context)
+        public AuthServices(SecurityCompanyContext context, TokenService toTokenService)
         {
             _db = context;
+
+            _toTokenService = toTokenService;
         }
 
         public string RegisterEmployee(AddRegisterForm form)
@@ -58,6 +61,7 @@ namespace DataAccess.Services
             try
             {
                 List<ConnectedForm> response = _db.Set<ConnectedForm>().FromSqlRaw($"EXEC dbo.Loginemployee @Login, @Password", pLogin, pPassword).ToList();
+                response[0].Token = _toTokenService.GenerateJwt(response[0]);
                 return response[0];
             }
             catch (Exception)

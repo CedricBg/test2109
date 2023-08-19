@@ -31,6 +31,7 @@ namespace BusinessAccessLayer.Tools.Auth
                 Id = form.Id,
                 Role = form.Role,
                 Dimin = form.Dimin,
+                Token = form.Token,
             };
         }
     }

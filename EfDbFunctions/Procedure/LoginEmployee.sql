@@ -17,7 +17,7 @@ Begin
 	Declare @IdUser INT
 	set @IdUser = (SELECT Id from Users WHERE (Password_hash = @password_hash AND ([Login] = @Login)))
 
-	Select E.[SurName], E.firstName, E.Id, R.DiminName as Dimin , R.[Name]  as Role
+	Select E.[SurName], E.firstName, E.Id, R.DiminName as Dimin , R.[Name]  as Role, E.[SurName] as Token
 	from DetailedEmployees E, Users U , Roles R
 	Where U.[Login] = @Login
 	and U.Password_hash = @password_hash
