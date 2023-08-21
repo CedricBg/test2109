@@ -3,10 +3,10 @@ using BusinessAccessLayer.IRepositories;
 using BUSI = BusinessAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using API = test2109.Models;
-using test2109.Models.Employee;
 using test2109.Models.Customer;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace test2109.Controllers
 {
@@ -15,11 +15,12 @@ namespace test2109.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _customerService;
-
+        private readonly IMemoryCache _memoryCache;
         private readonly IMapper _mapper;
 
-        public CustomerController(ICustomerService customerService, IMapper mapper)
+        public CustomerController(ICustomerService customerService, IMapper mapper, IMemoryCache memoryCache)
         {
+            _memoryCache = memoryCache;
             _customerService = customerService;
             _mapper = mapper;
         }
@@ -122,7 +123,22 @@ namespace test2109.Controllers
         {
             try
             {
-                return Ok(_customerService.All().Select(d => _mapper.Map<AllCustomers>(d)));
+                //Si listAllCustomerUpdated est true alors on a ajouté un client ou un site et on renvoi une liste qui n'est pas dans la cache
+                _memoryCache.TryGetValue("listAllCustomerUpdated", out bool update);
+
+                List<AllCustomers> list = new();
+                if (!_memoryCache.TryGetValue("listAllCustomer", out list) || update is true)
+                {
+                    list = _customerService.All().Select(d => _mapper.Map<AllCustomers>(d)).ToList();
+                    var cacheEntryOptions = new MemoryCacheEntryOptions()
+                        .SetSlidingExpiration(TimeSpan.FromDays(5));
+                    _memoryCache.Set("listAllCustomer", list, cacheEntryOptions);
+                    _memoryCache.Set("listAllCustomerUpdated", false);
+                    Console.WriteLine("Création liste");
+                }
+                Console.WriteLine("envoi liste");
+                return Ok(list);
+                    
             }
             catch 
             { 
@@ -147,9 +163,9 @@ namespace test2109.Controllers
             }
         }
 
-        /// <summary>Puts the specified site.</summary>
-        /// <param name="site">The site.</param>
-        /// <returns>Mise a jour d'un site</returns>
+        /// <summary>Mise a jour d'un site</summary>
+        /// <param name="site"></param>
+        /// <returns>The created site</returns>
         [Authorize("opspolicy")]
         [HttpPut("site")]
         public IActionResult Put(API.Customer.Site site)
@@ -157,6 +173,7 @@ namespace test2109.Controllers
             try
             {
                 var detail = _mapper.Map<BUSI.Customers.Site>(site);
+                _memoryCache.Set("listAllCustomerUpdated", true);
                 return Ok(_mapper.Map<Site>(_customerService.UpdateSite(detail)));
             }
             catch (Exception ex)
@@ -165,9 +182,9 @@ namespace test2109.Controllers
             }
         }
 
-        /// <summary>Create a customer</summary>
+        /// <summary>>Creation d'un client avec juste un nom de société</summary>
         /// <param name="customer">The customer.</param>
-        /// <returns>Creation d'un client avec juste un nom de société</returns>
+        /// <returns>Created Customer</returns>
         [Authorize("opspolicy")]
         [HttpPost("addCustomer")] 
         public IActionResult Post([FromBody] Customers customer) 
@@ -175,6 +192,7 @@ namespace test2109.Controllers
             try
             {
                 var detail = _mapper.Map<BUSI.Customers.Customers>(customer);
+                _memoryCache.Set("listAllCustomerUpdated", true);
                 return Ok(_customerService.AddCustomer(detail));
             }
             catch
@@ -184,8 +202,8 @@ namespace test2109.Controllers
         }
 
         /// <summary>Posts the specified site.</summary>
-        /// <param name="site">The site.</param>
-        /// <returns>Creation d'un site si le retour == 0 , on estime que le site n'est pas créé et on gere avec le 0 dans angular</returns>
+        /// <param name="site">Creation d'un site</param>
+        /// <returns>Created Site</returns>
         [Authorize("opspolicy")]
         [HttpPost("AddSite")]
         public IActionResult Post([FromBody] API.Customer.Site site)
@@ -194,6 +212,8 @@ namespace test2109.Controllers
                 return Ok(new Site());
             else
             {
+                //Quand on créé un site on passe listAllCustomerUpdated a passer une list de customer modié a la vue et pas celle du cache
+                _memoryCache.Set("listAllCustomerUpdated", true);
                 var detail = _mapper.Map<BUSI.Customers.Site>(site);
                 return Ok(_customerService.AddSite(detail));
             }
