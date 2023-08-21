@@ -90,6 +90,9 @@ namespace DataAccess.Migrations
                     b.Property<string>("SurName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
+
                     b.ToTable("ConnectedForm");
                 });
 

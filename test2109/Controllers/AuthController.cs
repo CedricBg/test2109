@@ -1,12 +1,12 @@
-﻿using System;
+﻿
 using AutoMapper;
 using BusinessAccessLayer.IRepositories;
 using BUSI = BusinessAccessLayer.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using test2109.Models.Auth;
 using System.Text.Json;
+using test2109.Tools;
 
 namespace test2109.Controllers
 {
@@ -54,8 +54,8 @@ namespace test2109.Controllers
         {
             try
             {
-                var detail = _Mapper.Map<BUSI.Auth.LoginForm>(form);
-                ConnectedForm user = _Mapper.Map<ConnectedForm>(_authService.Login(detail));
+
+                ConnectedForm user = _authService.Login(form.MapLoginForm()).MapConnectedForm();
                 if (user.SurName != null) 
                 {  
                     return Ok(user);

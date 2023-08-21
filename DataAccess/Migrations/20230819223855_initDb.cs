@@ -47,7 +47,8 @@ namespace DataAccess.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SurName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Dimin = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Dimin = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Token = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

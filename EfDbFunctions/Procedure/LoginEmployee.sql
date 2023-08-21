@@ -3,25 +3,30 @@
 	@Password VARCHAR(50)
 
 AS
-Begin
-	Set NOCOUNT ON
-	DECLARE @SecretKey VARCHAR(200)
-	SET @SecretKey = dbo.GetSecretKey()
+BEGIN
+	SET NOCOUNT ON
 
 	DECLARE @salt VARCHAR(100)
-	SET @salt = (SELECT Salt FROM Users WHERE Login = @Login)
-
 	DECLARE @password_hash VARBINARY(64)
-	SET @password_hash = HASHBYTES('SHA2_512', CONCAT(@salt, @SecretKey, @Password, @salt))
+	DECLARE @SecretKey VARCHAR(200)
+	DECLARE @IdUser INT
 
-	Declare @IdUser INT
-	set @IdUser = (SELECT Id from Users WHERE (Password_hash = @password_hash AND ([Login] = @Login)))
+	SELECT @SecretKey = dbo.GetSecretKey(),
+           @salt = Salt
+    FROM Users
+    WHERE Login = @Login;
 
-	Select E.[SurName], E.firstName, E.Id, R.DiminName as Dimin , R.[Name]  as Role, E.[SurName] as Token
-	from DetailedEmployees E, Users U , Roles R
-	Where U.[Login] = @Login
+	
+	SET @password_hash = HASHBYTES('SHA2_256', CONCAT(@salt, @SecretKey, @Password, @salt))
+
+	
+	SET @IdUser = (SELECT Id FROM Users WHERE (Password_hash = @password_hash AND ([Login] = @Login)))
+
+	SELECT E.[SurName], E.firstName, E.Id, R.DiminName AS Dimin , R.[Name]  AS [Role], E.[SurName] as Token
+	FROM DetailedEmployees E, Users U , Roles R
+	WHERE U.[Login] = @Login
 	and U.Password_hash = @password_hash
 	and E.UserId = U.Id 
 	and E.RoleId = R.roleId
 	
-End
+END

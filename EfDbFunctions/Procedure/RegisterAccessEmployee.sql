@@ -18,7 +18,7 @@ Set NOCOUNT ON
 	SET @Salt = CONCAT(NEWID(), NEWID(), NEWID())
 
 	DECLARE @password_hash VARBINARY(64)
-	SET @password_hash = HASHBYTES('SHA2_512', CONCAT(@Salt,@SecretKey,@Password, @Salt))
+	SET @password_hash = HASHBYTES('SHA2_256', CONCAT(@Salt,@SecretKey,@Password, @Salt))
 
 	INSERT INTO Users (Salt,Password_hash,[Login])
 	OUTPUT inserted.Id INTO  @IDUser

@@ -41,6 +41,9 @@ builder.Services.AddScoped<IAgentService, AgentService>();
 builder.Services.AddScoped<IMessagesService, MessagesService>();
 builder.Services.AddScoped<IRondesService, RondesService>();
 
+builder.Services.AddMemoryCache();
+
+
 
 builder.Services.AddAutoMapper(profiles =>
 { 

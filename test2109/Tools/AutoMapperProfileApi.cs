@@ -24,9 +24,6 @@ namespace test2109.Tools
             CreateMap<BUSI.Rondes.Rounds, API.Ronde.Rounds>().ReverseMap();
             CreateMap<BUSI.Rondes.PutRfidRounds, API.Ronde.PutRfidRounds>().ReverseMap();
 
-
-            CreateMap<BUSI.Auth.ConnectedForm, API.Auth.ConnectedForm>().ReverseMap();
-            CreateMap<BUSI.Auth.LoginForm, API.Auth.LoginForm>().ReverseMap();
             CreateMap<BUSI.Auth.AddRegisterForm, API.Auth.AddRegisterForm>().ReverseMap();
 
             CreateMap<API.Customer.Customers ,BUSI.Customers.Customers>()
