@@ -7,6 +7,8 @@ using test2109.Models.Customer;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Caching.Memory;
+using test2109.Services;
+using System.Collections.Generic;
 
 namespace test2109.Controllers
 {
@@ -15,12 +17,12 @@ namespace test2109.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _customerService;
-        private readonly IMemoryCache _memoryCache;
         private readonly IMapper _mapper;
+        private readonly CacheService _cacheService;
 
-        public CustomerController(ICustomerService customerService, IMapper mapper, IMemoryCache memoryCache)
+        public CustomerController(ICustomerService customerService, IMapper mapper, IMemoryCache memoryCache, CacheService cacheService)
         {
-            _memoryCache = memoryCache;
+            _cacheService = cacheService;
             _customerService = customerService;
             _mapper = mapper;
         }
@@ -97,6 +99,8 @@ namespace test2109.Controllers
         public IActionResult UpdateCustomer(AllCustomers customer)
         {
             var detail = _mapper.Map<BUSI.Customers.AllCustomers>(customer);
+            //mise a jour de la liste apres changements ,donc si on recharge la liste de site apres cette action on charge celle en cache
+            _cacheService.SetCache("listAllCustomerUpdated", false);
             return Ok(_customerService.UpdateCustomer(detail).Select(dr => _mapper.Map<Customers>(dr)));
         }
 
@@ -124,16 +128,13 @@ namespace test2109.Controllers
             try
             {
                 //Si listAllCustomerUpdated est true alors on a ajouté un client ou un site et on renvoi une liste qui n'est pas dans la cache
-                _memoryCache.TryGetValue("listAllCustomerUpdated", out bool update);
-
-                List<AllCustomers> list = new();
-                if (!_memoryCache.TryGetValue("listAllCustomer", out list) || update is true)
+                bool update             = _cacheService.GetCache<bool>("listAllCustomerUpdated");
+                List<AllCustomers> list = _cacheService.GetCache<List<AllCustomers>>("listAllCustomer");
+                if (list is null || update is true)
                 {
                     list = _customerService.All().Select(d => _mapper.Map<AllCustomers>(d)).ToList();
-                    var cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromDays(5));
-                    _memoryCache.Set("listAllCustomer", list, cacheEntryOptions);
-                    _memoryCache.Set("listAllCustomerUpdated", false);
+                    _cacheService.SetCache("listAllCustomer", list, 2, 5);
+                    _cacheService.SetCache("listAllCustomerUpdated", false, 2, 5);
                     Console.WriteLine("Création liste");
                 }
                 Console.WriteLine("envoi liste");
@@ -173,7 +174,7 @@ namespace test2109.Controllers
             try
             {
                 var detail = _mapper.Map<BUSI.Customers.Site>(site);
-                _memoryCache.Set("listAllCustomerUpdated", true);
+                _cacheService.SetCache("listAllCustomerUpdated", true);
                 return Ok(_mapper.Map<Site>(_customerService.UpdateSite(detail)));
             }
             catch (Exception ex)
@@ -192,7 +193,7 @@ namespace test2109.Controllers
             try
             {
                 var detail = _mapper.Map<BUSI.Customers.Customers>(customer);
-                _memoryCache.Set("listAllCustomerUpdated", true);
+                _cacheService.SetCache("listAllCustomerUpdated", true);
                 return Ok(_customerService.AddCustomer(detail));
             }
             catch
@@ -213,7 +214,7 @@ namespace test2109.Controllers
             else
             {
                 //Quand on créé un site on passe listAllCustomerUpdated a passer une list de customer modié a la vue et pas celle du cache
-                _memoryCache.Set("listAllCustomerUpdated", true);
+                _cacheService.SetCache("listAllCustomerUpdated", true);
                 var detail = _mapper.Map<BUSI.Customers.Site>(site);
                 return Ok(_customerService.AddSite(detail));
             }

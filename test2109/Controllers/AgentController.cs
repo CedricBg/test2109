@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using test2109.Models.Customer;
 using test2109.Models.Agents;
+using Microsoft.Extensions.Caching.Memory;
+using System.Collections.Generic;
+using test2109.Services;
 
 namespace test2109.Controllers
 {
@@ -15,25 +18,36 @@ namespace test2109.Controllers
     public class AgentController : ControllerBase
     {
         private IAgentService _agentService;
-
         private IMapper _mapper;
+        CacheService _memoryCache;
 
-        public AgentController(IAgentService agentService, IMapper mapper)
+        public AgentController(IAgentService agentService, IMapper mapper, CacheService memoryCache)
         {
             _agentService = agentService;
             _mapper = mapper;
+            _memoryCache = memoryCache;
         }
 
-        /// <summary>
-        /// </summary>
+        /// <summary></summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>Retournt une liste de site par id du client</returns>
         [HttpGet("{id}")]
         [Authorize("agentpolicy")]
         public IActionResult Get(int id)
         {
-            List<Site> sites = _agentService.assignedClients(id).Select(e => _mapper.Map<Site>(e)).ToList();
-            return Ok(sites);
+            List<Site> liste = new();
+            string stringId = id.ToString()+"Site";
+            liste = _memoryCache.GetCache<List<Site>>("update");
+            bool update = _memoryCache.GetCache<bool>("update" + stringId);
+            
+                if (liste is null || update is true)
+                {
+                    liste = _agentService.assignedClients(id).Select(e => _mapper.Map<Site>(e)).ToList();
+                    _memoryCache.SetCache(stringId, liste);
+                    _memoryCache.SetCache("update" + stringId, false);
+            }
+                
+            return Ok(liste);
         }
 
         /// <summary>
@@ -83,6 +97,11 @@ namespace test2109.Controllers
             try
             {
                 var detail = _mapper.Map<BUSI.AddSites>(sites);
+                foreach(Site site in sites.Sites)
+                {
+                    _memoryCache.SetCache("update",true);
+                }
+                
                 return Ok(_agentService.AddSiteToGuard(detail).Select(e=> _mapper.Map<Site>(e)).ToList());
             }
             catch (Exception ex)
@@ -97,6 +116,10 @@ namespace test2109.Controllers
         {
             try
             {
+                foreach (Site site in sites.Sites)
+                {
+                    _memoryCache.SetCache("update", true);
+                }
                 var detail = _mapper.Map<BUSI.AddSites>(sites);
                 return Ok(_agentService.RemoveSiteToGuard(detail).Select(e => _mapper.Map<Site>(e)).ToList());
             }
@@ -110,6 +133,10 @@ namespace test2109.Controllers
         [Authorize("opspolicy")]
         public IActionResult DeleteSiteFromGuard(AddSites sites)
         {
+            foreach (Site site in sites.Sites)
+            {
+                _memoryCache.SetCache("update", true);
+            }
             var detail = _mapper.Map<BUSI.AddSites>(sites);
             return Ok(_agentService.DeleteSiteFromGuard(detail).Select(dr => _mapper.Map<Site>(dr)).ToList());
         }

@@ -4,12 +4,6 @@ using BusinessAccessLayer.Models.Customers;
 using BusinessAccessLayer.Models.Employee;
 using DATA = DataAccess.Models.Agents;
 using DataAccess.Repository;
-using DataAccess.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BusinessAccessLayer.Models.Agents;
 
 namespace BusinessAccessLayer.Services

@@ -9,8 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using BusinessAccessLayer.Tools;
 using test2109.Tools;
-
-
+using test2109.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +39,9 @@ builder.Services.AddScoped<IPlanningService, PlanningService>();
 builder.Services.AddScoped<IAgentService, AgentService>();
 builder.Services.AddScoped<IMessagesService, MessagesService>();
 builder.Services.AddScoped<IRondesService, RondesService>();
+
+//API
+builder.Services.AddSingleton<CacheService>();
 
 builder.Services.AddMemoryCache();
 
