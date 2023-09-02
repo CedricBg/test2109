@@ -1,11 +1,10 @@
 ﻿using test2109.Models.Customer;
 
-namespace test2109.Models.Agents
-{
-    public class AddSites
-    {
-        public List<Site> Sites { get; set; }
+namespace test2109.Models.Agents;
 
-        public int IdEmployee { get; set; }
-    }
+public class AddSites
+{
+    public List<Site> Sites { get; set; }
+
+    public int IdEmployee { get; set; }
 }

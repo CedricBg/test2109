@@ -8,64 +8,63 @@ using test2109.Models.Auth;
 using System.Text.Json;
 using test2109.Tools;
 
-namespace test2109.Controllers
+namespace test2109.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class AuthController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AuthController : ControllerBase
+    private readonly IAuthService _authService;
+
+    private readonly IMapper _Mapper;
+
+    public AuthController(IAuthService authService, IMapper mapper)
     {
-        private readonly IAuthService _authService;
+        _authService = authService;
+        _Mapper = mapper;
+    }
 
-        private readonly IMapper _Mapper;
-
-        public AuthController(IAuthService authService, IMapper mapper)
+    /// <summary>Ajout d'un login a un utilisateur déjà existant</summary>
+    /// <param name="form">The form.</param>
+    /// <returns>
+    ///   retourne un string "Created" ou le message d'erreur , creer dans le service DataAccess
+    /// </returns>
+    [Authorize("opspolicy")]
+    [HttpPost("AddLogin")]
+    public string Post(AddRegisterForm form)
+    {
+        try
         {
-            _authService = authService;
-            _Mapper = mapper;
+            var detail = _Mapper.Map<BUSI.Auth.AddRegisterForm>(form);
+            return JsonSerializer.Serialize(_authService.Post(detail));
         }
-
-        /// <summary>Ajout d'un login a un utilisateur déjà existant</summary>
-        /// <param name="form">The form.</param>
-        /// <returns>
-        ///   retourne un string "Created" ou le message d'erreur , creer dans le service DataAccess
-        /// </returns>
-        [Authorize("opspolicy")]
-        [HttpPost("AddLogin")]
-        public string Post(AddRegisterForm form)
+        catch (Exception ex)
         {
-            try
-            {
-                var detail = _Mapper.Map<BUSI.Auth.AddRegisterForm>(form);
-                return JsonSerializer.Serialize(_authService.Post(detail));
-            }
-            catch (Exception ex)
-            {
-                return JsonSerializer.Serialize(ex.Message);
-            }
+            return JsonSerializer.Serialize(ex.Message);
         }
+    }
 
-        /// <summary>Logins with the specified form</summary>
-        /// <param name="form">The form.</param>
-        /// <returns>
-        ///   si le mot de passe et l'utilisateur sont reconnu on renvoi le token, nom, prénom, role = string et dimin  en string
-        /// </returns>
-        [HttpPost("login")]
-        public IActionResult Login(LoginForm form)
+    /// <summary>Logins with the specified form</summary>
+    /// <param name="form">The form.</param>
+    /// <returns>
+    ///   si le mot de passe et l'utilisateur sont reconnu on renvoi le token, nom, prénom, role = string et dimin  en string
+    /// </returns>
+    [HttpPost("login")]
+    public IActionResult Login(LoginForm form)
+    {
+        try
         {
-            try
-            {
 
-                ConnectedForm user = _authService.Login(form.MapLoginForm()).MapConnectedForm();
-                if (user.SurName != null) 
-                {  
-                    return Ok(user);
-                }
-                return StatusCode(StatusCodes.Status404NotFound);
+            ConnectedForm user = _authService.Login(form.MapLoginForm()).MapConnectedForm();
+            if (user.SurName != null) 
+            {  
+                return Ok(user);
             }
-            catch (Exception ex)
-            {
-                return Ok(ex.Message);
-            }
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
+        catch (Exception ex)
+        {
+            return Ok(ex.Message);
         }
     }
 }

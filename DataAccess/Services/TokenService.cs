@@ -11,16 +11,15 @@ namespace DataAccess.Services
 {
     public class TokenService
     {
-        
         //Issuer  = nom api
         //audience = site appelant l'api
         //secret =  clé secrete
         private readonly string _issuer, _audience, _secret;
-        private readonly IMemoryCache _memoryCache;
         JwtSecurityToken token = new JwtSecurityToken();
+        IMemoryCache _memory;
         public TokenService(IConfiguration config, IMemoryCache memoryCache)
         {
-            _memoryCache = memoryCache;
+            _memory = memoryCache;
             _issuer = config.GetSection("tokenValidation").GetSection("issuer").Value;
             _audience = config.GetSection("tokenValidation").GetSection("audience").Value;
             _secret = config.GetSection("tokenValidation").GetSection("secret").Value;
@@ -28,25 +27,26 @@ namespace DataAccess.Services
         
         public string GenerateJwt(ConnectedForm user)
         {
-            if (!_memoryCache.TryGetValue("Token", out token))
+            if (user == null)
             {
-                var cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromDays(1));
+                throw new ArgumentNullException();
+            }
 
-                if (user == null)
-                {
-                    throw new ArgumentNullException();
-                }
-
+            if(_memory.TryGetValue(user.Id.ToString(), out string tokens))
+            {
+                return tokens;
+            }
+            else
+            {
                 SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secret));
                 SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
                 Claim[] myClaims = new Claim[]
                 {
-                new Claim(ClaimTypes.Surname, user.SurName),
-                new Claim(ClaimTypes.Name, user.FirstName),
-                new Claim(ClaimTypes.Sid, user.Id.ToString()),
-                new Claim(ClaimTypes.Role, user.Role)
+            new Claim(ClaimTypes.Surname, user.SurName),
+            new Claim(ClaimTypes.Name, user.FirstName),
+            new Claim(ClaimTypes.Sid, user.Id.ToString()),
+            new Claim(ClaimTypes.Role, user.Role)
                 };
 
                 token = new JwtSecurityToken
@@ -56,18 +56,13 @@ namespace DataAccess.Services
                     issuer: _issuer,
                     audience: _audience,
                     expires: DateTime.Now.AddHours(8)
-
                 );
+                JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
 
-                _memoryCache.Set("Token", token, cacheEntryOptions);
-                Console.WriteLine(token);
-            }
-            Console.WriteLine("ok token");
-            JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
-
-            return handler.WriteToken(token);
-
-        }
-        
+                string SendToken = handler.WriteToken(token);
+                _memory.Set(user.Id.ToString(), SendToken);
+                return SendToken;
+            } 
+        }   
     }
 }

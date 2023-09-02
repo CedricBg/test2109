@@ -1,9 +1,8 @@
-﻿ namespace test2109.Models.Employee
-{
-    public class SendFoto
-    {
-        public int IdEmployee { get; set; }
+﻿ namespace test2109.Models.Employee;
 
-        public IFormFile Foto { get; set; }
-    }
+public class SendFoto
+{
+    public int IdEmployee { get; set; }
+
+    public IFormFile Foto { get; set; }
 }

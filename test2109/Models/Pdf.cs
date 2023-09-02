@@ -1,19 +1,18 @@
-﻿namespace test2109.Models
+﻿namespace test2109.Models;
+
+public class Pdf
 {
-    public class Pdf
-    {
-        public int IdPdf { get; set; }
+    public int IdPdf { get; set; }
 
-        public string Title { get; set; }
+    public string Title { get; set; }
 
-        public string Content { get; set; }
+    public string Content { get; set; }
 
-        public int IdEmployee { get; set; }
+    public int IdEmployee { get; set; }
 
-        public string FilePath { get; set; }
+    public string FilePath { get; set; }
 
-        public int SiteId { get; set; }
+    public int SiteId { get; set; }
 
-        public DateTime DateCreate { get; set; }
-    }
+    public DateTime DateCreate { get; set; }
 }

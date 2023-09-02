@@ -61,8 +61,9 @@ namespace DataAccess.Services
             try
             {
                 List<ConnectedForm> response = _db.Set<ConnectedForm>().FromSqlRaw($"EXEC dbo.Loginemployee @Login, @Password", pLogin, pPassword).ToList();
-                response[0].Token = _toTokenService.GenerateJwt(response[0]);
-                return response[0];
+                ConnectedForm user  = response.FirstOrDefault();
+                user.Token = _toTokenService.GenerateJwt(user);
+                return user;
             }
             catch (Exception)
             {

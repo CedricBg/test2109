@@ -11,134 +11,114 @@ using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Generic;
 using test2109.Services;
 
-namespace test2109.Controllers
+namespace test2109.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class AgentController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AgentController : ControllerBase
+    private IAgentService _agentService;
+    private IMapper _mapper;
+
+
+    public AgentController(IAgentService agentService, IMapper mapper)
     {
-        private IAgentService _agentService;
-        private IMapper _mapper;
-        CacheService _memoryCache;
+        _agentService = agentService;
+        _mapper = mapper;
+    }
 
-        public AgentController(IAgentService agentService, IMapper mapper, CacheService memoryCache)
-        {
-            _agentService = agentService;
-            _mapper = mapper;
-            _memoryCache = memoryCache;
-        }
-
-        /// <summary></summary>
-        /// <param name="id"></param>
-        /// <returns>Retournt une liste de site par id du client</returns>
-        [HttpGet("{id}")]
-        [Authorize("agentpolicy")]
-        public IActionResult Get(int id)
-        {
-            List<Site> liste = new();
-            string stringId = id.ToString()+"Site";
-            liste = _memoryCache.GetCache<List<Site>>("update");
-            bool update = _memoryCache.GetCache<bool>("update" + stringId);
+    /// <summary></summary>
+    /// <param name="id"></param>
+    /// <returns>Retournt une liste de site par id du client</returns>
+    [HttpGet("{id}")]
+    [Authorize("agentpolicy")]
+    public IActionResult Get(int id)
+    {
+        List<Site> liste = new();
+        string stringId = id.ToString()+"Site";
+        liste = _agentService.assignedClients(id).Select(e => _mapper.Map<Site>(e)).ToList();
             
-                if (liste is null || update is true)
-                {
-                    liste = _agentService.assignedClients(id).Select(e => _mapper.Map<Site>(e)).ToList();
-                    _memoryCache.SetCache(stringId, liste);
-                    _memoryCache.SetCache("update" + stringId, false);
-            }
-                
-            return Ok(liste);
-        }
+        return Ok(liste);
+    }
 
-        /// <summary>
-        /// Retourne une list d'agent par rapport au numero de role qui lui à été attribué et pas par l'id !!, 
-        /// pour ajouter de nouveau role pour les agents il suffira de monter le numéro du nouveau role, a la création de l'api on est de 1 a 15 (Max 49)
-        /// </summary>
-        /// <returns>List of guards</returns>
-        [HttpGet]
-        [Authorize("opspolicy")]
-        public IActionResult assignedEmployees()
+    /// <summary>
+    /// Retourne une list d'agent par rapport au numero de role qui lui à été attribué et pas par l'id !!, 
+    /// pour ajouter de nouveau role pour les agents il suffira de monter le numéro du nouveau role, a la création de l'api on est de 1 a 15 (Max 49)
+    /// </summary>
+    /// <returns>List of guards</returns>
+    [HttpGet]
+    [Authorize("opspolicy")]
+    public IActionResult assignedEmployees()
+    {
+        try
         {
-            try
-            {
-                return Ok(_agentService.assignedEmployees().Select(dr=> _mapper.Map<Employee>(dr)).ToList());
-            }
-            catch (Exception ex)
-            {
-                return Ok(new List<Employee>());
-            }
+            return Ok(_agentService.assignedEmployees().Select(dr=> _mapper.Map<Employee>(dr)).ToList());
         }
+        catch (Exception ex)
+        {
+            return Ok(new List<Employee>());
+        }
+    }
 
-        [HttpGet("GetOne/{id}")]
-        [Authorize("opspolicy")]
-        public IActionResult GetAGuard(int id)
+    [HttpGet("GetOne/{id}")]
+    [Authorize("opspolicy")]
+    public IActionResult GetAGuard(int id)
+    {
+        try
         {
-            try
-            {
-                return Ok(_mapper.Map<Employee>(_agentService.GetAGuard(id)));
-            }
-            catch (Exception ex)
-            {
-                return Ok(new Employee());
-            }
+            return Ok(_mapper.Map<Employee>(_agentService.GetAGuard(id)));
         }
+        catch (Exception ex)
+        {
+            return Ok(new Employee());
+        }
+    }
 
-        [HttpGet("Customers/{id}")]
-        [Authorize("opspolicy")]
-        public IActionResult assignedCustomers(int id)
-        {
-            return Ok(_agentService.assignedCustomers(id).Select(e => _mapper.Map<Customers>(e)).ToList());
-        }
- 
-        [HttpPost("AddSites")]
-        [Authorize("opspolicy")]
-        public IActionResult AddSiteToGuard(AddSites sites)
-        {
-            try
-            {
-                var detail = _mapper.Map<BUSI.AddSites>(sites);
-                foreach(Site site in sites.Sites)
-                {
-                    _memoryCache.SetCache("update",true);
-                }
-                
-                return Ok(_agentService.AddSiteToGuard(detail).Select(e=> _mapper.Map<Site>(e)).ToList());
-            }
-            catch (Exception ex)
-            {
-                return Ok(false);
-            }
-        }
+    [HttpGet("Customers/{id}")]
+    [Authorize("opspolicy")]
+    public IActionResult assignedCustomers(int id)
+    {
+        return Ok(_agentService.assignedCustomers(id).Select(e => _mapper.Map<Customers>(e)).ToList());
+    }
 
-        [HttpPost("RemoveSites")]
-        [Authorize("opspolicy")]
-        public IActionResult RemoveSiteToGuard(AddSites sites)
+    [HttpPost("AddSites")]
+    [Authorize("opspolicy")]
+    public IActionResult AddSiteToGuard(AddSites sites)
+    {
+        try
         {
-            try
-            {
-                foreach (Site site in sites.Sites)
-                {
-                    _memoryCache.SetCache("update", true);
-                }
-                var detail = _mapper.Map<BUSI.AddSites>(sites);
-                return Ok(_agentService.RemoveSiteToGuard(detail).Select(e => _mapper.Map<Site>(e)).ToList());
-            }
-            catch(Exception ex) 
-            {
-                return Ok(false);
-            }
-        }
-
-        [HttpPost("UpdateSite")]
-        [Authorize("opspolicy")]
-        public IActionResult DeleteSiteFromGuard(AddSites sites)
-        {
-            foreach (Site site in sites.Sites)
-            {
-                _memoryCache.SetCache("update", true);
-            }
             var detail = _mapper.Map<BUSI.AddSites>(sites);
-            return Ok(_agentService.DeleteSiteFromGuard(detail).Select(dr => _mapper.Map<Site>(dr)).ToList());
+
+            
+            return Ok(_agentService.AddSiteToGuard(detail).Select(e=> _mapper.Map<Site>(e)).ToList());
         }
+        catch (Exception ex)
+        {
+            return Ok(false);
+        }
+    }
+
+    [HttpPost("RemoveSites")]
+    [Authorize("opspolicy")]
+    public IActionResult RemoveSiteToGuard(AddSites sites)
+    {
+        try
+        {
+            var detail = _mapper.Map<BUSI.AddSites>(sites);
+            return Ok(_agentService.RemoveSiteToGuard(detail).Select(e => _mapper.Map<Site>(e)).ToList());
+        }
+        catch(Exception ex) 
+        {
+            return Ok(false);
+        }
+    }
+
+    [HttpPost("UpdateSite")]
+    [Authorize("opspolicy")]
+    public IActionResult DeleteSiteFromGuard(AddSites sites)
+    {
+
+        var detail = _mapper.Map<BUSI.AddSites>(sites);
+        return Ok(_agentService.DeleteSiteFromGuard(detail).Select(dr => _mapper.Map<Site>(dr)).ToList());
     }
 }
