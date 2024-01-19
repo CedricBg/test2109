@@ -60,8 +60,12 @@ namespace DataAccess.Services
             var pPassword = new SqlParameter("Password", form.Password);
             try
             {
-                List<ConnectedForm> response = _db.Set<ConnectedForm>().FromSqlRaw($"EXEC dbo.Loginemployee @Login, @Password", pLogin, pPassword).ToList();
-                ConnectedForm user  = response.FirstOrDefault();
+                var response = _db.Set<ConnectedForm>().FromSqlRaw($"EXEC dbo.Loginemployee @Login, @Password", pLogin, pPassword).AsNoTracking().ToList();
+                if (response.Count == 0)
+                {
+                    return new ConnectedForm();
+                }
+                var user = response[0];
                 user.Token = _toTokenService.GenerateJwt(user);
                 return user;
             }
@@ -69,7 +73,6 @@ namespace DataAccess.Services
             {
                 return new ConnectedForm();
             }
-
         }
     }
 }

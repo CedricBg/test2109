@@ -26,7 +26,6 @@ public class CacheService
         MemoryCacheEntryOptions cacheEntryOptions = new MemoryCacheEntryOptions();
         switch (unit)
         {
-
             case 1:
                 cacheEntryOptions.SetSlidingExpiration(TimeSpan.FromMilliseconds(time));
                 break;
@@ -55,7 +54,7 @@ public class CacheService
         _memoryCache.Set(name, entry, cacheEntryOptions);
     }
 
-    //Put A cache entry on the server
+    //Get A cache entry on the server
     public T GetCache<T>(string name)
     {
         _memoryCache.TryGetValue(name, out T result);

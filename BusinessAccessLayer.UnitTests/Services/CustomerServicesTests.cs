@@ -1,15 +1,10 @@
 ﻿using AutoMapper;
-using BusinessAccessLayer.IRepositories;
 using BusinessAccessLayer.Models.Customers;
 using BusinessAccessLayer.Services;
 using DataAccess.Repository;
-using DataAccess.Services;
+
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace BusinessAccessLayer.UnitTests.Services
 {
