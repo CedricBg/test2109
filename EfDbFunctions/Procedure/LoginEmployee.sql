@@ -12,33 +12,25 @@ BEGIN
 	DECLARE @IdUser INT
 
 	SELECT @SecretKey = dbo.GetSecretKey(),
-           @salt = Salt
+           @salt = Salt,
+           @IdUser = Id
     FROM Users
     WHERE Login = @Login;
 
-	
 	SET @password_hash = HASHBYTES('SHA2_256', CONCAT(@salt, @SecretKey, @Password, @salt))
 
-IF EXISTS(
-	SELECT *
-	FROM Users
-	WHERE Password_hash = @password_hash
-	AND Login = @Login
-)
-BEGIN
-	SET @IdUser = (SELECT Id FROM Users WHERE (Password_hash = @password_hash AND ([Login] = @Login)))
-
 	SELECT E.[SurName], E.firstName, E.Id, R.DiminName AS Dimin , R.[Name]  AS [Role], E.[SurName] as Token
-	FROM DetailedEmployees E, Users U , Roles R
+	FROM DetailedEmployees E
+	INNER JOIN Users U ON E.UserId = U.Id
+	INNER JOIN Roles R ON E.RoleId = R.roleId
 	WHERE U.[Login] = @Login
-	and U.Password_hash = @password_hash
-	and E.UserId = U.Id 
-	and E.RoleId = R.roleId
-END
-ELSE
-BEGIN
-	DECLARE @ErrorMessage VARCHAR(255)
-	SET @ErrorMessage = 'Utilisateur ou mot de passe incorrect.'
-	RAISERROR(100, 100, @ErrorMessage)
-END
+	AND U.Password_hash = @password_hash
+	AND U.Id = @IdUser
+
+	IF @@ROWCOUNT = 0
+	BEGIN
+		DECLARE @ErrorMessage VARCHAR(255)
+		SET @ErrorMessage = 'Utilisateur ou mot de passe incorrect.'
+		RAISERROR(100, 100, @ErrorMessage)
+	END
 END
