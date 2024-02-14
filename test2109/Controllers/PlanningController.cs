@@ -64,10 +64,10 @@ public class PlanningController : ControllerBase
     /// <returns></returns>
     [Authorize("agentpolicy")]
     [HttpGet("{id}")]
-    public IActionResult GetCustomers( int id)
+    public IActionResult GetSites( int id)
     {
-        List<Site> cust = _service.Sites(id).Select(dr => _mapper.Map<Site>(dr)).ToList();
-        return Ok(cust);
+        List<Site> sites = _service.Sites(id).Select(dr => _mapper.Map<Site>(dr)).ToList();
+        return Ok(sites);
     }
 
     [Authorize("agentpolicy")]

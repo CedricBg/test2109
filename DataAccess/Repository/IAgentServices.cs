@@ -10,10 +10,7 @@ namespace DataAccess.Repository
         List<Site> assignedClients(int id);
         List<Employee> assignedEmployees();
         Employee GetAGuard(int id);
-        List<Customers> assignedCustomers(int id);
         List<Site> AddSiteToGuard(AddSites sites);
-        List<Site> RemoveSiteToGuard(AddSites sites);
 
-        List<Site> DeleteSiteFromGuard(AddSites sites);
     }
 }

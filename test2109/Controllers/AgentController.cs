@@ -74,12 +74,6 @@ public class AgentController : ControllerBase
         }
     }
 
-    [HttpGet("Customers/{id}")]
-    [Authorize("opspolicy")]
-    public IActionResult assignedCustomers(int id)
-    {
-        return Ok(_agentService.assignedCustomers(id).Select(e => _mapper.Map<Customers>(e)).ToList());
-    }
 
     [HttpPost("AddSites")]
     [Authorize("opspolicy")]
@@ -88,37 +82,15 @@ public class AgentController : ControllerBase
         try
         {
             var detail = _mapper.Map<BUSI.AddSites>(sites);
-
             
             return Ok(_agentService.AddSiteToGuard(detail).Select(e=> _mapper.Map<Site>(e)).ToList());
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            return Ok(false);
+            return Ok(new List<Site>());
         }
     }
 
-    [HttpPost("RemoveSites")]
-    [Authorize("opspolicy")]
-    public IActionResult RemoveSiteToGuard(AddSites sites)
-    {
-        try
-        {
-            var detail = _mapper.Map<BUSI.AddSites>(sites);
-            return Ok(_agentService.RemoveSiteToGuard(detail).Select(e => _mapper.Map<Site>(e)).ToList());
-        }
-        catch(Exception ex) 
-        {
-            return Ok(false);
-        }
-    }
 
-    [HttpPost("UpdateSite")]
-    [Authorize("opspolicy")]
-    public IActionResult DeleteSiteFromGuard(AddSites sites)
-    {
 
-        var detail = _mapper.Map<BUSI.AddSites>(sites);
-        return Ok(_agentService.DeleteSiteFromGuard(detail).Select(dr => _mapper.Map<Site>(dr)).ToList());
-    }
 }

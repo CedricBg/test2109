@@ -34,14 +34,13 @@ namespace DataAccess.Services
             var clients = _context.Working
                      .Where(w => w.EmployeeId == id)
                      .Join(
-                        _context.Sites.Include(x=>x.Customer),
+                        _context.Sites.Include(x => x.Customer),
                         w => w.SiteId,
                         c => c.SiteId,
                         (w, c) => c
                      );
 
             return clients.ToList();
-
         }
 
         /// <summary>
@@ -63,7 +62,8 @@ namespace DataAccess.Services
                     })
                     .ToList();
                 return employees;
-            } catch (Exception ex)
+            }
+            catch (Exception)
             {
                 return new List<Employee>();
             }
@@ -78,17 +78,17 @@ namespace DataAccess.Services
         {
             try
             {
-                Employee employee = _context.DetailedEmployees.Where(e=>e.Id == id)
-                    .Select(e=> new Employee
+                Employee employee = _context.DetailedEmployees.Where(e => e.Id == id)
+                    .Select(e => new Employee
                     {
-                        SurName= e.SurName,
+                        SurName = e.SurName,
                         firstName = e.firstName,
                         Id = e.Id,
                         Role = e.Role,
                         Language = e.Language
 
                     })
-                    .FirstOrDefault();  
+                    .FirstOrDefault();
                 return employee;
             }
             catch (Exception ex)
@@ -97,38 +97,22 @@ namespace DataAccess.Services
             }
         }
 
-        public List<Customers> assignedCustomers(int id)
-        {
-           List<Customers> listCustomer = new List<Customers>();
-            var list = assignedClients(id);
-            foreach (var customer in list)
-            {
-                if (!(listCustomer.Contains(customer.Customer))){
-                    listCustomer.Add(customer.Customer);
-                }
-                
-            }
-            return listCustomer;
-        }
-
-        /// <summary>
-        /// Ajout des site a un agent 
-        /// </summary>
-        /// <param name="sites">List site and id employee</param>
-        /// <returns>true or False</returns>
         public List<Site> AddSiteToGuard(AddSites sites)
         {
-            if(sites.Sites.Count <= 0) 
+            _context.Working.RemoveRange(_context.Working.Where(w => w.EmployeeId == sites.IdEmployee));
+            _context.SaveChanges();
+            if (sites.Sites.Count <= 0)
             {
                 return assignedClients(sites.IdEmployee);
             }
-            else if(sites.Sites.Count == 1)
+            else if (sites.Sites.Count == 1)
             {
+               
                 Working working = new Working
                 {
                     EmployeeId = sites.IdEmployee,
                     SiteId = sites.Sites[0].SiteId,
-                    
+
                 };
                 _context.Working.Add(working);
                 _context.SaveChanges();
@@ -136,6 +120,7 @@ namespace DataAccess.Services
             }
             else
             {
+
                 foreach (var site in sites.Sites)
                 {
                     Working working = new Working
@@ -150,57 +135,6 @@ namespace DataAccess.Services
             }
         }
 
-        /// <summary>
-        /// suppression des sites envoyer de working pour l'agent séléctionné
-        /// </summary>
-        /// <param name="sites"></param>
-        /// <returns></returns>
-        public List<Site> RemoveSiteToGuard(AddSites sites)
-        {
-            if (sites.Sites.Count <= 0)
-            {
-                return assignedClients(sites.IdEmployee);
-            }
-            else if (sites.Sites.Count == 1)
-            {
-                Working working = _context.Working.FirstOrDefault(x => x.SiteId == sites.Sites[0].SiteId);
-                _context.Working.Remove(working);
-                _context.SaveChanges();
-                return assignedClients(sites.IdEmployee);
-            }
-            else
-            {
-                foreach (var site in sites.Sites)
-                {
-                    Working working = _context.Working.FirstOrDefault(x => x.SiteId == site.SiteId);
-                    _context.Working.Remove(working);
-                }
-                _context.SaveChanges();
-                return assignedClients(sites.IdEmployee);
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sites"></param>
-        /// <returns></returns>
-        public List<Site> DeleteSiteFromGuard(AddSites sites)
-        {
-            List<Working> assignedClients = _context.Working.Where(elt => elt.EmployeeId == sites.IdEmployee).ToList();
-            var addSites =
-                _context.Sites
-                    .Join(assignedClients,
-                        user => user.SiteId,
-                        site => site.SiteId,
-                        (user, site) => new Site
-                        {
-                            Name = user.Name,
-                            SiteId = user.SiteId
- 
-                        }).ToList();
-
-
-            return addSites;
-        }
     }
+
 }

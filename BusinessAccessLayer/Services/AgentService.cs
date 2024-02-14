@@ -23,6 +23,7 @@ namespace BusinessAccessLayer.Services
         public List<Site> assignedClients(int id)
         {
             var sites = _AgentServices.assignedClients(id).Select(e => _Mapper.Map<Site>(e)).ToList();
+
             return sites;
         }
 
@@ -36,11 +37,7 @@ namespace BusinessAccessLayer.Services
             return _Mapper.Map<Employee>(_AgentServices.GetAGuard(id));
         }
 
-        public List<Customers> assignedCustomers(int id)
-        {
-             return _AgentServices.assignedCustomers(id).Select(dr => _Mapper.Map<Customers>(dr)).ToList();
 
-        }
 
         public List<Site> AddSiteToGuard(AddSites sites)
         {
@@ -48,16 +45,6 @@ namespace BusinessAccessLayer.Services
             return _AgentServices.AddSiteToGuard(detail).Select(e=> _Mapper.Map<Site>(e)).ToList();
         }
 
-        public List<Site> RemoveSiteToGuard(AddSites sites)
-        {
-            var detail = _Mapper.Map<DATA.AddSites>(sites);
-            return _AgentServices.RemoveSiteToGuard(detail).Select(e=> _Mapper.Map<Site>(e)).ToList();
-        }
 
-        public List<Site> DeleteSiteFromGuard(AddSites sites)
-        {
-            var detail = _Mapper.Map<DATA.AddSites>(sites);
-            return _AgentServices.DeleteSiteFromGuard(detail).Select(e => _Mapper.Map<Site>(e)).ToList();
-        }
     }
 }

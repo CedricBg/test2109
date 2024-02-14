@@ -128,20 +128,19 @@ namespace DataAccess.Services
         /// Renvoi la liste de tout les clients auquel l'agent est affecté pour qu'il puissent choissier sur quel site prendre son service
         /// </summary>
         /// <param name="id">Id de l'employée</param>
-        /// <returns>list de clients</returns>
+        /// <returns>list de sites</returns>
         public List<Site> Sites(int id)
         {
-            var clients = _context.Working
+            var sites = _context.Working
                      .Where(w => w.EmployeeId == id)
                      .Join(
                         _context.Sites,
                         w => w.SiteId,
                         c => c.SiteId,
-                        
                         (w, c) => c
                      );
 
-            return clients.ToList();
+            return sites.ToList();
         }
     }
 }
