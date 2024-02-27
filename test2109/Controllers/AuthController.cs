@@ -60,7 +60,7 @@ public class AuthController : ControllerBase
             {  
                 return Ok(user);
             }
-            return StatusCode(StatusCodes.Status404NotFound);
+            return Ok(StatusCode(StatusCodes.Status401Unauthorized));
         }
         catch (Exception ex)
         {
