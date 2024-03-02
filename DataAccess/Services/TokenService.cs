@@ -24,7 +24,7 @@ public class TokenService
         _audience = config.GetSection("tokenValidation").GetSection("audience").Value;
         _secret = config.GetSection("tokenValidation").GetSection("secret").Value;
     }
-    
+     
     public string GenerateJwt(ConnectedForm user)
     {
         if (user == null)
