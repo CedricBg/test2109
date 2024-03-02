@@ -4,6 +4,7 @@ using DataAccess.Models.Auth;
 using DataAccess.Repository;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,18 +19,20 @@ namespace DataAccess.Services
     {
         private readonly SecurityCompanyContext _db;
         private readonly TokenService _toTokenService;
+        IMemoryCache _memory;
 
-        public AuthServices(SecurityCompanyContext context, TokenService toTokenService)
+        public AuthServices(SecurityCompanyContext context, TokenService toTokenService, IMemoryCache memoryCache)
         {
             _db = context;
 
             _toTokenService = toTokenService;
+            _memory = memoryCache;
         }
 
         public string RegisterEmployee(AddRegisterForm form)
         {
             if (form == null)
-                return "Formumaire Vide";
+                return "Formulaire Vide";
 
             var pLogin = new SqlParameter("Login", form.Login);
             var pPassword = new SqlParameter("Password", form.Password);
@@ -66,6 +69,14 @@ namespace DataAccess.Services
                     return new ConnectedForm();
                 }
                 var user = response[0];
+
+
+                //On controle si il y'a un token sur l'id 
+                if (_memory.TryGetValue(user.Id.ToString(), out string tokens))
+                {
+                    user.Token = _toTokenService.GenerateJwt(user);
+                    return user;
+                }
                 user.Token = _toTokenService.GenerateJwt(user);
                 return user;
             }
